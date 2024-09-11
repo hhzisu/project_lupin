@@ -1,0 +1,443 @@
+:root 
+{
+	/* 컬러 모음 */
+	--color-black: #111;
+	--color-white: #fff;
+	--color-gray: #787878;
+	--input-gray: #e5e5ec;
+	--button-gray: #f7f7f7;
+	--border-color-gray: #dadada;
+	--color-deepblue: #17517e;
+	--color-burgundy: #800020;
+	--font-size32: 32px;
+	--font-size24: 24px;
+	--font-size20: 20px;
+	--font-size16: 16px;
+	--font-size14: 14px;
+	--font-size12: 12px;
+}
+
+.mainSection
+{
+	display: flex;
+	justify-content: center;
+}
+section
+{
+	width: 1440px;
+	margin-top: 100px;
+}
+
+.control
+{
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--border-color-gray);
+	margin-bottom: 24px;
+}
+
+.control h5
+{
+	font-size: 18px;
+	font-weight: 500;
+	color: var(--color-black);
+}
+
+.detailAuction
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.detailAuction .left
+{
+	width: 820px;
+}
+
+.detailAuction .left .auctionImg
+{
+	height: 600px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.detailAuction .left .auctionImg .leftImg
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.detailAuction .left .auctionImg .leftImg .preview
+{
+	margin-bottom: 24px;
+	cursor: pointer;
+}
+
+.detailAuction .left .auctionImg .leftImg .preview .uploadResult
+{
+	width: 160px;
+	height: 160px;
+	border: 0.5px solid var(--border-color-gray);
+	display: flex;
+	justify-content: center;
+}
+
+.detailAuction .left .auctionImg .leftImg .preview .uploadResult img
+{
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.detailAuction .left .auctionImg .rightImg .detail
+{
+	width: 600px;
+	height: 600px;
+	display: flex;
+	justify-content: center;
+}
+
+.detailAuction .left .auctionImg .rightImg .detail img
+{
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.detailAuction .left .detailCon
+{
+	margin-top: 60px;
+}
+
+.detailAuction .left .detailCon h4
+{
+	font-size: 26px;
+	margin-bottom: 40px;
+}
+
+.detailAuction .left .detailCon h5
+{
+	font-size: 18px;
+	font-weight: 300;
+	margin-bottom: 8px;
+}
+
+.detailAuction .left .detailCon h5.sign
+{
+	margin: 40px 0 60px;
+}
+
+.detailAuction .left .detailCon textarea
+{
+	width: 820px;
+	font-size: 18px;
+	resize: none;
+	border: none;
+    outline: none;
+	height: 500px;
+    text-align: justify;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+.detailAuction .right
+{
+	width: 500px;
+	height: 590px;
+}
+/*.detailAuction .right .positionBox*/
+/*{*/
+/*	position: fixed;*/
+/*}*/
+
+.detailAuction .right .top
+{
+	height: 240px;
+	border-bottom: 0.5px solid var(--border-color-gray);
+}
+
+.detailAuction .right .top .wish
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+/* 위시 활성화 전 버튼 */
+.detailAuction .right .top .wish button
+{
+	width: 70px;
+	height: 30px;
+	background-color: var(--color-black);
+	color: var(--color-white);
+	font-size: var(--font-size16);
+	font-weight: 300;
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+/* 위시 활성화 후 버튼 */
+/* .detailAuction .right .top .wish button
+{
+	width: 70px;
+	height: 30px;
+	background-color: var(--color-white);
+	color: var(--color-black);
+	border: 1px solid var(--border-color-gray);
+	font-size: var(--font-size16);
+	font-weight: 300;
+	cursor: pointer;
+	border-radius: 4px;
+} */
+
+.detailAuction .right .top h5
+{
+	font-size: var(--font-size20);
+	font-weight: 300;
+	color: var(--color-gray);
+}
+
+.detailAuction .right .top h2
+{
+	font-size: 28px;
+	margin-top: 24px;
+}
+
+.detailAuction .right .top h3
+{
+	font-size: var(--font-size20);
+	margin-top: 24px;
+	font-weight: 300;
+}
+
+.detailAuction .right .top h4
+{
+	font-size: var(--font-size16);
+	font-weight: 300;
+	color: var(--color-gray);
+	margin-top: 24px;
+}
+
+.detailAuction .right .mid
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: 160px;
+	border-bottom: 0.5px solid var(--border-color-gray);
+}
+
+.detailAuction .right .mid .auctionCost
+{
+	display: flex;
+	justify-content: space-between;
+	/* width: 270px; */
+}
+
+.detailAuction .right .mid .auctionCost.start
+{
+	margin-bottom: 24px;
+}
+
+.detailAuction .right .mid .auctionCost h5
+{
+	font-size: 18px;
+	font-weight: 300;
+	color: var(--color-gray);
+}
+
+.detailAuction .right .mid .auctionCost .money
+{
+	display: flex;
+	/* justify-content: space-between; */
+	/* width: 160px; */
+}
+
+.detailAuction .right .mid .auctionCost .money h4
+{
+	margin: 0 4px;
+}
+
+.detailAuction .right .mid .auctionCost .money h4,
+.detailAuction .right .mid .auctionCost .money h5
+{
+	font-weight: 300;
+	font-size: 18px;
+	color: var(--color-black);
+}
+
+.detailAuction .right .bottom
+{
+	margin-top: 24px;
+}
+
+.detailAuction .right .bottom .buttons
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.detailAuction .right .bottom .buttons .guidebtn
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 240px;
+	height: 40px;
+	border: 0.5px solid var(--border-color-gray);
+	cursor: pointer;
+}
+
+.detailAuction .right .bottom .buttons .guidebtn h5
+{
+	font-size: var(--font-size14);
+	font-weight: 300;
+	margin: 0 12px;
+}
+
+.detailAuction .right .bottom .auctionButton
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 500px;
+	height: 48px;
+	background-color: var(--color-black);
+	margin-top: 24px;
+}
+
+.detailAuction .right .bottom .auctionButton button
+{
+	color: var(--color-white);
+	font-size: 18px;
+	font-weight: 300;
+	border: none;
+	outline: none;
+	background-color: inherit ;
+	cursor: pointer;
+	width: inherit;
+	height: inherit;
+}
+
+/* 입찰하기 버튼 (응찰 한 번 하면 입찰하기 버튼으로 변경) */
+/* 배경색 검정으로 할지 색 넣을지는 고민 */
+.detailAuction .right .bottom .auctionButton button.bid
+{
+	background-color: var(--color-deepblue);
+	background-color: var(--color-burgundy);
+}
+
+/* 경매종료 or 경매예정 버튼 */
+.detailAuction .right .bottom .auctionButton button.disable
+{
+	color:var(--color-gray);
+	background-color: var(--color-white);
+	border: 0.5px solid var(--border-color-gray);
+}
+
+
+/* 모달 배경 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(128, 128, 128, 0.8); /* 회색 배경 */
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    border: 1px solid #888;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+    position: relative;
+    /* padding-top: 40px;  */
+}
+
+/* 모달 헤더 */
+.modal-header {
+	background-color: black;
+    color: white;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.modal-header h4
+{
+	font-size: 18px;
+    margin-left: 20px;
+    font-weight: 300;
+}
+/* 모달 바디 */
+.modal-body {
+    padding: 24px;
+}
+
+/* 테이블 스타일 */
+.modal-body table {
+	font-size: 14px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 16px;
+    font-weight: 300;
+}
+
+.modal-body th,
+.modal-body td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-body th {
+	background-color: #f2f2f2;
+}
+
+.modal-body .notice
+{
+	width:400px;
+	background-color:  #f2f2f2;;
+}
+.modal-body .notice p, 
+.modal-body .notice ul 
+{
+	line-height: 1.5;
+    padding: 6px 0 6px 8px;
+    font-size: 14px;
+}
+
+/* 닫기 버튼 */
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    font-size: 28px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* 테이블 스타일 - modal2 안의 텍스트 가운데 정렬 및 가운데 줄 추가 */
+.modal-body.modal2-centered table {
+    margin: 0 auto; /* 테이블을 가운데 정렬 */
+    text-align: center; /* 테이블 안의 텍스트 가운데 정렬 */
+    border-collapse: collapse; /* 테두리 겹치지 않게 */
+}
+
+.modal-body.modal2-centered th,
+.modal-body.modal2-centered td {
+    text-align: center; /* 테이블 헤더와 셀의 텍스트를 가운데 정렬 */
+}
+
+.modal-body.modal2-centered th + th,
+.modal-body.modal2-centered td + td {
+    border-left: 1px solid #ddd; /* 가운데 세로선 추가 */
+}

@@ -1,0 +1,238 @@
+:root 
+{
+	/* 컬러 모음 */
+	--color-black: #111;
+	--color-white: #fff;
+	--color-gray: #787878;
+	--input-gray: #e5e5ec;
+	--button-gray: #f7f7f7;
+	--border-color-gray: #dadada;
+	--color-deepblue: #17517e;
+	--color-burgundy: #800020;
+	--font-size32: 32px;
+	--font-size24: 24px;
+	--font-size20: 20px;
+	--font-size16: 16px;
+	--font-size14: 14px;
+	--font-size12: 12px;
+}
+
+
+
+
+.pageFixSize {
+	display: flex;
+	justify-content: center;
+	/* width: 1440px; */
+}
+
+
+
+.userInfo {
+	display: flex;
+	justify-content: center;
+	margin-top: 100px;
+	margin-bottom: 150px;
+	width: 1440px;
+}
+
+
+
+/* 마이페이지 사이드바 */
+.userNav {
+	margin-right: 100px;
+	width: 180px;
+}
+.userNav .navUserName {
+	font-size: var(--font-size24);
+	margin-bottom: 90px;
+}
+.userNav ul li {
+	margin-bottom: 50px;
+	font-size: var(--font-size20);
+}
+.userNav ul li a {
+	color: var(--color-gray);
+	cursor: pointer;
+}
+/* 마이페이지 사이드바 끝 */
+
+
+
+/* 회원정보관리 */
+.userInfoInfo {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+	width: 890px;
+	/* min-height: 600px; */
+}
+.userInfoTitle {
+	font-size: var(--font-size24);
+	margin-left: 5px;
+}
+
+
+
+.userInfoInfo hr {
+	margin-top: 40px;
+	/* margin-bottom: 30px; */
+	margin-bottom: 10px;
+	size: 0.5px;
+	background-color: var(--color-gray);
+	/* border: solid 0.5px var(--color-gray); */
+}
+/* @@@@@마이페이지 공통 끝@@@@@ */
+
+
+/* 응찰 내역 리스트 시작 */
+.userBidList {
+	align-self: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 450px;
+}
+
+.userBidList .listColunmNames {
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+	justify-content: space-between;
+	padding: 15px;
+	gap: 10px;
+	border-bottom: solid 0.5px var(--border-color-gray);
+	width: 800px;
+}
+.userBidList .listColunmNames h5 {
+	font-size: var(--font-size16);
+	font-weight: 300;
+}
+
+
+.userBidList .bidList {
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+	justify-content: space-between;
+	padding: 15px;
+	gap: 10px;
+	border-bottom: solid 0.5px var(--border-color-gray);
+	width: 800px;
+	color: var(--color-gray);
+	font-size: var(--font-size14);
+}
+.userBidList .bidList .bidDetailBtn{
+	height: 28px;
+	width: 64px;
+	background-color: var(--color-white);
+	border: solid 0.5px var(--color-gray);
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+
+/* 응찰 리스트 정렬 */
+.userBidList .auctionDate {
+	width: 70px;
+	height: auto;
+	text-align: center;
+}
+.userBidList .workInfo {
+	width: 220px;
+	height: auto;
+	text-align: center;
+}
+.userBidList .bidDetail {
+	width: 100px;
+	height: auto;
+	text-align: center;
+}
+.userBidList .lastBidDate {
+	width: 130px;
+	height: auto;
+	text-align: center;
+}
+.userBidList .lastBidPrice {
+	width: 140px;
+	height: auto;
+	text-align: center;
+}
+.userBidList .bidStat {
+	width: 70px;
+	height: auto;
+	text-align: center;
+}
+/* 응찰 리스트 정렬 끝 */
+
+
+
+
+/* 상세보기 모달 팝업 */
+
+/* 모달 배경 */
+.bidDetailModal {
+	display: none; /* 기본적으로 숨김 */
+	position: fixed; /* 화면 고정 */
+	z-index: 1; /* 다른 요소 위에 위치 */
+    left: 50%; /* 수평 중앙 정렬 */
+    top: 50%; /* 수직 중앙 정렬 */
+	width: 440px; /* 전체 너비 */
+	height: 450px; /* 전체 높이 */
+	overflow: auto; /* 필요시 스크롤 활성화 */
+	background-color: var(--color-white);
+	border: solid 1px var(--border-color-gray);
+	transform: translate(-50%, -50%); /* 위치를 정확히 중앙으로 이동 */
+}
+
+/* 모달 내용 */
+.modalContent {
+	display: flex;
+	flex-direction: column;
+	justify-self: center;
+	margin: 20px;
+	/* padding: 10px; */
+	width: 90%; /* 화면 크기에 따라 조절 가능한 너비 */
+}
+.modalContent h2 {
+	font-size: var(--font-size20);
+	margin-left: 5px;
+}
+.modalContent hr {
+	margin-top: 15px;
+	background-color: var(--border-color-gray);
+}
+.modalContent .bidDetailContent {
+	display: flex;
+	justify-content: center;
+	gap: 5px;
+	color: var(--color-gray);
+	border-bottom: solid 0.5px var(--border-color-gray);
+	padding: 15px 0 15px;
+	width: 100%;
+	font-size: var(--font-size14);
+}
+.modalContent .bidDetailContent .bidDetailPrice {
+	color: var(--color-black);
+}
+.modalContent .bidDetailContent .bidDetailbiding {
+	color: var(--color-deepblue);
+}
+
+/* 닫기 버튼 */
+.closeBtn {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.closeBtn:hover,
+.closeBtn:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* 상세보기 모달 팝업 */
