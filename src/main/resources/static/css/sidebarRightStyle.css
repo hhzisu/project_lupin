@@ -1,0 +1,156 @@
+:root 
+{
+	/* 컬러 모음 */
+	--color-black: #111;
+	--color-white: #fff;
+	--color-gray: #787878;
+	--input-gray: #e5e5ec;
+	--button-gray: #f7f7f7;
+	--border-color-gray: #dadada;
+	--color-deepblue: #17517e;
+	--color-burgundy: #800020;
+	--font-size32: 32px;
+	--font-size24: 24px;
+	--font-size20: 20px;
+	--font-size16: 16px;
+	--font-size14: 14px;
+	--font-size12: 12px;
+}
+
+
+
+/* 사이드 바 버튼 */
+.toggleBtn {
+	position: fixed;
+	right: 0;
+	top: 140px;
+	/* transform: translateY(-50%); */
+	/* background-color: var(--color-black); */
+	background-color: var(--color-white);
+	border: 1px solid #ccc;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	cursor: pointer;
+	padding: 15px 6px;
+	/* box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); */
+	z-index: 1000; /* 사이드바보다 위에 배치 */
+}
+
+.toggleBtn i {
+	font-size: 24px;
+	/* color: var(--color-white); */
+	color: var(--color-black);
+}
+
+
+
+/* 사이드 바 */
+.sidebarRight {
+	position: fixed;
+	right: -340px; /* 사이드바 기본적으로 숨김 */
+	top: 140px;
+	width: 240px;
+	height: auto;
+	max-height: 100%;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	padding: 20px 30px 20px 20px;
+	background-color: white;
+	transition: right 0.3s ease; /* 슬라이드 애니메이션 */
+	overflow-y: auto;
+}
+.sidebarRight.open {
+	right: 0; /* 열리면 화면 오른쪽 끝으로 이동 */
+}
+
+
+/* 사이드 바 제목 */
+.sidebarRight .sidebarHeader {
+	padding-left: 5px;
+	padding-bottom: 15px;
+	border-bottom: solid 1px var(--border-color-gray);
+}
+.sidebarRight .sidebarHeader h3 {
+	font-size: 18px;
+}
+
+
+/* 참여중인 경매 목록 */
+.sidebarRight .participationAuction {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	padding: 15px 10px;
+	border-bottom: solid 1px var(--border-color-gray);
+}
+
+
+/* 경매 목록창 윗부분 */
+.participationAuction .participationAuctionTop {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+/* 경매 목록 윗부분 왼쪽 */
+.participationAuction .participationAuctionTop .participationAuctionTopLeft {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+.participationAuction .participationAuctionTop .participationAuctionTopLeft h4 {
+	font-size: var(--font-size16);
+}
+.participationAuction .participationAuctionTop .participationAuctionTopLeft p {
+	font-size: var(--font-size14);
+}
+
+
+/* 경매 목록 윗부분 오른쪽(버튼) */
+.participationAuction .participationAuctionTop .bidingbtn {
+	width: 72px;
+	height: 28px;
+	font-size: var(--font-size12);
+	background-color: var(--color-white);
+	border: solid 1px var(--border-color-gray);
+	cursor: pointer;
+}
+
+
+/* 경매 목록 밑부분 */
+.participationAuction .participationAuctionBottom {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	font-size: var(--font-size14);
+}
+
+
+/* 시작가 */
+.participationAuction .participationAuctionBottom .startPrice {
+	display: flex;
+	color: var(--color-gray);
+}
+.participationAuction .participationAuctionBottom .startPrice .span1 {
+	margin-right: 20px;
+}
+.participationAuction .participationAuctionBottom .startPrice .span2 {
+	margin-right: 10px;
+}
+
+
+/* 현재가 */
+.participationAuction .participationAuctionBottom .currentPrice {
+	display: flex;
+	color: var(--color-deepblue);
+}
+.participationAuction .participationAuctionBottom .currentPrice .span1 {
+	margin-right: 20px;
+}
+.participationAuction .participationAuctionBottom .currentPrice .span2 {
+	color: var(--color-black);
+	margin-right: 10px;
+}

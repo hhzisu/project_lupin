@@ -1,0 +1,114 @@
+.storageContainer {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.storageContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 1440px;
+}
+
+.headBox {
+	margin-top: 100px;
+	position: relative;
+}
+
+.headBox .storage_text {
+	color: var(--color-white);
+	font-size: 44px;
+	position: absolute;
+	top: 84px;
+	left: 60px;
+}
+
+.headText {
+	margin: 30px 0px 20px;
+}
+
+.smallgray {
+	font-size: var(--font-size12);
+	color: var(--color-gray);
+}
+
+hr.headLine {
+	width: 100%;
+	/* margin-top: 10px;
+margin-bottom: 15px; */
+	border: 1.5px solid;
+}
+
+.storageWrap {
+	margin-top: 100px;
+	margin-bottom: 150px;
+	display: flex;
+	flex-direction: column;
+	gap: 120px;
+}
+
+.vertical-line {
+	display: inline-block;
+	width: 5px;
+	height: 1em;
+	/* 텍스트 높이에 맞추기 위해 */
+	background-color: black;
+	margin-right: 8px;
+	/* 텍스트와의 간격 조절 */
+	vertical-align: middle;
+	/* 텍스트와 세로 중앙 정렬 */
+}
+
+.board .Title {
+	display: flex;
+	font-size: var(--font-size24);
+}
+
+.board .content {
+	font-size: var(--font-size16);
+}
+
+.board .content2 {
+	display: flex;
+}
+
+.step1
+{
+	margin-left: 75px;
+	background-color: #F6E8F6;
+}
+.step2
+{
+	background-color: #D8BFD8;
+}
+.step3
+{
+	background-color: #BF94E4;
+	color: var(--color-white);
+}
+.step4
+{
+	background-color: #561689;
+	color: var(--color-white);
+}
+.content2
+{
+	gap: 43px;
+}
+.content2 .box {
+	margin-top: 30px;
+	/* border: 1px solid #111; */
+	width: 240px;
+	height: 80px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.nextIcon
+{
+	margin-top: 50px;
+	font-size: var(--font-size32);
+}

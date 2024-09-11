@@ -1,0 +1,176 @@
+.commissionContainer {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.commissionContent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 1440px;
+}
+
+.headBox {
+	margin-top: 100px;
+	position: relative;
+}
+
+.headBox .commission_text {
+	color: var(--color-white);
+	position: absolute;
+	top: 67px;
+	left: 60px;
+}
+
+.commission_text .text_top {
+	font-size: 44px;
+}
+
+.commission_text .text_bottom {
+	font-size: 30px;
+}
+
+.headText {
+	margin: 30px 0 20px;
+
+}
+
+.smallgray {
+	font-size: var(--font-size12);
+	color: var(--color-gray);
+}
+
+hr.headLine {
+	width: 100%;
+	border: 1.5px solid;
+	margin-bottom: 120px;
+}
+
+.commissionWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 120px;
+}
+
+.vertical-line {
+	display: inline-block;
+	width: 5px;
+	height: 1em;
+	/* 텍스트 높이에 맞추기 위해 */
+	background-color: black;
+	margin-right: 8px;
+	/* 텍스트와의 간격 조절 */
+	vertical-align: middle;
+	/* 텍스트와 세로 중앙 정렬 */
+	font-size: 40px;
+}
+
+.board {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.board .title {
+	display: flex;
+}
+
+.board .content {
+	margin-left: 10px;
+}
+
+.title_text .title_text_top {
+	font-size: var(--font-size12);
+}
+
+.title_text .title_text_bottom {
+	font-size: var(--font-size24);
+}
+
+.box {
+	display: flex;
+	margin-top: 20px;
+	width: 1440px;
+	height: 300px;
+	border: 1px solid #b1b1b1;
+	justify-content: center;
+	align-items: center;
+	gap: 130px;
+}
+
+.box .minibox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.minibox .num {
+	font-size: var(--font-size24);
+	margin: 15px 0 20px;
+}
+
+.minibox .box_content {
+	font-size: var(--font-size20);
+}
+
+.radius {
+	width: 100px;
+	height: 100px;
+	border-radius: 70%;
+	background-color: #C5D7F2;
+	position: relative;
+}
+
+.radiusIcon {
+	position: absolute;
+	font-size: 40px;
+	left: 25px;
+	top: 30px;
+}
+
+.box2 {
+	display: flex;
+	margin-top: 20px;
+	width: 1440px;
+	height: 300px;
+	border: 1px solid #b1b1b1;
+	align-items: center;
+	gap: 70px;
+	margin-bottom: 150px;
+}
+.radius2 {
+	margin-left: 70px;
+	width: 140px;
+	height: 140px;
+	border-radius: 70%;
+	background-color: #C5D7F2;
+	position: relative;
+}
+
+.radiusIcon2 {
+	position: absolute;
+	font-size: 70px;
+	left: 35px;
+	top: 35px;
+}
+.minibox2
+{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.minibox2 .minibox2_con_1
+{
+	font-size: var(--font-size24);
+}
+.minibox2 .minibox2_con_2
+{
+	font-size: var(--font-size20);
+}
+.minibox2 .minibox2_con_3
+{
+	font-size: var(--font-size16);
+}

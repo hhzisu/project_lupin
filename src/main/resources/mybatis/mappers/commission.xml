@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.project_lupin.dao.CommissionDAO">
+
+	<insert id="insertCommission" parameterType="com.boot.project_lupin.dto.CommissionDTO">
+	    INSERT INTO commission_tb
+	    (
+			user_id,
+			commission_email,
+			commission_phone,
+			commission_title,
+			commission_author,
+			commission_size,
+			purchasePrice,
+			commission_collection,
+			commission_etc,
+			wishPrice
+	    )
+	    VALUES
+	    (
+			"12",
+			#{commission_email},
+			#{commission_phone},
+			#{commission_title},
+			#{commission_author},
+			#{commission_size},
+			#{purchasePrice},
+			#{commission_collection},
+			#{commission_etc},
+			#{wishPrice}
+		)
+	</insert>
+
+</mapper>

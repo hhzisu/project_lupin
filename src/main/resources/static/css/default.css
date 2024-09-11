@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
+}
+
+:root {
+	/* 컬러 모음 */
+	--color-black: #111;
+	--color-white: #fff;
+	--color-gray: #787878;
+	--input-gray: #e5e5ec;
+	--button-gray: #f7f7f7;
+	--border-color-gray: #dadada;
+	--color-deepblue: #17517e;
+	--color-burgundy: #800020;
+	--font-size32: 32px;
+	--font-size24: 24px;
+	--font-size20: 20px;
+	--font-size16: 16px;
+	--font-size14: 14px;
+	--font-size12: 12px;
+}
+
+* 
+{
+    margin:0;
+    padding:0;
+    list-style:none;
+    font-family: 'Pretendard';
+}
+
+a
+{
+    text-decoration: none;
+}
+
+ul,li,ol 
+{
+    list-style: none;
+}
+
+table, tr, td 
+{
+    box-sizing: border-box;
+    border-collapse: collapse;
+}

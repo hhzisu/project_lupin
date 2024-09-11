@@ -1,0 +1,117 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <!DOCTYPE html>
+        <html>
+
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title></title>
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/default.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
+            <!-- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/snsMain.css"> -->
+            <!-- import font-awesome, line-awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+            <!-- import pretendard font -->
+            <link rel="stylesheet" as="style" crossorigin
+                href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" />
+            <!-- import js -->
+            <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+                integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        </head>
+
+        <body>
+
+            <%@ include file="header.jsp" %>
+                <%@ include file="sidebar.jsp" %>
+
+                    <div class="main">
+                        <div class="left">
+                            <div class="loginContent1">
+                                <div>"예술과 연결되세요"</div>
+                            </div>
+                            <div class="loginContent2">
+                                <div>로그인하여 다양한 미술작품의 아름다움을 발견하세요.</div>
+                                <div>TEL. 1544-1544</div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="loginBox">
+                                <div class="loginTitle">
+                                    <div>Login</div>
+                                </div>
+                                <div class="loginButtons">
+                                    <!-- <div class="kakaoLogin">
+                        <i class="fa-solid fa-comment" style="margin-right: 20px;"></i>
+                        <div class="kakao">카카오로 시작하기</div>
+                    </div> -->
+                                    <a href="/oauth2/authorization/naver">
+                                        <div class="naverLogin">
+                                            <i class="fa-solid fa-n" style="color: #ffffff; margin-right: 20px;"></i>
+                                            <div class="naver">네이버 로그인</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="managerLogin">
+                                <div class="mangerLoginText">
+                                    <p>관리자 로그인</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 모달 구조 -->
+                    <div id="modal1" class="modal">
+                        <div class="modal-content" style="width: 300px; height: 300px;">
+                            <span class="close">&times;</span>
+                            <div class="modal-header">
+                                <h4>관리자 로그인</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="login">
+                                    <div class="managerId">
+                                        <p>ID</p>
+                                        <input type="text" class="managerLoginText">
+                                    </div>
+                                    <div class="managerPwd">
+                                        <p>PW</p>
+                                        <input type="text" class="managerLoginText">
+                                    </div>
+                                    <div class="managerLoginBtn">
+                                        <p>로그인</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%@ include file="footer.jsp" %>
+
+        </body>
+
+        </html>
+        <script>
+            // "낙찰 수수료" 버튼 클릭 시 모달1 표시
+            document.querySelector(".managerLogin").onclick = function () {
+                document.getElementById("modal1").style.display = "block";
+            }
+
+            // 모든 닫기 버튼 클릭 시 모달 닫기
+            var closeButtons = document.getElementsByClassName("close");
+            for (var i = 0; i < closeButtons.length; i++) {
+                closeButtons[i].onclick = function () {
+                    this.closest('.modal').style.display = "none";
+                }
+            }
+
+            // 모달 밖을 클릭하면 닫기
+            window.onclick = function (event) {
+                if (event.target.className === 'modal') {
+                    event.target.style.display = "none";
+                }
+            }
+        </script>

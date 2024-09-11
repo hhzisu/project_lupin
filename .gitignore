@@ -1,0 +1,33 @@
+# Operating System files
+*.DS_Store
+
+# IntelliJ IDEA specific files
+/.idea/
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/workspace.xml
+/workspace.xml
+/shelf/
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
+
+# Build related files
+/build/
+
+# Gradle specific files
+.gradle/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+application.properties
+
+# Eclipse specific files
+/.classpath
+/.project
+/.settings/
