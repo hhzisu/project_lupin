@@ -23,6 +23,10 @@
 # Logs
 *.log
 
+# Environment variables
+.env
+application.properties
+
 # Eclipse specific files
 /.classpath
 /.project
