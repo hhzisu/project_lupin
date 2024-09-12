@@ -20,7 +20,78 @@
         FROM
             auction_tb
         WHERE
-            auction_id = #{auction_id}
+            auction_lot = #{auction_lot}
+            AND auctionSchedule_id = #{auctionSchedule_id}
+    </select>
+
+    <select id="auctionProgressList" resultType="com.boot.project_lupin.dto.AuctionDTO">
+        <![CDATA[
+        SELECT
+            a.auction_id,
+            a.auction_lot,
+            a.auction_author,
+            a.auction_title,
+            a.auction_size,
+            a.auction_madeDate,
+            a.auction_materials,
+            a.auction_authorExp,
+            a.auction_startPrice,
+            a.auction_guessPrice,
+            a.auctionSchedule_id
+        FROM
+            auction_tb a
+        JOIN
+            auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
+        WHERE
+            s.auctionSchedule_start <= NOW()
+            AND s.auctionSchedule_end >= NOW()
+        ]]>
+    </select>
+
+    <select id="auctionScheduledList" resultType="com.boot.project_lupin.dto.AuctionDTO">
+        <![CDATA[
+        SELECT
+            a.auction_id,
+            a.auction_lot,
+            a.auction_author,
+            a.auction_title,
+            a.auction_size,
+            a.auction_madeDate,
+            a.auction_materials,
+            a.auction_authorExp,
+            a.auction_startPrice,
+            a.auction_guessPrice,
+            a.auctionSchedule_id
+        FROM
+            auction_tb a
+        JOIN
+            auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
+        WHERE
+            s.auctionSchedule_start > NOW()
+        ]]>
+    </select>
+
+    <select id="auctionResultList" resultType="com.boot.project_lupin.dto.AuctionDTO">
+        <![CDATA[
+        SELECT
+            a.auction_id,
+            a.auction_lot,
+            a.auction_author,
+            a.auction_title,
+            a.auction_size,
+            a.auction_madeDate,
+            a.auction_materials,
+            a.auction_authorExp,
+            a.auction_startPrice,
+            a.auction_guessPrice,
+            a.auctionSchedule_id
+        FROM
+            auction_tb a
+        JOIN
+            auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
+        WHERE
+            s.auctionSchedule_end < NOW()
+        ]]>
     </select>
 
 
