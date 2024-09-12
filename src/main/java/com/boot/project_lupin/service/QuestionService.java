@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -44,6 +45,24 @@ public class QuestionService{
 			attach.setQuestion_id(questionDTO.getQuestion_id());
 			dao.questionInsertFile(attach);
 		});
+	}
+
+	// 답변 등록
+	public void questionAnswer(QuestionDTO questionDTO){
+		log.info("@# QuestionService questionAwnser");
+
+		QuestionDAO dao = sqlSession.getMapper(QuestionDAO.class);
+		dao.questionAnswer(questionDTO);
+	}
+
+	//문의 리스트 가져오기
+	public ArrayList<QuestionDTO> questionList(){
+		log.info("@# QuestionService questionList");
+
+		QuestionDAO dao = sqlSession.getMapper(QuestionDAO.class);
+		ArrayList<QuestionDTO> list = dao.questionList();
+
+		return list;
 	}
 
 

@@ -14,7 +14,8 @@ public class QuestionDTO {
 	private String question_type;
 	private String question_title;
 	private String question_content;
-	
+	private String question_date;
+
 	private String question_answer;
 	
 	private int user_id;
