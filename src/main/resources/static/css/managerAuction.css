@@ -1,0 +1,267 @@
+:root {
+	/* 컬러 모음 */
+	--color-black: #111;
+	--color-white: #fff;
+	--color-gray: #787878;
+	--input-gray: #e5e5ec;
+	--button-gray: #f7f7f7;
+	--border-color-gray: #dadada;
+	--color-deepblue: #17517e;
+	--color-burgundy: #800020;
+	--font-size32: 32px;
+	--font-size24: 24px;
+	--font-size20: 20px;
+	--font-size16: 16px;
+	--font-size14: 14px;
+	--font-size12: 12px;
+}
+
+.pageFixSize {
+	display: flex;
+	justify-content: center;
+	/* width: 1440px; */
+}
+
+
+
+.userInfo {
+	display: flex;
+	justify-content: center;
+	margin-top: 100px;
+	margin-bottom: 150px;
+	width: 1440px;
+}
+
+
+
+/* 마이페이지 사이드바 */
+.userNav {
+	margin-right: 100px;
+	width: 180px;
+}
+
+.userNav .navUserName {
+	font-size: var(--font-size24);
+	margin-bottom: 90px;
+}
+
+.userNav ul li {
+	margin-bottom: 50px;
+	font-size: var(--font-size20);
+}
+
+.userNav ul li a {
+	color: var(--color-gray);
+	cursor: pointer;
+}
+
+/* 마이페이지 사이드바 끝 */
+
+
+
+/* 회원정보관리 */
+.auctionInfoInfo {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10px;
+	width: 890px;
+	/* min-height: 600px; */
+}
+
+.auctionInfoTitle {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--font-size24);
+	margin-left: 5px;
+	margin-right: 15px;
+}
+
+
+
+.auctionInfoInfo hr.auctionInfoLine {
+	margin-top: 40px;
+	/* margin-bottom: 30px; */
+	margin-bottom: 16px;
+	size: 0.5px;
+	background-color: var(--color-gray);
+	/* border: solid 0.5px var(--color-gray); */
+}
+
+/* @@@@@마이페이지 공통 끝@@@@@ */
+
+.auctionTabWrap {
+	display: flex;
+	font-size: var(--font-size16);
+	gap: 20px;
+	margin-bottom: 33px;
+	cursor: pointer;
+}
+
+.auctionTabWrap .tab.active {
+	padding-bottom: 2px;
+	border-bottom: 2px solid #111;
+}
+
+.dateManagementWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.progressiveAuction {
+	display: flex;
+	height: 82px;
+	border: 1px solid #DADADA;
+	justify-content: space-between;
+	align-items: center;
+	color: var(--color-white);
+	background-color: var(--color-black);
+	margin-bottom: 40px;
+}
+
+.expectAuction {
+	display: flex;
+	height: 82px;
+	border: 1px solid #DADADA;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 40px;
+}
+
+.progressiveAuction .leftBox {
+	margin-left: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.progressiveAuction .rightBox {
+	margin-right: 20px;
+	display: flex;
+	gap: 16px;
+}
+
+.expectAuction .leftBox {
+	margin-left: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.expectAuction .rightBox {
+	margin-right: 20px;
+	display: flex;
+	gap: 16px;
+}
+
+.btn {
+	padding: 8px 26px;
+	border: 1px solid;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.management.btn {
+	color: #777;
+	border: 1px solid #777;
+}
+
+.modify.btn {
+	color: #17517e;
+	border: 1px solid #17517e;
+}
+
+.delete.btn {
+	color: #800020;
+	border: 1px solid #800020;
+}
+
+.dateRegisterWrap {
+	width: 820px;
+	margin-left: 20px;
+}
+
+.startAuction,
+.endAuction 
+{
+	display: flex;
+	gap: 10px;
+	margin-left: 36px;
+	font-size: var(--font-size14);
+	padding: 18px 0;
+	align-items: center;
+}
+
+.startAuction p,
+.endAuction p
+{
+	margin-right: 12px;
+}
+
+.startYear,
+.endYear,
+.startMonth,
+.endMonth,
+.startDay,
+.endDay {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.dateManagementWrap.active {
+	display: block;
+}
+
+.dateManagementWrap,
+.dateRegisterWrap {
+	display: none;
+}
+
+.active {
+	display: block;
+}
+
+.dateRegisterBtnWrap {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	gap: 20px;
+}
+
+.cancel.btn2 {
+	border: 0.5px solid #2E2E2E;
+	color: #565656;
+}
+
+.register.btn2 {
+	background-color: var(--color-black);
+	color: var(--color-white);
+}
+
+.btn2 {
+	display: flex;
+	width: 100px;
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	font-size: var(--font-size14);
+	cursor: pointer;
+}
+
+#startYear, #endYear {
+	width: 80px;
+	height: 30px;
+	padding-left: 4px;
+	outline: none;
+}
+
+#startMonth, #endMonth,
+#startDay, #endDay {
+	width: 60px;
+	height: 30px;
+	padding-left: 4px;
+	outline: none;
+}
