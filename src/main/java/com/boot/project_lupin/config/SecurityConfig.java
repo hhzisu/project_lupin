@@ -29,7 +29,8 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable());  // HTTP Basic 인증 비활성화
         http
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // 모든 요청에 인증 없이 접근 허용
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()  // 정적 리소스 허용
+                        .anyRequest().permitAll()  // 그 외 요청은 인증 없이 접근 허용
                 );
         http
                 .oauth2Login(oauth2 -> oauth2
@@ -40,5 +41,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
 }

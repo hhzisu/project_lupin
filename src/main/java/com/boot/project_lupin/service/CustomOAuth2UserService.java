@@ -5,6 +5,8 @@ import com.boot.project_lupin.dto.NaverResponse;
 import com.boot.project_lupin.dto.OAuth2Response;
 import com.boot.project_lupin.entity.UserEntity;
 import com.boot.project_lupin.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -13,12 +15,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    //DefaultOAuth2UserService OAuth2UserService의 구현체
 
     private final UserRepository userRepository;
 
     public CustomOAuth2UserService(UserRepository userRepository) {
-
         this.userRepository = userRepository;
     }
 
@@ -29,63 +29,67 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         System.out.println(oAuth2User.getAttributes());
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        OAuth2Response oAuth2Response = null;
-        if (registrationId.equals("naver")) {
+        OAuth2Response oAuth2Response;
 
+        // Naver 로그인일 경우 처리
+        if ("naver".equals(registrationId)) {
             oAuth2Response = new NaverResponse(oAuth2User.getAttributes());
-        }
-        else {
-
+        } else {
             return null;
         }
 
-        String name = oAuth2Response.getName();
-        System.out.println("사용자 이름: " + name);  // 이름 출력
-        String gender = oAuth2Response.getGender();
-        System.out.println("사용자 성별: " + gender);  // 성별 출력
-        String birthday = oAuth2Response.getBirthday();
-        System.out.println("사용자 생일: " + birthday);  // 월일 출력
-        String birthyear = oAuth2Response.getBirthYear();
-        System.out.println("사용자 출생년도: " + birthyear);  // 출생년도 출력
-        String mobile = oAuth2Response.getMobile();
-        System.out.println("사용자 휴대폰번호: " + mobile);  // 출생년도 출력
+        // 사용자 정보 출력
+        printUserInfo(oAuth2Response);
 
-        String username = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
-//        사용자가 있는지 조회
+        // 사용자 이름과 OAuth2 공급자 ID로 username 생성
+        String username = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+
+        // DB에서 사용자 조회
         UserEntity existData = userRepository.findByUsername(username);
+        String role = "1";
 
-        String role = "ROLE_USER";
         if (existData == null) {
+            // 사용자 정보 DB에 저장
+            UserEntity newUser = new UserEntity();
+            newUser.setUsername(username);
+            newUser.setName(oAuth2Response.getName());
+            newUser.setGender(oAuth2Response.getGender());
+            newUser.setBirthday(oAuth2Response.getBirthday());
+            newUser.setBirthyear(oAuth2Response.getBirthYear());
+            newUser.setMobile(oAuth2Response.getMobile());
+            newUser.setEmail(oAuth2Response.getEmail());
+            newUser.setRole(role);
 
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUsername(username);
-            userEntity.setName(name);
-            userEntity.setGender(gender);
-            userEntity.setBirthday(birthday);
-            userEntity.setBirthyear(birthyear);
-            userEntity.setMobile(mobile);
-            userEntity.setEmail(oAuth2Response.getEmail());
-            userEntity.setRole(role);
-
-            userRepository.save(userEntity);
-            // 자동 생성된 사용자 ID 출력
-            System.out.println("새로 생성된 사용자 ID: " + userEntity.getId());
-        }
-        else {
-
-            existData.setUsername(username);
+            userRepository.save(newUser);
+            System.out.println("새로 생성된 사용자 ID: " + newUser.getId());
+        } else {
+            // 기존 사용자 정보 업데이트
             existData.setEmail(oAuth2Response.getEmail());
-            existData.setName(name);           // 이름 업데이트
-            existData.setGender(gender);       // 성별 업데이트
-            existData.setBirthday(birthday);   // 생일 업데이트
-            existData.setBirthyear(birthyear); // 출생년도 업데이트
-            existData.setMobile(mobile);
-
+            existData.setName(oAuth2Response.getName());
+            existData.setGender(oAuth2Response.getGender());
+            existData.setBirthday(oAuth2Response.getBirthday());
+            existData.setBirthyear(oAuth2Response.getBirthYear());
+            existData.setMobile(oAuth2Response.getMobile());
             role = existData.getRole();
 
             userRepository.save(existData);
         }
 
-        return new CustomOAuth2User(oAuth2Response, role);
+        // 사용자 정보 세션에 저장
+        CustomOAuth2User customOAuth2User = new CustomOAuth2User(oAuth2Response, role);
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return customOAuth2User;
+    }
+
+    // 사용자 정보를 출력하는 메서드
+    private void printUserInfo(OAuth2Response oAuth2Response) {
+        System.out.println("사용자 이름: " + oAuth2Response.getName());
+        System.out.println("사용자 성별: " + oAuth2Response.getGender());
+        System.out.println("사용자 생일: " + oAuth2Response.getBirthday());
+        System.out.println("사용자 출생년도: " + oAuth2Response.getBirthYear());
+        System.out.println("사용자 휴대폰번호: " + oAuth2Response.getMobile());
     }
 }
