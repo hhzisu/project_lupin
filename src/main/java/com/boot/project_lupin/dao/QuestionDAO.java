@@ -13,6 +13,8 @@ public interface QuestionDAO {
 	public void insertQuestion(QuestionDTO questionDTO);
 	public ArrayList<QuestionDTO> questionList();
 
+	public void questionAnswer(QuestionDTO questionDTO);
+
 	//파일 업로드
 	public void questionInsertFile(QuestionAttachDTO vo);  // 파라미터가 QuestionAttachDTO / 파일추가
 	public List<QuestionAttachDTO> questionGetFileList(int question_id); // int타입 question_id파라미터를 list타입 <QuestionAttachDTO> getFileList로 사용하려함 / 파일열람

@@ -51,78 +51,30 @@
                         <h5 class="questionStat">상태</h5>
                         <h5 class="questionListBtn"></h5>
                     </div>
-                    <div class="questionList">
-                        <div class="questionType">회원정보</div>
-                        <div class="inquiryTitle">회원정보 문의드립니다.</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="questionStat" style="color: gray;">대기중</div>
-                        <i class="fa-solid fa-angle-down questionListBtn"></i>
-                    </div>
-                    <div class="question_accordion_area">
-                        <div class="questionContent">
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                        </div>
-                        <div class="questionAnswer" style="color: gray;">
-                            답변 대기중
-                        </div>
-                    </div>
-                    <div class="questionList">
-                        <div class="questionType">경매</div>
-                        <div class="inquiryTitle">경매 관련 문의드립니다.</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="questionStat" style="color: #17517E;">답변완료</div>
-                        <i class="fa-solid fa-angle-down questionListBtn"></i>
-                    </div>
-                    <div class="question_accordion_area">
-                        <div class="questionContent">
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                        </div>
-                        <div class="questionAnswer">
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                        </div>
-                    </div>
-                    <div class="questionList">
-                        <div class="questionType">위탁</div>
-                        <div class="inquiryTitle">위탁 관련 문의드립니다.</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="questionStat" style="color: #17517E;">답변완료</div>
-                        <i class="fa-solid fa-angle-down questionListBtn"></i>
-                    </div>
-                    <div class="question_accordion_area">
-                        <div class="questionContent">
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                            문의드립니다.문의드립니다.문의드립니다.
-                        </div>
-                        <div class="questionAnswer">
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                            답변드립니다.답변드립니다.답변드립니다.
-                        </div>
-                    </div>
-                </div>
+                    <c:forEach items="${questionList}" var="question">
+                        <div class="questionCon" data-question-id="${question.question_id}">
+                            <div class="questionList">
+                                <div class="questionType">${question.question_type}</div>
+                                <div class="inquiryTitle">${question.question_title}</div>
+                                <div class="inquiryDate">${question.question_date}</div>
+                                <div class="questionStat" style="color: gray;">${question.question_answer == null ? '대기중' : '답변완료'}</div>
+                                <i class="fa-solid fa-angle-down questionListBtn"></i>
+                            </div>
+                            <div class="question_accordion_area">
+                                <div class="questionContent">
+                                    ${question.question_content}
+                                    <div class="uploadResult" style="padding: 24px 0 0 0;">
+                                        <ul></ul>
+                                    </div>
+                                </div>
+                                <div class="questionAnswer" style="color: gray;">
+                                    ${question.question_answer == null ? '답변 대기중' : question.question_answer}
+                                </div>
+                            </div>
+                        </div> <!-- questionCon 끝 -->
+                    </c:forEach>
+
+                </div> <!-- userQuestionList 끝 -->
                 <hr>
             </div>
             <!-- userInfoInfo 끝 -->
@@ -146,6 +98,58 @@
             // 버튼의 부모 요소에 있는 .questionList의 border-bottom 색상을 토글
             $(this).closest('.questionList').toggleClass('active');
         });
-    });
+
+
+        // 파일 리스트를 불러오는 함수
+        function loadFileList() {
+            // 각 질문 컨테이너에 대해 파일 목록을 불러오기
+            $('.questionCon').each(function() {
+                var questionID = $(this).data('question-id'); // 각 질문의 question_id를 가져옴
+                var uploadResultContainer = $(this).find('.uploadResult ul');
+
+                if (questionID) {
+                    $.ajax({
+                        url: '/questionGetFileList',
+                        type: 'GET',
+                        data: { question_id: questionID },
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log("Ajax success for question_id:", questionID, data);
+                            showUploadResult(data, uploadResultContainer);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching file list for question_id ' + questionID + ':', error);
+                        }
+                    });
+                }
+            });
+        }
+
+        // 파일 리스트를 표시하는 함수
+        function showUploadResult(uploadResultArr, uploadResultContainer) {
+            if (!uploadResultArr || uploadResultArr.length === 0) {
+                return;
+            }
+
+            var str = "";
+
+            $(uploadResultArr).each(function (i, obj) {
+                console.log(obj);
+                var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
+                str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                str += "<div>";
+                str += "<span>" + obj.fileName + "</span>";
+                str += "<img style='display: none' src='/questionDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+                str += "</div></li>";
+            });
+
+            uploadResultContainer.append(str);
+        }
+
+        // 페이지 로드 시 파일 리스트를 불러오기
+        loadFileList();
+
+    }); //ready 끝
 </script>
 

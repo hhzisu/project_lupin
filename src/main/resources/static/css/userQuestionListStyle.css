@@ -196,3 +196,9 @@
 	color: var(--color-black);
 	border-bottom: 1px solid var(--border-color-gray);
 }
+
+.questionContent .uploadResult ul li div
+{
+	padding: 0;
+	margin-top: 4px;
+}

@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +41,13 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService)));  // OAuth2 사용자 정보 설정
 
         return http.build();
+    }
+
+    @Bean
+    public HttpFirewall allowUrlEncodedDoubleSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedDoubleSlash(true);  // 중복 슬래시 허용
+        return firewall;
     }
 
 }
