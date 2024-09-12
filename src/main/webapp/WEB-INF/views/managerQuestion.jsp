@@ -43,7 +43,7 @@
                 <div class="userQuestionList">
                     <div class="questionListColunmNames">
                         <h5 class="questionType">문의 종류</h5>
-                        <h5 class="questionUserId">ID</h5>
+                        <h5 class="questionUserId">이메일</h5>
                         <h5 class="inquiryTitle">제목</h5>
                         <h5 class="inquiryDate">문의일</h5>
                         <h5 class="questionStat">상태</h5>
@@ -53,7 +53,7 @@
                         <div class="questionCon" data-question-id="${question.question_id}">
                             <div class="questionList">
                                 <div class="questionType">${question.question_type}</div>
-                                <div class="questionUserId">fgghk132</div>
+                                <div class="questionUserId">${question.email}</div>
                                 <div class="inquiryTitle">${question.question_title}</div>
                                 <div class="inquiryDate">${question.question_date}</div>
                                 <div class="questionStat" style="color: gray;">${question.question_answer == null ? '대기중' : '답변완료'}</div>
@@ -69,9 +69,16 @@
                                 <div class="questionAnswer answerText" style="color: gray;">
                                     <form method="post" action="questionAnswer">
                                         <input type="hidden" name="question_id" value="${question.question_id}" />
-                                        ${question.question_answer == null ? '대기중' : '답변완료'}
-                                        <textarea name="question_answer"></textarea>
-                                        <button type="submit">답변</button>
+
+                                        <c:choose>
+                                            <c:when test="${empty question.question_answer}">
+                                                <textarea name="question_answer"></textarea>
+                                                <button type="submit">답변</button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${question.question_answer}
+                                            </c:otherwise>
+                                        </c:choose>
                                     </form>
                                 </div>
                             </div>
