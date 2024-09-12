@@ -38,271 +38,43 @@
             </div> <!--tab 끝-->
 
             <div class="auctionList">
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction1.jpg">
-                            </ul>
+                <c:forEach items="${list}" var="list">
+                    <div class="auction">
+                        <a href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
+                            <div class="auctionImg">
+                                <div class="uploadResult">
+                                    <ul>
+                                        <img src="images/auction1.jpg">
+                                    </ul>
+                                </div>
+                            </div> <!--auctionImg 끝-->
+                        </a>
+                        <div class="auctionCon">
+                            <h5>LOT ${list.auction_lot}</h5>
+                            <h2>${list.auction_author}</h2>
+                            <h3>${list.auction_title}</h3>
+                            <h4>${list.auction_materials}</h4>
+                            <h4 class="size">${list.auction_size} | ${list.auction_madeDate}</h4>
                         </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
+                        <div class="auctionCost">
+                            <h5>시작가</h5>
+                            <div class="money">
+                                <h4>KRW</h4>
+                                <h5>${list.auction_startPrice}</h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
+                        <div class="auctionCost">
+                            <h5 style="color: #111;">낙찰가</h5>
+                            <div class="money">
+                                <h4>KRW</h4>
+                                <h5>12,500,000</h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction2.jpg">
-                            </ul>
+                        <div class="bidButton">
+                            <a href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}"><h5>경매 종료</h5></a>
                         </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction3.jpg">
-                            </ul>
-                        </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction4.jpg">
-                            </ul>
-                        </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction1.jpg">
-                            </ul>
-                        </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction1.jpg">
-                            </ul>
-                        </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction1.jpg">
-                            </ul>
-                        </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-                <div class="auction">
-                    <div class="auctionImg">
-                        <div class="uploadResult">
-                            <ul>
-                                <img src="images/auction1.jpg">
-                            </ul>
-                        </div>
-                    </div> <!--auctionImg 끝-->
-                    <div class="auctionCon">
-                        <h5>LOT 1</h5>
-                        <h2>나성엽</h2>
-                        <h3>여덟을 꺼내는 시간</h3>
-                        <h4>캔버스에 유채</h4>
-                        <h4 class="size">33 x 33 cm | 2020</h4>
-                    </div>
-                    <div class="auctionCost">
-                        <h5>시작가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>8,000,000</h5>
-                        </div>
-                    </div>
-                    <div class="auctionCost">
-                        <h5 style="color: #111;">낙찰가</h5>
-                        <div class="money">
-                            <h4>KRW</h4>
-                            <h5>12,500,000</h5>
-                        </div>
-                    </div>
-                    <div class="bidButton">
-                        <a href="#"><h5>경매 종료</h5></a>
-                    </div>
-                </div> <!--auction 끝-->
-            
+                    </div> <!--auction 끝-->
+                </c:forEach>
                 
             </div> <!--auctionList 끝-->
         </div><!--auctionProgress 끝-->

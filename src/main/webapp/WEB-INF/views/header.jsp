@@ -63,17 +63,17 @@
                 <div class="headerContent">
                     <div class="headerCon con1">
                         <div class="headerTab cp">
-                            <a href="">
+                            <a href="auctionProgress">
                                 <p>진행 경매</p>
                             </a>
                         </div>
                         <div class="headerTab cp">
-                            <a href="">
+                            <a href="auctionScheduled">
                                 <p>예정 경매</p>
                             </a>
                         </div>
                         <div class="headerTab cp">
-                            <a href="">
+                            <a href="auctionResult">
                                 <p>경매 결과</p>
                             </a>
                         </div>
@@ -100,7 +100,7 @@
                             </a>
                         </div>
                         <div class="headerTab cp">
-                            <a href="">
+                            <a href="userCommission">
                                 <p>위탁 신청</p>
                             </a>
                         </div>
@@ -118,7 +118,7 @@
                             </a>
                         </div>
                         <div class="headerTab rt cp">
-                            <a href="">
+                            <a href="question">
                                 <p>1:1 문의</p>
                             </a>
                         </div>
