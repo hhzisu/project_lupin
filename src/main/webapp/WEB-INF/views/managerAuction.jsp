@@ -34,8 +34,8 @@
                                 <ul>
                                     <li><a href="#">1:1 문의 내역</a></li>
                                     <li><a href="#">위탁 관리</a></li>
-                                    <li><a href="#" style="color: black; font-weight: 700;">경매 관리</a></li>
-                                    <li><a href="#">경매 물품 등록</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerAuction" style="color: black; font-weight: 700;">경매 관리</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerAuctionRegist">경매 물품 등록</a></li>                                    
                                 </ul>
                             </div>
                             <!-- userNav 끝 -->
@@ -66,7 +66,7 @@
                                                     </div>
                                                 </div>
                                             </c:when>
-                                            
+
                                             <c:otherwise>
                                                 <div class="expectAuction">
                                                     <div class="leftBox">

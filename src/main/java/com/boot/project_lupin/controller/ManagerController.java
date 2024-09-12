@@ -47,24 +47,39 @@ public class ManagerController {
 //
 //		return "redirect:managerAuction";
 //	}
-@PostMapping("/insertSchedule")
-public String insertSchedule(AuctionScheduleDTO auctionScheduleDTO, Model model) {
-	log.info("@# insertSchedule");
-	log.info("@# insertSchedule auctionScheduleDTO => " + auctionScheduleDTO);
+	@PostMapping("/insertSchedule")
+	public String insertSchedule(AuctionScheduleDTO auctionScheduleDTO, Model model) {
+		log.info("@# insertSchedule");
+		log.info("@# insertSchedule auctionScheduleDTO => " + auctionScheduleDTO);
 
-	try {
-		managerService.insertSchedule(auctionScheduleDTO);
-		model.addAttribute("result", "success");  // 성공 시
-	} catch (Exception e) {
-		model.addAttribute("result", "fail");  // 실패 시
-		log.error("일정 등록 실패", e);
+		try {
+			managerService.insertSchedule(auctionScheduleDTO);
+			model.addAttribute("result", "success");  // 성공 시
+		} catch (Exception e) {
+			model.addAttribute("result", "fail");  // 실패 시
+			log.error("일정 등록 실패", e);
+		}
+
+		return "redirect:managerAuction";
 	}
 
-	return "redirect:managerAuction";
+	@RequestMapping("/managerAuctionRegist")
+	public String managerAuctionRegist() {
+		log.info("managerAuctionRegist");
+
+		return "managerAuctionRegist";
+		}
+
+	@RequestMapping("/managerCommission")
+	public String managerCommission() {
+		log.info("managerCommission");
+
+		return "managerCommission";
+	}
 }
 
 
-}
+
 
 
 
