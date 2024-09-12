@@ -6,6 +6,7 @@
 	<mappers>
 		<mapper resource="mybatis/mappers/question.xml"/>
 		<mapper resource="mybatis/mappers/commission.xml"/>
+		<mapper resource="mybatis/mappers/manager.xml"/>
 	</mappers>
 </configuration>
 
