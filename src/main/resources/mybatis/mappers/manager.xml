@@ -19,5 +19,6 @@
 		SELECT
 		auctionschedule_id, auctionschedule_start, auctionschedule_end
 		FROM auctionschedule_tb
+		order by auctionSchedule_start asc
 	</select>
 </mapper>

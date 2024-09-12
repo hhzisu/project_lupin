@@ -50,56 +50,46 @@
                                 </div>
                                 <div class="dateManagementWrap active">
                                     <c:forEach var="dto" items="${scheduleList}">
-                                        <div class="progressiveAuction">
-                                            <div class="leftBox">
-                                                <p>진행 경매</p>
-                                                <p>24.09.03 12:00 ~ 24.09.05 18:00</p>
-                                            </div>
-                                            <div class="rightBox">
-                                                <div class="reading btn">
-                                                    <p>열람</p>
+                                        <c:choose>
+                                            <c:when
+                                                test="${currentDateTime >= dto.auctionSchedule_start && currentDateTime <= dto.auctionSchedule_end}">
+                                                <div class="progressiveAuction">
+                                                    <div class="leftBox">
+                                                        <p>진행 경매</p>
+                                                        <p>${dto.auctionSchedule_start} 12:00 ~
+                                                            ${dto.auctionSchedule_end} 18:00</p>
+                                                    </div>
+                                                    <div class="rightBox">
+                                                        <div class="reading btn">
+                                                            <p>열람</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-                                    <c:forEach var="dto" items="${scheduleList}">
-                                        <div class="expectAuction">
-                                            <div class="leftBox">
-                                                <p>예정 경매</p>
-                                                <p>${dto.auctionSchedule_start} 12:00 ~ ${dto.auctionSchedule_end} 18:00
-                                                </p>
-                                            </div>
-                                            <div class="rightBox">
-                                                <div class="management btn">
-                                                    <p>관리</p>
+                                            </c:when>
+                                            
+                                            <c:otherwise>
+                                                <div class="expectAuction">
+                                                    <div class="leftBox">
+                                                        <p>예정 경매</p>
+                                                        <p>${dto.auctionSchedule_start} 12:00 ~
+                                                            ${dto.auctionSchedule_end} 18:00</p>
+                                                    </div>
+                                                    <div class="rightBox">
+                                                        <div class="management btn">
+                                                            <p>관리</p>
+                                                        </div>
+                                                        <div class="modify btn">
+                                                            <p>수정</p>
+                                                        </div>
+                                                        <div class="delete btn">
+                                                            <p>삭제</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="modify btn">
-                                                    <p>수정</p>
-                                                </div>
-                                                <div class="delete btn">
-                                                    <p>삭제</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:forEach>
                                     <!-- <div class="expectAuction">
-                                        <div class="leftBox">
-                                            <p>예정 경매</p>
-                                            <p>24.09.11 12:00 ~ 24.09.15 18:00</p>
-                                        </div>
-                                        <div class="rightBox">
-                                            <div class="management btn">
-                                                <p>관리</p>
-                                            </div>
-                                            <div class="modify btn">
-                                                <p>수정</p>
-                                            </div>
-                                            <div class="delete btn">
-                                                <p>삭제</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="expectAuction">
                                         <div class="leftBox">
                                             <p>예정 경매</p>
                                             <p>24.09.16 12:00 ~ 24.09.20 18:00</p>
