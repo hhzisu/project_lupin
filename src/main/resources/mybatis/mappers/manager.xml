@@ -21,4 +21,31 @@
 		FROM auctionschedule_tb
 		order by auctionSchedule_start asc
 	</select>
+
+	<insert id="insertAuction" parameterType="com.boot.project_lupin.dto.AuctionDTO">
+		INSERT INTO auction_tb (
+		auction_lot,
+		auction_author,
+		auction_title,
+		auction_size,
+		auction_madeDate,
+		auction_materials,
+		auction_authorExp,
+		auction_startPrice,
+		auction_guessPrice,
+		auctionSchedule_id
+		) VALUES (
+		#{auction_lot},
+		#{auction_author},
+		#{auction_title},
+		#{auction_size},
+		#{auction_madeDate},
+		#{auction_materials},
+		#{auction_authorExp},
+		#{auction_startPrice},
+		#{auction_guessPrice},
+		#{auctionSchedule_id}
+		)
+	</insert>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.boot.project_lupin.controller;
 
+import com.boot.project_lupin.dto.AuctionDTO;
 import com.boot.project_lupin.dto.AuctionScheduleDTO;
 import com.boot.project_lupin.dto.CommissionDTO;
 import com.boot.project_lupin.service.ManagerService;
@@ -64,8 +65,11 @@ public class ManagerController {
 	}
 
 	@RequestMapping("/managerAuctionRegist")
-	public String managerAuctionRegist() {
+	public String managerAuctionRegist(HttpServletRequest httpServletRequest, Model model) {
 		log.info("managerAuctionRegist");
+
+		ArrayList<AuctionScheduleDTO> scheduleList = managerService.scheduleList();
+		model.addAttribute("scheduleList", scheduleList);
 
 		return "managerAuctionRegist";
 		}
@@ -74,7 +78,27 @@ public class ManagerController {
 	public String managerCommission() {
 		log.info("managerCommission");
 
+
 		return "managerCommission";
+	}
+
+	// insertAuction 메서드
+	@PostMapping("/insertAuction")
+	public String insertAuction(AuctionDTO auctionDTO, Model model) {
+		log.info("@# insertAuction");
+		log.info("@# insertAuction auctionDTO => {}", auctionDTO);
+
+		try {
+			// 경매 항목을 삽입합니다.
+			managerService.insertAuction(auctionDTO);
+			model.addAttribute("result", "success");  // 성공 시
+		} catch (Exception e) {
+			model.addAttribute("result", "fail");  // 실패 시
+			log.error("경매 항목 등록 실패", e);
+		}
+
+		// 성공 후 경매 관리 페이지로 리다이렉트
+		return "redirect:managerAuction";
 	}
 }
 

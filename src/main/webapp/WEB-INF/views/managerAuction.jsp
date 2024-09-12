@@ -33,7 +33,7 @@
                                 <h3 class="navUserName">관리자</h3>
                                 <ul>
                                     <li><a href="#">1:1 문의 내역</a></li>
-                                    <li><a href="#">위탁 관리</a></li>
+                                    <li><a href="managerCommission">위탁 관리</a></li>
                                     <li><a href="${pageContext.request.contextPath}/managerAuction" style="color: black; font-weight: 700;">경매 관리</a></li>
                                     <li><a href="${pageContext.request.contextPath}/managerAuctionRegist">경매 물품 등록</a></li>                                    
                                 </ul>
