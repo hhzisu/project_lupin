@@ -16,11 +16,12 @@
 			purchasePrice,
 			commission_collection,
 			commission_etc,
-			wishPrice
+			wishPrice,
+			commission_state
 	    )
 	    VALUES
 	    (
-			"12",
+			"2",
 			#{commission_email},
 			#{commission_phone},
 			#{commission_title},
@@ -29,8 +30,25 @@
 			#{purchasePrice},
 			#{commission_collection},
 			#{commission_etc},
-			#{wishPrice}
+			#{wishPrice},
+			"대기중"
 		)
 	</insert>
+
+
+	<!--파일 업로드 -->
+	<insert id="commissionInsertFile">
+		insert into question_attach(uuid ,uploadPath ,fileName, image, commission_id)
+		values(#{uuid},#{uploadPath},#{fileName},#{image},#{commission_id})
+	</insert>
+
+	<select id="commissionGetFileList" resultType="com.boot.project_lupin.dto.CommissionAttachDTO">
+		select uuid ,uploadPath ,fileName, image, commission_id
+		from question_attach where question_id=#{commission_id}
+	</select>
+
+<!--	<delete id="commissionDeleteFile">-->
+<!--		delete from question_attach where question_id=#{question_id}-->
+<!--	</delete>-->
 
 </mapper>

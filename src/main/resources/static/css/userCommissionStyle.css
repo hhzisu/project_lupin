@@ -156,6 +156,18 @@
 .userCommission .commissionContent .commissionContentTitle {
 	width: 100px;
 }
+.userCommission .commissionContent .commissionContentfix {
+	height: 24px;
+	width: 40%;
+}
+
+
+/* 필수항목 빨간별 표시 */
+.commissionContent .requiredInfo::before {
+	content: "*";
+	color: red;
+}
+
 
 /* input text */
 .userCommission .commissionContent .commissionContentText {
@@ -199,6 +211,9 @@
 	border-radius: 3px;
 	color: var(--color-gray);
 	cursor: pointer;
+}
+.userCommission .commissionAttach .uploadResult li {
+	margin-bottom: 10px;
 }
 .userCommission .commissionAttach .commissionAttachEX {
 	font-size: var(--font-size14);

@@ -114,9 +114,10 @@
 	display: flex;
 	/* align-items: center; */
 	align-items: baseline;
-	justify-content: center;
+	/* justify-content: center; */
+	justify-content: space-between;
 	padding: 15px;
-	gap: 10px;
+	/* gap: 60px; */
 	border-bottom: solid 0.5px var(--border-color-gray);
 	width: 800px;
 }
@@ -129,9 +130,11 @@
 .userCommissionList .commissionList {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	/* justify-content: center; */
+	justify-content: space-between;
 	padding: 20px 15px;
-	gap: 10px;
+	/* gap: 10px; */
+	/* gap: 60px; */
 	border-bottom: solid 0.5px var(--border-color-gray);
 	width: 800px;
 	color: var(--color-gray);
@@ -140,13 +143,13 @@
 
 
 /* 문의 리스트 정렬 */
-.userCommissionList .inquiryTitle {
+/* .userCommissionList .inquiryTitle {
 	width: 220px;
 	height: auto;
 	text-align: center;
-}
+} */
 .userCommissionList .workName {
-	width: 220px;
+	width: 180px;
 	height: auto;
 	text-align: center;
 }
