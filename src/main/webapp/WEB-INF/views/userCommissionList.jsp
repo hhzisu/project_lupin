@@ -45,37 +45,37 @@
                 <hr>
                 <div class="userCommissionList">
                     <div class="commissionListColunmNames">
-                        <h5 class="inquiryTitle">제목</h5>
-                        <h5 class="workName">작품명</h5>
+                        <!-- <h5 class="inquiryTitle">제목</h5> -->
                         <h5 class="authorName">작가명</h5>
+                        <h5 class="workName">작품명</h5>
                         <h5 class="inquiryDate">문의일</h5>
                         <h5 class="deliveryStat">상태</h5>
                     </div>
                     <div class="commissionList">
-                        <div class="inquiryTitle">위탁 문의드립니다.</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
+                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
                         <div class="authorName">나성엽</div>
+                        <div class="workName">여덟을 꺼내는 시간</div>
                         <div class="inquiryDate">24.08.30</div>
                         <div class="deliveryStat" style="color: gray;">대기중</div>
                     </div>
                     <div class="commissionList">
-                        <div class="inquiryTitle">위탁 문의드립니다.</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
+                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
                         <div class="authorName">나성엽</div>
+                        <div class="workName">여덟을 꺼내는 시간</div>
                         <div class="inquiryDate">24.08.30</div>
                         <div class="deliveryStat" style="color: #800020;">위탁불가</div>
                     </div>
                     <div class="commissionList">
-                        <div class="inquiryTitle">위탁 문의드립니다.</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
+                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
                         <div class="authorName">나성엽</div>
+                        <div class="workName">여덟을 꺼내는 시간</div>
                         <div class="inquiryDate">24.08.30</div>
                         <div class="deliveryStat" style="color: #17517E;">위탁가능</div>
                     </div>
                     <div class="commissionList">
-                        <div class="inquiryTitle">위탁 문의드립니다.</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
+                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
                         <div class="authorName">나성엽</div>
+                        <div class="workName">여덟을 꺼내는 시간</div>
                         <div class="inquiryDate">24.08.30</div>
                         <div class="deliveryStat" style="color: #17517E;">위탁가능</div>
                     </div>

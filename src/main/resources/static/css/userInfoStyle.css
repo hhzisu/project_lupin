@@ -146,13 +146,17 @@
 	padding: 10px;
 	min-height: 44px;
 }
-.userInfoManage .requiredInfo::before {
+
+/* 필수항목 빨간별 표시 */
+/* .userInfoManage .requiredInfo::before {
 	content: "*";
 	color: red;
-}
-.userInfoManage .userId {
+} */
+
+/* .userInfoManage .userId {
 	border-top: solid 0.5px var(--border-color-gray);
-}
+} */
+ 
 .userInfoManage .userAddr,
 .userInfoManage .userdelivAddr {
 	align-items: baseline;
@@ -169,6 +173,7 @@
 	width: 100px;
 	font-size: var(--font-size16);
 	color: var(--color-deepblue);
+	margin-left: 45px;
 }
 .userInfoManage div h5 {
 	/* width: 100px; */
@@ -177,12 +182,18 @@
 	color: var(--color-gray);
 	margin-right: 15px;
 }
-.userInfoManage div input {
+/* .userInfoManage div input {
 	font-size: 18px;
 	border: none;
 	color: var(--color-gray);
 	padding: 5px;
-	/* width: auto; */
+} */
+.userInfoManage .ManageDiv div {
+	font-size: 18px;
+	border: none;
+	color: var(--color-gray);
+	/* padding: 5px; */
+	width: auto;
 }
 .userInfoManage div input:focus {
 	outline: none;
