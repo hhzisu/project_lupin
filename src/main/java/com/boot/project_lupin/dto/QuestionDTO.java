@@ -20,6 +20,9 @@ public class QuestionDTO {
 	
 	private int user_id;
 
+	private int id;
+	private String email;
+
 	private List<QuestionAttachDTO> QuestionAttachList;  // 파일업로드 attachDTO를 가져와서 attachList에 담음
 	
 }

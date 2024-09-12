@@ -25,17 +25,20 @@
 
 	<select id="questionList" resultType="com.boot.project_lupin.dto.QuestionDTO" parameterType="int">
 		SELECT
-		question_id,
-		question_type,
-		question_title,
-		question_content,
-		question_answer,
-		question_date,
-		user_id
+		q.question_id,
+		q.question_type,
+		q.question_title,
+		q.question_content,
+		q.question_answer,
+		q.question_date,
+		q.user_id,
+		u.email
 		FROM
-		question_tb
+		question_tb q
+		JOIN userentity u ON q.user_id = u.id
 		WHERE
-		user_id = "2"
+		q.user_id = "2"
+		ORDER BY q.question_date DESC
 	</select>
 
 	<update id="questionAnswer">

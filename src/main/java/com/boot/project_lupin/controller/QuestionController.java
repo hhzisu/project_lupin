@@ -57,6 +57,44 @@ public class QuestionController {
 		return "/alert";
 	}
 
+	//문의 목록
+	@RequestMapping("/userQuestionList")
+	public String userQuestionList(HttpServletRequest httpServletRequest, Model model) {
+		log.info("userQuestionList");
+
+		ArrayList<QuestionDTO> questionList = service.questionList();
+		model.addAttribute("questionList", questionList);
+
+		return "userQuestionList";
+	}
+
+	//관리자 1:1문의
+	@RequestMapping("/managerQuestion")
+	public String managerQuestion(HttpServletRequest httpServletRequest, Model model) {
+		log.info("managerQuestion");
+
+		ArrayList<QuestionDTO> questionList = service.questionList();
+		model.addAttribute("questionList", questionList);
+
+		return "managerQuestion";
+	}
+
+	//관리자 1:1문의 답변 등록
+	@RequestMapping("/questionAnswer")
+	public String questionAnswer(HttpServletRequest httpServletRequest, QuestionDTO questionDTO) {
+		log.info("managerQuestion");
+
+		service.questionAnswer(questionDTO);
+
+		httpServletRequest.setAttribute("msg", "답변을 등록하였습니다.");
+		httpServletRequest.setAttribute("url", "/managerQuestion");
+		return "/alert";
+	}
+
+
+
+
+
 	// 파일 업로드를 처리하는 메서드
 	@PostMapping("/questionUploadAjaxAction")
 	public ResponseEntity<List<QuestionAttachDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
