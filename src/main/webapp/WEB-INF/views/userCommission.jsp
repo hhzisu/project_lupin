@@ -42,7 +42,7 @@
                     <h3>위탁 문의</h3>
                 </div>
                 <hr>
-                <form action="insertCommission" method="post">
+                <form id="commissionForm" action="insertCommission" method="post">
                     <div class="userCommission">
                         <div class="commissionContent commissionContentTop">
                             <div class="commissionContentTitle">이메일</div>
@@ -168,16 +168,16 @@
                 console.log(jobj.data("path"));
                 console.log(jobj.data("type"));
 
-                str += "<input type='hidden' name='QuestionAttachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
-                str += "<input type='hidden' name='QuestionAttachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
-                str += "<input type='hidden' name='QuestionAttachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
-                str += "<input type='hidden' name='QuestionAttachList[" + i + "].image' value='" + jobj.data("type") + "'>";
+                str += "<input type='hidden' name='commissionAttachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+                str += "<input type='hidden' name='commissionAttachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+                str += "<input type='hidden' name='commissionAttachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+                str += "<input type='hidden' name='commissionAttachList[" + i + "].image' value='" + jobj.data("type") + "'>";
             });
 
             console.log(str);
             
             // 폼에 hidden input을 동적으로 추가
-            var formObj = $("form");
+            var formObj = $("form[id='commissionForm']");
             formObj.append(str);
             
             // 폼을 제출
@@ -241,7 +241,7 @@
                 str += "<span>" + obj.fileName + "</span>";
 
                 if (obj.image) {
-                    str += "<img style='display:none;' src='/commissionDisplay?fileName=" + fileCallPath + "'>";
+                    str += "<img style='display:none;' src='/questionDisplay?fileName=" + fileCallPath + "'>";
                 }
 
                 str += "<span class='deleteFile' data-file='" + fileCallPath + "' data-type='" + (obj.image ? 'image' : 'file') + "' style='cursor:pointer;'> [삭제]</span>";

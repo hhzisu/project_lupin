@@ -4,19 +4,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title></title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/default.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfoStyle.css">
-<!-- import font-awesome, line-awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
-<!-- import pretendard font -->
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
-<!-- import js -->
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/default.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/userInfoStyle.css">
+    <!-- import font-awesome, line-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+    <!-- import pretendard font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
+    <!-- import js -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 
@@ -90,13 +91,14 @@
                         <h4 class="requiredInfo">주소</h4>
                         <div class="addrBigRow">
                             <div class="addrRow">
-                                <input class="userAddrInput" type="text" value="45578">
-                                <button class="addrSearchBtn">주소검색</button>
+                                <input id="postcode" class="userAddrInput" type="text" placeholder="우편번호">
+                                <button class="addrSearchBtn" onclick="DaumPostcode()">주소검색</button>
                             </div>
-                            <div class="showAddr">
-                                <h5>부산 부산진구 범양로 1</h5>
+                            <div id="showAddr" class="showAddr">
+                                <h5 id="roadAddressDisplay"></h5>
+                                <input id="roadAddress" type="hidden">
                             </div>
-                            <input class="userAddrDetail" type="text" value="2동 201호">
+                            <input class="userAddrDetail" type="text" placeholder="상세주소">
                         </div>
                     </div>
                     <!-- <div class="ManageDiv userdelivAddr">
@@ -119,7 +121,10 @@
                 </div>
                 <!-- userInfoManage 끝 -->
                 <hr>
-                <button class="removeUser">회원탈퇴</button>
+                <div class="userInfoBtns">
+                    <button class="updateUserInfo">수정하기</button>
+                    <button class="removeUser">회원탈퇴</button>
+                </div>
                 <h5 class="warningRemove" style="color: red;">*탈퇴 시 삭제된 정보는 복구될 수 없습니다.</h5>
             </div>
             <!-- userInfoInfo 끝 -->
@@ -132,4 +137,36 @@
 </body>
 </html>
 <script>
+    function DaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+
+                // 참고항목이 있을 경우 괄호로 추가
+                if (extraRoadAddr !== '') {
+                    roadAddr += ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 도로명 주소를 필드와 <h5> 태그에 넣음
+                document.getElementById('postcode').value = data.zonecode;
+
+                // 도로명 주소를 <h5> 태그에 표시
+                document.getElementById("roadAddressDisplay").innerText = roadAddr;
+                document.getElementById("roadAddress").value = roadAddr;
+
+                // 도로명 주소 div 보이게 설정
+                document.getElementById("showAddr").style.display = "block";
+            }
+        }).open();
+    }
 </script>
