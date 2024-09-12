@@ -51,34 +51,15 @@
                         <h5 class="inquiryDate">문의일</h5>
                         <h5 class="deliveryStat">상태</h5>
                     </div>
-                    <div class="commissionList">
-                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
-                        <div class="authorName">나성엽</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="deliveryStat" style="color: gray;">대기중</div>
-                    </div>
-                    <div class="commissionList">
-                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
-                        <div class="authorName">나성엽</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="deliveryStat" style="color: #800020;">위탁불가</div>
-                    </div>
-                    <div class="commissionList">
-                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
-                        <div class="authorName">나성엽</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="deliveryStat" style="color: #17517E;">위탁가능</div>
-                    </div>
-                    <div class="commissionList">
-                        <!-- <div class="inquiryTitle">위탁 문의드립니다.</div> -->
-                        <div class="authorName">나성엽</div>
-                        <div class="workName">여덟을 꺼내는 시간</div>
-                        <div class="inquiryDate">24.08.30</div>
-                        <div class="deliveryStat" style="color: #17517E;">위탁가능</div>
-                    </div>
+                    <c:forEach items="${commissionList}" var="commission">
+                        <div class="commissionList">
+                            <!-- <h5 class="inquiryTitle">제목</h5> -->
+                            <div class="authorName">${commission.commission_author}</div>
+                            <div class="workName">${commission.commission_title}</div>
+                            <div class="inquiryDate">${commission.commission_date}</div>
+                            <div class="deliveryStat">${commission.commission_state}</div>
+                        </div>
+                    </c:forEach>
                 </div>
                 <hr>
             </div>
