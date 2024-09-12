@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Controller
@@ -26,7 +27,12 @@ public class ManagerController {
 	public String managerAuction(HttpServletRequest httpServletRequest, Model model) {
 		log.info("managerAuction");
 
+		// 현재 시간 추가
+		LocalDateTime now = LocalDateTime.now();
+		model.addAttribute("currentDateTime", now);
+
 		ArrayList<AuctionScheduleDTO> scheduleList = managerService.scheduleList();
+
 		model.addAttribute("scheduleList", scheduleList);
 
 		return "managerAuction";
