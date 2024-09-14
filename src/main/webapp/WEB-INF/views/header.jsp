@@ -126,6 +126,86 @@
                         <div class="headerTab rt"></div>
                     </div>
                 </div>
+
+
+                <!-- 응찰 모달 -->
+                <div id="modalBid" class="modalBid">
+                    <div class="modalBid-content">
+                        <div class="bidHead"></div>
+                        <span class="close-btn">&times;</span>
+                        <div class="bidCon">
+                            <div class="left">
+                                <h5>LOT 1</h5>
+                                <div class="auctionImg">
+                                    <div class="uploadResult">
+                                        <ul>
+                                            <img src="images/auction1.jpg">
+                                        </ul>
+                                    </div>
+                                </div> <!--auctionImg 끝-->
+                                <h2>나성엽</h2>
+                                <h3>여덟을 꺼내는 시간</h3>
+                                <h4>캔버스에 유채</h4>
+                                <h4 class="size">33 x 33 cm | 2020</h4>
+                            </div> <!--left 끝-->
+
+                            <div class="right">
+                                <div class="time">
+                                    <h5>남은시간 3일 05:20:03</h5>
+                                    <h4>호가단위 : KRW 1,000,000</h4>
+                                </div>
+                                <div class="box">
+                                    <div class="boxHead">
+                                        <h4>현재가</h4>
+                                        <div class="headCount">
+                                            <h4>KRW 12,500,000</h4>
+                                            <h4>(응찰 1)</h4>
+                                        </div>
+                                    </div>
+                                    <div class="boxCon">
+                                        <div class="boxList">
+                                            <h3>하*수</h3>
+                                            <h4 style="color: var(--color-burgundy);">12,500,000</h4>
+                                            <h5>24.09.06</h5>
+                                            <h5>13:56:31</h5>
+                                        </div> <!--boxList 끝-->
+                                        <div class="boxList">
+                                            <h3>나*엽</h3>
+                                            <h4>8,000,000</h4>
+                                            <h5>24.09.06</h5>
+                                            <h5>11:20:09</h5>
+                                        </div> <!--boxList 끝-->
+
+                                    </div> <!-- boxCon 끝-->
+                                </div> <!--box 끝-->
+
+                                <div class="bidType">
+                                    <div class="type choice">
+                                        1회 응찰
+                                    </div>
+                                    <div class="type">
+                                        자동응찰
+                                    </div>
+                                </div>
+
+                                <h5 class="red">* 응찰하기 버튼을 누르시면 취소가 불가능합니다.</h5>
+                                <h5 class="gray">* 동시 응찰자 경우, 서버시각(KST) 기준 우선순위가 부여됩니다.</h5>
+
+                                <div class="buttonBid">
+                                    <select name="" id="">
+                                        <option value="">13,000,000</option>
+                                        <option value="">14,000,000</option>
+                                        <option value="">15,000,000</option>
+                                    </select>
+                                    <button class="bidBtn">응찰하기</button>
+                                    <!-- <button class="bidBtn maximum">최고가 응찰 중</button> -->
+                                </div>
+                            </div> <!--right 끝-->
+
+                        </div> <!--bidCon 끝-->
+
+                    </div> <!--modalBid-content 끝-->
+                </div> <!--modalBid 끝-->
             </header>
 
         </body>
@@ -241,3 +321,37 @@
             });
 
         </script>
+<script>
+    //응찰 모달 팝업 스크립트
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("페이지가 로드되었습니다.");
+
+        // "응찰하기" 버튼 존재 여부 확인
+        var openModalBtn = document.getElementById("openModalBidBtn");
+        if (openModalBtn) {
+            console.log("응찰하기 버튼이 있습니다.");
+
+            // 응찰하기 모달 열기
+            openModalBtn.addEventListener("click", function() {
+                console.log("응찰하기 버튼 클릭됨");
+                document.getElementById("modalBid").style.display = "block";
+            });
+
+            // 모달 닫기 버튼
+            document.querySelector(".close-btn").addEventListener("click", function() {
+                console.log("모달 닫기 버튼 클릭됨");
+                document.getElementById("modalBid").style.display = "none";
+            });
+
+            // 모달 외부 클릭 시 닫기
+            window.addEventListener("click", function(event) {
+                if (event.target.classList.contains('modalBid')) {
+                    console.log("모달 외부 클릭됨");
+                    document.getElementById("modalBid").style.display = "none";
+                }
+            });
+        } else {
+            console.log("응찰하기 버튼을 찾을 수 없습니다.");
+        }
+    });
+</script>

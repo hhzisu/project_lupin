@@ -116,7 +116,7 @@
                                 </div>
                             </div>
                             <div class="auctionButton">
-                                <button>응찰하기</button>
+                                <button id="openModalBidBtn">응찰하기</button>
                                 <button class="bid" style="display: none;">입찰하기</button>
                                 <button class="disable" style="display: none;">경매 종료</button>
                                 <button class="disable" style="display: none;">경매 예정</button>
