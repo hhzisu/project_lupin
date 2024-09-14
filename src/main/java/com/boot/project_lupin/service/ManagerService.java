@@ -3,6 +3,7 @@ package com.boot.project_lupin.service;
 import com.boot.project_lupin.dao.ManagerDAO;
 import com.boot.project_lupin.dto.AuctionDTO;
 import com.boot.project_lupin.dto.AuctionScheduleDTO;
+import com.boot.project_lupin.dto.CommissionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,14 @@ public class ManagerService {
         ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
         ArrayList<AuctionScheduleDTO> scheduleList = dao.scheduleList();
         return scheduleList;
+    }
+
+    // 위탁 리스트 조회 메서드
+    public ArrayList<CommissionDTO> commissionList() {
+        log.info("@# ManagerService commissionList");
+        ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
+        ArrayList<CommissionDTO> commissionList = dao.commissionList();
+        return commissionList;
     }
 
     /* 경매 항목 삽입 (auction_lot은 TRIGGER에서 자동 처리) */
