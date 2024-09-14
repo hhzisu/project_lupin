@@ -2,6 +2,7 @@ package com.boot.project_lupin.dao;
 
 import com.boot.project_lupin.dto.AuctionDTO;
 import com.boot.project_lupin.dto.AuctionScheduleDTO;
+import com.boot.project_lupin.dto.CommissionDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
@@ -16,4 +17,7 @@ public interface ManagerDAO {
 
 	// 경매 항목 삽입
 	void insertAuction(AuctionDTO auctionDTO);
+
+	// 경매 위탁 리스트 조회
+	public ArrayList<CommissionDTO> commissionList();
 }

@@ -75,9 +75,10 @@ public class ManagerController {
 		}
 
 	@RequestMapping("/managerCommission")
-	public String managerCommission() {
+	public String managerCommission(HttpServletRequest httpServletRequest, Model model) {
 		log.info("managerCommission");
-
+		ArrayList<CommissionDTO> commissionList = managerService.commissionList();
+		model.addAttribute("commissionList", commissionList);
 
 		return "managerCommission";
 	}

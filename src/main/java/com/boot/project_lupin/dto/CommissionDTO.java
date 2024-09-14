@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -23,6 +25,7 @@ public class CommissionDTO {
 	private String commission_collection;
 	private String wishPrice;
 	private String commission_etc;
+	private Date commission_date;
 
 	private List<CommissionAttachDTO> commissionAttachList;  // 파일업로드 attachDTO
 }

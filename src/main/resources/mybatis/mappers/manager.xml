@@ -48,4 +48,12 @@
 		)
 	</insert>
 
+	<select id="commissionList" resultType="com.boot.project_lupin.dto.CommissionDTO" parameterType="int">
+		SELECT
+		user_id, commission_id, commission_email, commission_phone, commission_title, commission_author, commission_size,
+		purchasePrice, commission_collection, wishPrice, commission_etc, commission_date
+		FROM commission_tb
+		ORDER BY commission_date asc
+	</select>
+
 </mapper>
