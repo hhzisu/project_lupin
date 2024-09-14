@@ -22,81 +22,6 @@
             <script src="${pageContext.request.contextPath}/js/index.js"></script>
         </head>
 
-        <style>
-            /* 배너 2 */
-            .banner2 {
-                display: flex;
-                background-color: #f0f0f0;
-                height: 500px;
-                width: 100vw;
-                margin-left: calc(-50vw + 50%);
-                justify-content: center;
-                align-items: center;
-                /* padding-top: 20px; */
-                margin-top: 100px;
-                margin-bottom: 100px;
-            }
-
-            /* 슬라이더 스타일 */
-            .michelinArtistVisual {
-                text-align: center;
-                padding: 20px;
-            }
-
-            p.michelin_artist_sec_text {
-                margin: 20px;
-            }
-
-            .swiper-container {
-                width: 1560px;
-                /* 슬라이드 3개를 보여주기 위해 320px * 3 = 960px로 설정 */
-                overflow: hidden;
-                /* 슬라이드가 컨테이너 밖으로 넘치는 것을 숨김 */
-                margin: 0 auto;
-                position: relative;
-            }
-
-            .swiper-wrapper {
-                display: flex;
-                transition: transform 0.5s ease;
-            }
-
-            .swiper-slide {
-                flex: 0 0 500px;
-                width: 500px;
-                height: 300px;
-                margin-right: 20px;
-                box-sizing: border-box;
-            }
-
-            .swiper-slide img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-            /* 버튼 스타일 */
-            .swiper-button-next,
-            .swiper-button-prev {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                background-color: rgba(0, 0, 0, 0.5);
-                color: white;
-                padding: 10px;
-                border-radius: 50%;
-                cursor: pointer;
-                z-index: 10;
-            }
-
-            .swiper-button-next {
-                right: 30px;
-            }
-
-            .swiper-button-prev {
-                left: 10px;
-            }
-        </style>
         <header>
 
             <%@ include file="header.jsp" %>
@@ -312,81 +237,77 @@
                         </div>
                     </div> <!-- mainContent 끝-->
                     <div class="banner2">
-                        <div class="michelinArtistVisual">
-                            <h2 class="michelin_artist_title">미술랭 가이드</h2>
-                            <p class="michelin_artist_sec_text">예술은 사실 맛있다!</p>
-                            <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <!-- 슬라이드 1 -->
-                                    <div class="swiper-slide">
-                                        <a href="https://www.youtube.com/watch?v=hBfGT1vQbE0" target="_blank">
-                                            <img src="https://img.youtube.com/vi/hBfGT1vQbE0/maxresdefault.jpg"
-                                                alt="Slide 1">
-                                        </a>
-                                    </div>
-                                    <!-- 슬라이드 2 -->
-                                    <div class="swiper-slide">
-                                        <a href="https://www.youtube.com/watch?v=Zou7y3zQE_0" target="_blank">
-                                            <img src="https://img.youtube.com/vi/Zou7y3zQE_0/maxresdefault.jpg"
-                                                alt="Slide 2">
-                                        </a>
-                                    </div>
-                                    <!-- 슬라이드 3 -->
-                                    <div class="swiper-slide">
-                                        <a href="https://www.youtube.com/watch?v=o6EMCVSh8aI" target="_blank">
-                                            <img src="https://img.youtube.com/vi/o6EMCVSh8aI/maxresdefault.jpg"
-                                                alt="Slide 3">
-                                        </a>
-                                    </div>
-                                    <!-- 슬라이드 4 -->
-                                    <div class="swiper-slide">
-                                        <a href="https://www.youtube.com/watch?v=a1xJonmeg34" target="_blank">
-                                            <img src="https://img.youtube.com/vi/a1xJonmeg34/maxresdefault.jpg"
-                                                alt="Slide 4">
-                                        </a>
-                                    </div>
-                                    <!-- 슬라이드 5 -->
-                                    <div class="swiper-slide">
-                                        <a href="https://www.youtube.com/watch?v=m94ychYPoD0" target="_blank">
-                                            <img src="https://img.youtube.com/vi/m94ychYPoD0/maxresdefault.jpg"
-                                                alt="Slide 5">
-                                        </a>
-                                    </div>
-                                    <!-- 슬라이드 6 -->
-                                    <div class="swiper-slide" target="_blank">
-                                        <a href="https://www.youtube.com/watch?v=u07400Zuzas" target="_blank">
-                                            <div class="picture">
-                                                <img src="https://img.youtube.com/vi/u07400Zuzas/maxresdefault.jpg"
-                                                    alt="Slide 6">
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide" target="_blank">
-                                        <a href="https://www.youtube.com/watch?v=96IyDjL1m4U" target="_blank">
-                                            <div class="picture">
-                                                <img src="https://img.youtube.com/vi/96IyDjL1m4U/maxresdefault.jpg"
-                                                    alt="Slide 7">
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide" target="_blank">
-                                        <a href="https://www.youtube.com/watch?v=nJDbjv_iJvg" target="_blank">
-                                            <div class="picture">
-                                                <img src="https://img.youtube.com/vi/nJDbjv_iJvg/maxresdefault.jpg"
-                                                    alt="Slide 8">
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="swiper_btn">
-                                    <div class="swiper-button-prev">
-                                        <i class="fa-solid fa-chevron-left"></i>
-                                    </div>
-                                    <div class="swiper-button-next">
-                                        <i class="fa-solid fa-chevron-right"></i>
-                                    </div>
-                                </div>
+                        <div class="banner2-title">
+                            <h1>미술랭 가이드</h1>
+                            <p style="font-size: var(--font-size16);">예술은 사실 맛있다!</p>
+                        </div>
+                        <div class="swiper-wrapper">
+                            <!-- 슬라이드 1 -->
+                            <div class="swiper-slide">
+                                <a href="https://www.youtube.com/watch?v=hBfGT1vQbE0" target="_blank">
+                                    <img src="https://img.youtube.com/vi/hBfGT1vQbE0/maxresdefault.jpg" alt="Slide 1">
+                                </a>
                             </div>
+                            <!-- 슬라이드 2 -->
+                            <div class="swiper-slide">
+                                <a href="https://www.youtube.com/watch?v=Zou7y3zQE_0" target="_blank">
+                                    <img src="https://img.youtube.com/vi/Zou7y3zQE_0/maxresdefault.jpg" alt="Slide 2">
+                                </a>
+                            </div>
+                            <!-- 슬라이드 3 -->
+                            <div class="swiper-slide">
+                                <a href="https://www.youtube.com/watch?v=o6EMCVSh8aI" target="_blank">
+                                    <img src="https://img.youtube.com/vi/o6EMCVSh8aI/maxresdefault.jpg" alt="Slide 3">
+                                </a>
+                            </div>
+                            <!-- 슬라이드 4 -->
+                            <div class="swiper-slide">
+                                <a href="https://www.youtube.com/watch?v=a1xJonmeg34" target="_blank">
+                                    <img src="https://img.youtube.com/vi/a1xJonmeg34/maxresdefault.jpg" alt="Slide 4">
+                                </a>
+                            </div>
+                            <!-- 슬라이드 5 -->
+                            <div class="swiper-slide">
+                                <a href="https://www.youtube.com/watch?v=m94ychYPoD0" target="_blank">
+                                    <img src="https://img.youtube.com/vi/m94ychYPoD0/maxresdefault.jpg" alt="Slide 5">
+                                </a>
+                            </div>
+                            <!-- 슬라이드 6 -->
+                            <div class="swiper-slide" target="_blank">
+                                <a href="https://www.youtube.com/watch?v=u07400Zuzas" target="_blank">
+                                    <div class="picture">
+                                        <img src="https://img.youtube.com/vi/u07400Zuzas/maxresdefault.jpg"
+                                            alt="Slide 6">
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- 슬라이드 7 -->
+                            <div class="swiper-slide" target="_blank">
+                                <a href="https://www.youtube.com/watch?v=96IyDjL1m4U" target="_blank">
+                                    <div class="picture">
+                                        <img src="https://img.youtube.com/vi/96IyDjL1m4U/maxresdefault.jpg"
+                                            alt="Slide 7">
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- 슬라이드 8 -->
+                            <div class="swiper-slide" target="_blank">
+                                <a href="https://www.youtube.com/watch?v=nJDbjv_iJvg" target="_blank">
+                                    <div class="picture">
+                                        <img src="https://img.youtube.com/vi/nJDbjv_iJvg/maxresdefault.jpg"
+                                            alt="Slide 8">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Previous and Next Buttons -->
+                        <div class="banner2-list">
+                            <button class="banner2-left">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button class="banner2-right">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -453,40 +374,42 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-                const swiperWrapper = document.querySelector('.swiper-wrapper');
-                const swiperSlides = document.querySelectorAll('.swiper-slide');
-                const buttonNext = document.querySelector('.swiper-button-next');
-                const buttonPrev = document.querySelector('.swiper-button-prev');
-
+                const slides = document.querySelectorAll('.swiper-slide');
+                const prevButton = document.querySelector('.banner2-left');
+                const nextButton = document.querySelector('.banner2-right');
                 let currentIndex = 0;
-                const slideWidth = 520; // 슬라이드 폭 + 여백
-                const totalSlides = swiperSlides.length;
-                const slidesPerView = Math.min(3, totalSlides); // 슬라이드 수가 3보다 적을 경우, 그 수에 맞게 조정
+                const slidesToShow = 3; // 한 번에 보여줄 슬라이드 개수
+                const totalSlides = slides.length;
 
-                // 슬라이드 위치 업데이트 함수
-                function updateSlidePosition() {
-                    const maxTranslate = (totalSlides - slidesPerView) * slideWidth;
-                    swiperWrapper.style.transform = `translateX(-${Math.min(currentIndex * slideWidth, maxTranslate)}px)`;
+                // 슬라이드 업데이트 함수
+                function updateSlides() {
+                    slides.forEach((slide, i) => {
+                        // 현재 인덱스 범위 내의 슬라이드만 표시
+                        if (i >= currentIndex && i < currentIndex + slidesToShow) {
+                            slide.style.display = 'block';
+                        } else {
+                            slide.style.display = 'none';
+                        }
+                    });
                 }
 
-                // 다음 슬라이드 버튼 클릭 시
-                buttonNext.addEventListener('click', () => {
-                    if (currentIndex < totalSlides - slidesPerView) {
-                        currentIndex++;
-                        updateSlidePosition();
+                // 처음 슬라이드 설정
+                updateSlides();
+
+                // 다음 버튼 클릭 시
+                nextButton.addEventListener('click', () => {
+                    if (currentIndex + slidesToShow < totalSlides) {
+                        currentIndex++; // 다음 슬라이드로 이동
+                        updateSlides(); // 슬라이드 업데이트
                     }
                 });
 
-                // 이전 슬라이드 버튼 클릭 시
-                buttonPrev.addEventListener('click', () => {
+                // 이전 버튼 클릭 시
+                prevButton.addEventListener('click', () => {
                     if (currentIndex > 0) {
-                        currentIndex--;
-                        updateSlidePosition();
+                        currentIndex--; // 이전 슬라이드로 이동
+                        updateSlides(); // 슬라이드 업데이트
                     }
                 });
-
-                // 윈도우 리사이즈 시 슬라이드 위치 재조정
-                window.addEventListener('resize', updateSlidePosition);
             });
-
         </script>
