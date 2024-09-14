@@ -26,9 +26,9 @@
     <div class="mainSection">
         <section>
             <div class="control">
-                <a href="#"><h5>< 이전</h5></a>
+                <a href="auctionDetail?auction_lot=${auction.auction_lot -1}&auctionSchedule_id=${auction.auctionSchedule_id}"><h5>< 이전</h5></a>
                 <h5>마감 3일 5시간 전</h5>
-                <a href="#"><h5>다음 ></h5></a>
+                <a href="auctionDetail?auction_lot=${auction.auction_lot +1}&auctionSchedule_id=${auction.auctionSchedule_id}"><h5>다음 ></h5></a>
             </div>
             <div class="detailAuction">
                 <div class="left">
@@ -57,43 +57,43 @@
                     </div> <!--auctionImg 끝-->
                     <div class="detailCon">
                         <h4>작품 정보</h4>
-                        <h5>나성엽</h5>
-                        <h5>여덟을 꺼내는 시간</h5>
-                        <h5>캔버스에 유채</h5>
-                        <h5>33 x 33 cm | 2020</h5>
+                        <h5>${auction.auction_author}</h5>
+                        <h5>${auction.auction_title}</h5>
+                        <h5>${auction.auction_materials}</h5>
+                        <h5>${auction.auction_size} | ${auction.auction_madeDate}</h5>
                         <h5 class="sign">sign and dated on the reverse</h5>
 
                         <h4>작가 설명</h4>
-                        <textarea name="" id="" readonly>앤디 워홀은 팝아트를 대표하는 멀티 아티스트이다. 도발적인 주제와 혁신적인 제작기법, 파격적인 언행으로 화제의 중심에 섰던 일러스트레이터이자 디자이너, 사진가이자 영화 제작자였다. 그는 슬로바키아 출신 이민자가정에서 태어나 카네기멜론 대학교에서 산업 디자인을 전공한 후 뉴욕으로 이주해 화가, 아방가르드 영화, 레코드 프로듀서, 작가 등 전방위 활동으로 세계적 명성을 쌓으며 동시대 최고의 유명인이 됐다. 1952년 드로잉 15작품으로 개인전을 연 것을 시작으로 1956년 뉴욕 MoMA에서의 그룹전 등을 통해 재스퍼 존스, 로버트 라우센버그, 키스 해링, 장 미쉘 바스키아 등 작가들과 활발히 교류했고, 정치인이나 헐리우드 스타, 거대 도시 문명 속 기물들을 소재로 대중화된 문화의 가치와 의미를 직관하도록 예술품의 대량생산에 앞섰다. 강렬한 색상과 명도의 실크 스크린 기법으로 제작한 (100개의 캠벨 수프캔), (1달러 지폐 200장), (금빛 마릴린 먼로) 등 극명한 현대의 이미지를 포착한 작품들은 이후 다른 작가들의 오마주로도 유명하다.</textarea>
+                        <textarea name="" id="" readonly>${auction.auction_authorExp}</textarea>
                     </div><!--detailCon 끝-->
                 </div> <!--left 끝-->
                 <div class="right">
                     <div class="positionBox">
                         <div class="top">
                             <div class="wish">
-                                <h5>LOT 1</h5>
+                                <h5>LOT ${auction.auction_lot}</h5>
                                 <button>WISH</button>
                             </div>
-                            <h2>나성엽</h2>
-                            <h3>여덟을 꺼내는 시간</h3>
-                            <h4>캔버스에 유채</h4>
-                            <h4 class="size">33 x 33 cm | 2020</h4>
+                            <h2>${auction.auction_author}</h2>
+                            <h3>${auction.auction_title}</h3>
+                            <h4>${auction.auction_materials}</h4>
+                            <h4 class="size">${auction.auction_size} | ${auction.auction_madeDate}</h4>
                         </div>
                         <div class="mid">
                             <div class="auctionCost start">
                                 <h5>추정가</h5>
                                 <div class="money">
                                     <h4>KRW</h4>
-                                    <h5>8,000,000</h5>
+                                    <h5>${auction.auction_startPrice}</h5>
                                     <h4>~</h4>
-                                    <h5>10,000,000</h5>
+                                    <h5>${auction.auction_guessPrice}</h5>
                                 </div>
                             </div>
                             <div class="auctionCost start">
                                 <h5>시작가</h5>
                                 <div class="money">
                                     <h4>KRW</h4>
-                                    <h5>8,000,000</h5>
+                                    <h5>${auction.auction_startPrice}</h5>
                                 </div>
                             </div>
                             <div class="auctionCost">

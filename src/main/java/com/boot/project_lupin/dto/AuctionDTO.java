@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class AuctionDTO {
     private int auction_id;
     private int auction_lot;
-    private int auctionSchedule_id;
     private String auction_author;
     private String auction_title;
     private String auction_size;
@@ -19,5 +18,11 @@ public class AuctionDTO {
     private String auction_authorExp;
     private String auction_startPrice;
     private String auction_guessPrice;
+
+    private int auctionSchedule_id;
+    private String auctionSchedule_start;
+    private String auctionSchedule_end;
+
+
 }
 

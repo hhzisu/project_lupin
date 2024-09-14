@@ -4,7 +4,7 @@
 
 <mapper namespace="com.boot.project_lupin.dao.CommissionDAO">
 
-	<insert id="insertCommission" parameterType="com.boot.project_lupin.dto.CommissionDTO">
+	<insert id="insertCommission" parameterType="com.boot.project_lupin.dto.CommissionDTO" useGeneratedKeys="true" keyProperty="commission_id">
 	    INSERT INTO commission_tb
 	    (
 			user_id,
@@ -15,8 +15,9 @@
 			commission_size,
 			purchasePrice,
 			commission_collection,
-			commission_etc,
 			wishPrice,
+			commission_etc,
+			commission_date,
 			commission_state
 	    )
 	    VALUES
@@ -29,22 +30,36 @@
 			#{commission_size},
 			#{purchasePrice},
 			#{commission_collection},
-			#{commission_etc},
 			#{wishPrice},
+			#{commission_etc},
+			now(),
 			"대기중"
 		)
 	</insert>
 
 
+	<select id="commissionList" resultType="com.boot.project_lupin.dto.CommissionDTO" parameterType="int">
+		SELECT
+		commission_title,
+		commission_author,
+		DATE_FORMAT(commission_date, '%Y-%m-%d') AS commission_date,
+		commission_state
+		FROM
+		commission_tb
+		WHERE
+		user_id = "2"
+	</select>
+
+
 	<!--파일 업로드 -->
 	<insert id="commissionInsertFile">
-		insert into question_attach(uuid ,uploadPath ,fileName, image, commission_id)
+		insert into commission_attach(uuid ,uploadPath ,fileName, image, commission_id)
 		values(#{uuid},#{uploadPath},#{fileName},#{image},#{commission_id})
 	</insert>
 
 	<select id="commissionGetFileList" resultType="com.boot.project_lupin.dto.CommissionAttachDTO">
 		select uuid ,uploadPath ,fileName, image, commission_id
-		from question_attach where question_id=#{commission_id}
+		from commission_attach where commission_id=#{commission_id}
 	</select>
 
 <!--	<delete id="commissionDeleteFile">-->

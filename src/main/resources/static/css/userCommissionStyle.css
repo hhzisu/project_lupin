@@ -159,6 +159,7 @@
 .userCommission .commissionContent .commissionContentfix {
 	height: 24px;
 	width: 40%;
+	color: var(--color-black);
 }
 
 

@@ -25,7 +25,9 @@ public class CommissionDTO {
 	private String commission_collection;
 	private String wishPrice;
 	private String commission_etc;
-	private Date commission_date;
+	private String commission_date;
+	private String commission_state;
+
 
 	private List<CommissionAttachDTO> commissionAttachList;  // 파일업로드 attachDTO
 }
