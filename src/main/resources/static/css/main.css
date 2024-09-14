@@ -221,3 +221,78 @@ main {
 .button-right {
 	margin-right: 40px;
 }
+
+.banner2 {
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+    height: 500px;
+    width: 100vw;
+    margin-top: 100px;
+    margin-left: calc(-50vw + 50%);
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.banner2-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.swiper-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow: hidden; /* 슬라이드가 화면을 벗어나지 않도록 숨김 */
+    width: 90%; /* 화면 폭의 90%로 설정 */
+}
+
+.swiper-slide {
+    width: 550px;
+    height: 300px;
+}
+
+.swiper-slide img {
+    width: 100%; /* 슬라이드의 너비에 맞게 이미지가 꽉 차도록 설정 */
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 이전 및 다음 버튼 */
+.banner2-list {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 90%; /* 버튼이 슬라이드 폭과 일치하도록 설정 */
+}
+
+.banner2-left,
+.banner2-right {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.banner2-left:hover,
+.banner2-right:hover {
+    background-color: #555; /* 버튼에 호버 시 색상 변경 */
+}
+
+.banner2-left {
+    position: absolute;
+    left: -70px; /* 버튼이 슬라이드 바깥으로 약간 떨어지도록 설정 */
+    top: -170px;
+    transform: translateY(-50%);
+}
+
+.banner2-right {
+    position: absolute;
+    right: -70px;
+    top: -170px;
+    transform: translateY(-50%);
+}
