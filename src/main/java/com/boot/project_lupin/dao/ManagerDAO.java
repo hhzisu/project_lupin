@@ -15,6 +15,8 @@ public interface ManagerDAO {
 	// 경매 스케줄 리스트 조회
 	public ArrayList<AuctionScheduleDTO> scheduleList();
 
+	public void scheduleDelete(String auctionSchedule_id);
+
 	// 경매 항목 삽입
 	void insertAuction(AuctionDTO auctionDTO);
 

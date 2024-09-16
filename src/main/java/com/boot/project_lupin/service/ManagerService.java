@@ -36,6 +36,16 @@ public class ManagerService {
         return scheduleList;
     }
 
+    // 일정 삭제 메서드
+    public void scheduleDelete(String auctionSchedule_id) {
+        log.info("@# ManagerService scheduleDelete");
+        log.info("@# ManagerService auctionSchedule_id => {}", auctionSchedule_id);
+
+        ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
+        dao.scheduleDelete(auctionSchedule_id);
+        log.info("@# ManagerService 일정 삭제 성공");
+    }
+
     // 위탁 리스트 조회 메서드
     public ArrayList<CommissionDTO> commissionList() {
         log.info("@# ManagerService commissionList");

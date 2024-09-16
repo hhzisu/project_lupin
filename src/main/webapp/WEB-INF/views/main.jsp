@@ -115,54 +115,30 @@
                     <div class="mainContent">
                         <div class="conTitle">
                             <h1>오늘의 경매</h1>
-                            <h5>더보기</h5>
+                            <a href="auctionProgress">
+                                <h5>더보기</h5>
+                            </a>
                         </div>
                         <div class="con1">
-                            <div class="auctionToday">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction1.jpg">
-                                        </ul>
+                            <c:forEach items="${list}" var="list" begin="0" end="2">
+                                <a href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
+                                <div class="auctionToday">
+                                    <div class="auctionImg">
+                                        <div class="uploadResult">
+                                            <ul>
+                                                <img src="images/auction1.jpg">
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="auctionCon">
-                                    <h2>나성엽</h2>
-                                    <h3>여덟을 꺼내는 시간</h3>
-                                    <h4>캔버스에 유채</h4>
-                                    <h5>경매 마감 3일 5시간 전</h5>
-                                </div>
-                            </div> <!--auctionToday 끝-->
-                            <div class="auctionToday">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction2.jpg">
-                                        </ul>
+                                    <div class="auctionCon">
+                                        <h2>${list.auction_author}</h2>
+                                        <h3>${list.auction_title}</h3>
+                                        <h4>${list.auction_authorExp}</h4>
+                                        <h5>경매 마감 3일 5시간 전</h5>
                                     </div>
-                                </div>
-                                <div class="auctionCon">
-                                    <h2>나성엽</h2>
-                                    <h3>여덟을 꺼내는 시간</h3>
-                                    <h4>캔버스에 유채</h4>
-                                    <h5>경매 마감 3일 5시간 전</h5>
-                                </div>
-                            </div> <!--auctionToday 끝-->
-                            <div class="auctionToday">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction1.jpg">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="auctionCon">
-                                    <h2>나성엽</h2>
-                                    <h3>여덟을 꺼내는 시간</h3>
-                                    <h4>캔버스에 유채</h4>
-                                    <h5>경매 마감 3일 5시간 전</h5>
-                                </div>
-                            </div> <!--auctionToday 끝-->
+                                </div> <!--auctionToday 끝-->
+                            </a>
+                            </c:forEach>
                         </div> <!--con1 끝-->
                         <div class="conTitle">
                             <h1>주요 출품작</h1>

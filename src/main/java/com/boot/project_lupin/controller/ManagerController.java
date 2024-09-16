@@ -64,6 +64,20 @@ public class ManagerController {
 		return "redirect:managerAuction";
 	}
 
+	@RequestMapping("/deleteSchedule")
+	public String deleteSchedule(String auctionSchedule_id) {
+		log.info("@# deleteSchedule auctionSchedule_id => {}", auctionSchedule_id);
+
+		try {
+			managerService.scheduleDelete(auctionSchedule_id);
+		} catch (Exception e) {
+			log.error("일정 삭제 실패", e);
+		}
+
+		return "redirect:/managerAuction";
+	}
+
+
 	@RequestMapping("/managerAuctionRegist")
 	public String managerAuctionRegist(HttpServletRequest httpServletRequest, Model model) {
 		log.info("managerAuctionRegist");

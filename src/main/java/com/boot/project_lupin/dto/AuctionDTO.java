@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +25,7 @@ public class AuctionDTO {
     private String auctionSchedule_start;
     private String auctionSchedule_end;
 
-
+    private List<AuctionAttach1DTO> AuctionAttachList1;  // 파일업로드 attachDTO를 가져와서 attachList에 담음
+    private List<AuctionAttach2DTO> AuctionAttachList2;  // 파일업로드 attachDTO를 가져와서 attachList에 담음
 }
 
