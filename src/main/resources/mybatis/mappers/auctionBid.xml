@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.project_lupin.dao.CommissionDAO">
+
+	<insert id="insertBid">
+		INSERT INTO bid_tb (user_id, auction_id, bid_money, bid_time)
+		VALUES (#{userId}, #{auctionId}, #{bidMoney}, NOW())
+	</insert>
+
+	<select id="getLatestBid" resultType="AuctionUpdate">
+		SELECT user_id, auction_id, bid_money, bid_time
+		FROM bid_tb
+		WHERE auction_id = #{auctionId}
+		ORDER BY bid_time DESC
+		LIMIT 1
+	</select>
+
+</mapper>
