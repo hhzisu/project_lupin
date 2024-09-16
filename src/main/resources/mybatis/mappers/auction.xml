@@ -50,26 +50,32 @@
 
     <select id="auctionScheduledList" resultType="com.boot.project_lupin.dto.AuctionDTO">
         <![CDATA[
-        SELECT
-            a.auction_id,
-            a.auction_lot,
-            a.auction_author,
-            a.auction_title,
-            a.auction_size,
-            a.auction_madeDate,
-            a.auction_materials,
-            a.auction_authorExp,
-            a.auction_startPrice,
-            a.auction_guessPrice,
-            a.auctionSchedule_id
-        FROM
-            auction_tb a
-        JOIN
-            auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
-        WHERE
-            s.auctionSchedule_start > NOW()
-        ]]>
+    SELECT
+        a.auction_id,
+        a.auction_lot,
+        a.auction_author,
+        a.auction_title,
+        a.auction_size,
+        a.auction_madeDate,
+        a.auction_materials,
+        a.auction_authorExp,
+        a.auction_startPrice,
+        a.auction_guessPrice,
+        a.auctionSchedule_id
+    FROM
+        auction_tb a
+    JOIN
+        auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
+    WHERE
+        s.auctionSchedule_start > NOW()
+        AND s.auctionSchedule_id = (
+            SELECT MIN(auctionSchedule_id)
+            FROM auctionschedule_tb
+            WHERE auctionSchedule_start > NOW()
+        )
+    ]]>
     </select>
+
 
     <select id="auctionResultList" resultType="com.boot.project_lupin.dto.AuctionDTO">
         <![CDATA[
@@ -92,6 +98,15 @@
         WHERE
             s.auctionSchedule_end < NOW()
         ]]>
+    </select>
+
+    <select id="auctionCount" resultType="int" parameterType="int">
+        SELECT
+        COUNT(*)
+        FROM
+        auction_tb
+        WHERE
+        auctionSchedule_id = #{auctionSchedule_id}
     </select>
 
 

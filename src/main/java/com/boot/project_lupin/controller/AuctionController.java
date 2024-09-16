@@ -23,6 +23,9 @@ public class AuctionController {
 		AuctionDTO dto = service.selectAuction(auction_lot, auctionSchedule_id);
 		model.addAttribute("auction", dto);
 
+		int totalLots = service.auctionCount(auctionSchedule_id);
+		model.addAttribute("totalLots", totalLots);
+
 		return "auctionDetail";
 	}
 

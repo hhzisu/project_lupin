@@ -45,5 +45,12 @@ public class AuctionService {
 		ArrayList<AuctionDTO> list = dao.auctionResultList();
 		return list;
 	}
+
+	// 경매 lot 수
+	public int auctionCount(int auctionSchedule_id) {
+		log.info("AuctionService auctionCount");
+		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
+		return dao.auctionCount(auctionSchedule_id);
+	}
 }
 
