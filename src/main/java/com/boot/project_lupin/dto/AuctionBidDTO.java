@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuctionBidDTO {
+
     private int auctionId; // 경매 ID
     private String userId; // 응찰자 ID
     private String userName; // 응찰자 이름
