@@ -32,7 +32,7 @@
                     <div class="headerMid">
                         <h5 class="logo">
                             <a href="main">
-                                <img src="images/logo.svg" alt="Logo">
+                                <img src="images/logo.png" alt="Logo">
                             </a>
                         </h5>
                         <ul class="menu">
