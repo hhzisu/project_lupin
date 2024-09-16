@@ -32,10 +32,12 @@
                             <div class="userNav">
                                 <h3 class="navUserName">관리자</h3>
                                 <ul>
-                                    <li><a href="#">1:1 문의 내역</a></li>
-                                    <li><a href="managerCommission">위탁 관리</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerAuction" style="color: black; font-weight: 700;">경매 관리</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerAuctionRegist">경매 물품 등록</a></li>                                    
+                                    <li><a href="${pageContext.request.contextPath}/managerQuestion">1:1 문의 내역</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerCommission">위탁 관리</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerAuction"
+                                            style="color: black; font-weight: 700;">경매 관리</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerAuctionRegist">경매 물품 등록</a>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- userNav 끝 -->
@@ -81,7 +83,7 @@
                                                         <div class="modify btn">
                                                             <p>수정</p>
                                                         </div>
-                                                        <div class="delete btn">
+                                                        <div class="delete btn" data-id="${dto.auctionSchedule_id}">
                                                             <p>삭제</p>
                                                         </div>
                                                     </div>
@@ -342,4 +344,28 @@
                 }
             });
 
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $('.delete').click(function () {
+                    var scheduleId = $(this).data('id');  // 클릭한 버튼의 auctionSchedule_id 가져오기
+
+                    if (confirm('정말로 이 일정을 삭제하시겠습니까?')) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '${pageContext.request.contextPath}/deleteSchedule',
+                            data: { auctionSchedule_id: scheduleId },
+                            success: function (response) {
+                                alert('일정이 삭제되었습니다.');
+                                location.reload();  // 페이지 새로고침
+                            },
+                            error: function (error) {
+                                alert('일정 삭제 중 오류가 발생했습니다.');
+                                console.error(error);
+                            }
+                        });
+                    }
+                });
+            });
         </script>

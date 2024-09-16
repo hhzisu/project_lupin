@@ -59,8 +59,15 @@ footer
 .footerInner .logoBox
 {
     width: 130px;
-    background-color: white;
-    height: 40px;
+    /* background-color: white; */
+    height: 60px;
+}
+
+.footerInner .logoBox a img
+{
+    width: 130px;
+    /* background-color: white; */
+    height: 60px;
 }
 
 .footerInner .left_conWrap 
@@ -106,7 +113,7 @@ footer
             <div class="logoBox">
                 <h5 class="logo">
                     <a href="#">
-                        <img src="images/logo.svg" alt="#">
+                        <img src="images/logo2.png" alt="#">
                     </a>
                 </h5>
             </div>

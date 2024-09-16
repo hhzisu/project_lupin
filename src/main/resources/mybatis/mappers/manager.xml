@@ -22,6 +22,10 @@
 		order by auctionSchedule_start asc
 	</select>
 
+	<delete id="scheduleDelete">
+		delete from auctionschedule_tb where auctionSchedule_id = #{auctionSchedule_id}
+	</delete>
+
 	<insert id="insertAuction" parameterType="com.boot.project_lupin.dto.AuctionDTO">
 		INSERT INTO auction_tb (
 		auction_lot,
