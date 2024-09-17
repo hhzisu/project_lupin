@@ -26,7 +26,7 @@
 		delete from auctionschedule_tb where auctionSchedule_id = #{auctionSchedule_id}
 	</delete>
 
-	<insert id="insertAuction" parameterType="com.boot.project_lupin.dto.AuctionDTO">
+	<insert id="insertAuction" parameterType="com.boot.project_lupin.dto.AuctionDTO" useGeneratedKeys="true" keyProperty="auction_id">
 		INSERT INTO auction_tb (
 		auction_lot,
 		auction_author,
@@ -60,4 +60,33 @@
 		ORDER BY commission_date asc
 	</select>
 
+	<!--파일 업로드1 -->
+	<insert id="auctionInsertFile1">
+		insert into auction_attach1(uuid ,uploadPath ,fileName, image, auction_id)
+		values(#{uuid},#{uploadPath},#{fileName},#{image},#{auction_id})
+	</insert>
+
+	<select id="auctionGetFileList1" resultType="com.boot.project_lupin.dto.AuctionAttach1DTO">
+		select uuid ,uploadPath ,fileName, image, auction_id
+		from auction_attach1 where auction_id=#{auction_id}
+	</select>
+
+	<delete id="auctionDeleteFile1">
+		delete from auction_attach1 where auction_id=#{auction_id}
+	</delete>
+
+	<!--파일 업로드2 -->
+	<insert id="auctionInsertFile2">
+		insert into auction_attach2(uuid ,uploadPath ,fileName, image, auction_id)
+		values(#{uuid},#{uploadPath},#{fileName},#{image},#{auction_id})
+	</insert>
+
+	<select id="auctionGetFileList2" resultType="com.boot.project_lupin.dto.AuctionAttach2DTO">
+		select uuid ,uploadPath ,fileName, image, auction_id
+		from auction_attach2 where auction_id=#{auction_id}
+	</select>
+
+	<delete id="auctionDeleteFile2">
+		delete from auction_attach2 where auction_id=#{auction_id}
+	</delete>
 </mapper>
