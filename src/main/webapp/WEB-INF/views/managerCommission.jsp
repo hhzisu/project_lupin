@@ -33,9 +33,11 @@
                                 <h3 class="navUserName">관리자</h3>
                                 <ul>
                                     <li><a href="${pageContext.request.contextPath}/managerQuestion">1:1 문의 내역</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerCommission" style="color: black; font-weight: 700;">위탁 관리</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerCommission"
+                                            style="color: black; font-weight: 700;">위탁 관리</a></li>
                                     <li><a href="${pageContext.request.contextPath}/managerAuction">경매 관리</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerAuctionRegist">경매 물품 등록</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/managerAuctionRegist">경매 물품 등록</a>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- userNav 끝 -->
@@ -54,73 +56,73 @@
                                         <h5 class="questionListBtn"></h5>
                                     </div>
                                     <c:forEach var="dto" items="${commissionList}">
-                                        <div class="questionList">
-                                            <div class="questionUserId">${dto.commission_email}</div>
-                                            <div class="questionUserEmail">${dto.commission_phone}</div>
-                                            <div class="inquiryTitle">${dto.commission_title}</div>
-                                            <div class="authorName">${dto.commission_author}</div>
-                                            <div class="inquiryDate">${dto.commission_date}</div>
-                                            <i class="fa-solid fa-angle-down questionListBtn"></i>
-                                        </div>
-                                        <div class="question_accordion_area">
-                                            <div class="questionContent">
-                                                <div class="commission">
-                                                    <div class="commissionCon">
-                                                        <h5>이메일</h5>
-                                                        <h4>${dto.commission_email}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>전화번호</h5>
-                                                        <h4>${dto.commission_phone}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>작품명</h5>
-                                                        <h4>${dto.commission_title}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>작가명</h5>
-                                                        <h4>${dto.commission_author}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>작품크기</h5>
-                                                        <h4>${dto.commission_size}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>구입가</h5>
-                                                        <div class="money">
-                                                            <h4>${dto.purchasePrice}</h4>
-                                                            <h5>KRW</h5>
+                                        <div class="questionCon" data-commission-id="${dto.commission_id}">
+                                            <div class="questionList">
+                                                <div class="questionUserId">${dto.commission_email}</div>
+                                                <div class="questionUserEmail">${dto.commission_phone}</div>
+                                                <div class="inquiryTitle">${dto.commission_title}</div>
+                                                <div class="authorName">${dto.commission_author}</div>
+                                                <div class="inquiryDate">${dto.commission_date}</div>
+                                                <i class="fa-solid fa-angle-down questionListBtn"></i>
+                                            </div>
+                                            <div class="question_accordion_area">
+                                                <div class="questionContent">
+                                                    <div class="commission">
+                                                        <div class="commissionCon">
+                                                            <h5>이메일</h5>
+                                                            <h4>${dto.commission_email}</h4>
                                                         </div>
-                                                    </div>
-
-                                                    <div class="commissionCon">
-                                                        <h5>소장경위</h5>
-                                                        <h4>${dto.commission_collection}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>희망가</h5>
-                                                        <div class="money">
-                                                            <h4>${dto.wishPrice}</h4>
-                                                            <h5>KRW</h5>
+                                                        <div class="commissionCon">
+                                                            <h5>전화번호</h5>
+                                                            <h4>${dto.commission_phone}</h4>
                                                         </div>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>기타</h5>
-                                                        <h4>${dto.commission_etc}</h4>
-                                                    </div>
-                                                    <div class="commissionCon">
-                                                        <h5>첨부파일</h5>
-                                                        <h4 style="color: black;">
-                                                            <div class="uploadResult">
-                                                                <ul>
-                                                                    24.10.16_KDT개발_나성엽_입사지원서.hwp (160 kb)
-                                                                </ul>
+                                                        <div class="commissionCon">
+                                                            <h5>작품명</h5>
+                                                            <h4>${dto.commission_title}</h4>
+                                                        </div>
+                                                        <div class="commissionCon">
+                                                            <h5>작가명</h5>
+                                                            <h4>${dto.commission_author}</h4>
+                                                        </div>
+                                                        <div class="commissionCon">
+                                                            <h5>작품크기</h5>
+                                                            <h4>${dto.commission_size}</h4>
+                                                        </div>
+                                                        <div class="commissionCon">
+                                                            <h5>구입가</h5>
+                                                            <div class="money">
+                                                                <h4>${dto.purchasePrice}</h4>
+                                                                <h5>KRW</h5>
                                                             </div>
-                                                        </h4>
-                                                    </div>
-                                                </div> <!--commission 끝-->
-                                            </div> <!--questionContent 끝-->
-                                        </div> <!-- question_accordion_area 끝-->
+                                                        </div>
+
+                                                        <div class="commissionCon">
+                                                            <h5>소장경위</h5>
+                                                            <h4>${dto.commission_collection}</h4>
+                                                        </div>
+                                                        <div class="commissionCon">
+                                                            <h5>희망가</h5>
+                                                            <div class="money">
+                                                                <h4>${dto.wishPrice}</h4>
+                                                                <h5>KRW</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="commissionCon">
+                                                            <h5>기타</h5>
+                                                            <h4>${dto.commission_etc}</h4>
+                                                        </div>
+                                                        <div class="commissionCon">
+                                                            <h5>첨부파일</h5>
+                                                            <h4 style="color: black;">
+                                                                <div class="uploadResult">
+                                                                    <ul></ul>
+                                                                </div>
+                                                            </h4>
+                                                        </div>
+                                                    </div> <!--commission 끝-->
+                                                </div> <!--questionContent 끝-->
+                                            </div> <!-- question_accordion_area 끝-->
+                                        </div>
                                     </c:forEach>
                                 </div>
                                 <hr>
@@ -147,5 +149,55 @@
                     // 버튼의 부모 요소에 있는 .questionList의 border-bottom 색상을 토글
                     $(this).closest('.questionList').toggleClass('active');
                 });
+
+                // 파일 리스트를 불러오는 함수
+                function loadFileList() {
+                    // 각 질문 컨테이너에 대해 파일 목록을 불러오기
+                    $('.questionCon').each(function () {
+                        var commissionID = $(this).data('commission-id'); // 각 질문의 question_id를 가져옴
+                        var uploadResultContainer = $(this).find('.uploadResult ul');
+
+                        if (commissionID) {
+                            $.ajax({
+                                url: '/managerCommissionGetFileList',
+                                type: 'GET',
+                                data: { commission_id: commissionID },
+                                dataType: 'json',
+                                success: function (data) {
+                                    console.log("Ajax success for commission_id:", commissionID, data);
+                                    showUploadResult(data, uploadResultContainer);
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error fetching file list for commission_id ' + commissionID + ':', error);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                // 파일 리스트를 표시하는 함수
+                function showUploadResult(uploadResultArr, uploadResultContainer) {
+                    if (!uploadResultArr || uploadResultArr.length === 0) {
+                        return;
+                    }
+
+                    var str = "";
+
+                    $(uploadResultArr).each(function (i, obj) {
+                        console.log(obj);
+                        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
+                        str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                        str += "<div>";
+                        str += "<span style='color: black; cursor: pointer'>" + obj.fileName + "</span>";
+                        str += "<img style='display: none' src='/questionDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+                        str += "</div></li>";
+                    });
+
+                    uploadResultContainer.append(str);
+                }
+
+                // 페이지 로드 시 파일 리스트를 불러오기
+                loadFileList();
             });
         </script>

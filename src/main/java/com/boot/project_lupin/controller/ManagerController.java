@@ -349,4 +349,15 @@ public class ManagerController {
 		// 질문 ID로 파일 목록을 조회하여 리턴
 		return new ResponseEntity<>(managerService.auctionGetFileList(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
 	}
+
+	// 파일 목록을 JSON으로 가져오는 메서드
+	@GetMapping(value = "/managerCommissionGetFileList")
+	public ResponseEntity<List<CommissionAttachDTO>> commissionGetFileList(@RequestParam HashMap<String, String> param) {
+		log.info("@# commissionGetFileList()");
+		log.info("@# param => " + param);
+		log.info("@# param.get('question_id') => " + param.get("commission_id"));
+
+		// 질문 ID로 파일 목록을 조회하여 리턴
+		return new ResponseEntity<>(managerService.commissionGetFileList(Integer.parseInt(param.get("commission_id"))), HttpStatus.OK);
+	}
 }

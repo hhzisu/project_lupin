@@ -1,5 +1,6 @@
 package com.boot.project_lupin.service;
 
+import com.boot.project_lupin.dao.CommissionDAO;
 import com.boot.project_lupin.dao.ManagerDAO;
 import com.boot.project_lupin.dto.*;
 import jakarta.servlet.ServletContext;
@@ -54,6 +55,14 @@ public class ManagerService {
         log.info("@# ManagerService commissionList");
         ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
         return dao.commissionList();
+    }
+
+    // CommissionAttachDTO 리스트 가져오기
+    public List<CommissionAttachDTO> commissionGetFileList(int commission_id) {
+        log.info("@# ManagerService commissionGetFileList commission_id => {}", commission_id);
+
+        CommissionDAO dao = sqlSession.getMapper(CommissionDAO.class);
+        return dao.commissionGetFileList(commission_id);
     }
 
     // 경매 항목 삽입 (트랜잭션 적용)
