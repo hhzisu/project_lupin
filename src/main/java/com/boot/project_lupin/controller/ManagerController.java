@@ -31,8 +31,8 @@ public class ManagerController {
 
 	@Autowired
 	private ManagerService managerService;
-    @Autowired
-    private ServletContext servletContext;
+	@Autowired
+	private ServletContext servletContext;
 
 	@RequestMapping("/managerAuction")
 	public String managerAuction(HttpServletRequest httpServletRequest, Model model) {
@@ -49,7 +49,7 @@ public class ManagerController {
 		return "managerAuction";
 	}
 
-//	@PostMapping("/insertSchedule")
+	//	@PostMapping("/insertSchedule")
 //	public String insertSchedule(@RequestBody AuctionScheduleDTO auctionScheduleDTO) {
 //		log.info("@# insertSchedule");
 //		log.info("@# insertSchedule auctionScheduleDTO=>"+auctionScheduleDTO);
@@ -96,7 +96,7 @@ public class ManagerController {
 		model.addAttribute("scheduleList", scheduleList);
 
 		return "managerAuctionRegist";
-		}
+	}
 
 	@RequestMapping("/managerCommission")
 	public String managerCommission(HttpServletRequest httpServletRequest, Model model) {
@@ -109,7 +109,7 @@ public class ManagerController {
 
 	@PostMapping("/insertAuction")
 	public String insertAuction(AuctionDTO auctionDTO,
-								MultipartFile[] uploadFile,
+								@RequestParam("uploadFile") MultipartFile[] uploadFile,
 								Model model) {
 		log.info("@# insertAuction");
 		log.info("@# insertAuction auctionDTO => {}", auctionDTO);
@@ -173,9 +173,8 @@ public class ManagerController {
 		}
 
 		// 성공 후 경매 관리 페이지로 리다이렉트
-		return "redirect:managerAuction";
+		return "redirect:/managerAuction";
 	}
-
 
 	// 파일 업로드를 처리하는 메서드
 	@PostMapping("/auctionUploadAjaxAction")
@@ -351,22 +350,3 @@ public class ManagerController {
 		return new ResponseEntity<>(managerService.auctionGetFileList(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

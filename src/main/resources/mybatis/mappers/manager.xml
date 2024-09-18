@@ -26,6 +26,20 @@
 		delete from auctionschedule_tb where auctionSchedule_id = #{auctionSchedule_id}
 	</delete>
 
+
+	<!-- auctionSchedule_id별 최대 auction_lot 값 조회 -->
+	<select id="getMaxAuctionLotByScheduleId" parameterType="int" resultType="int">
+		SELECT IFNULL(MAX(auction_lot), 0) FROM auction_lot_tb
+		WHERE auctionSchedule_id = #{auctionSchedule_id}
+	</select>
+
+	<!-- auctionSchedule_id별 새로운 auction_lot 삽입 -->
+	<insert id="insertAuctionLot" parameterType="map">
+		INSERT INTO auction_lot_tb (auction_lot, auctionSchedule_id)
+		VALUES (#{auction_lot}, #{auctionSchedule_id})
+	</insert>
+
+	<!-- 경매 항목 삽입 -->
 	<insert id="insertAuction" parameterType="com.boot.project_lupin.dto.AuctionDTO" useGeneratedKeys="true" keyProperty="auction_id">
 		INSERT INTO auction_tb (
 		auction_lot,

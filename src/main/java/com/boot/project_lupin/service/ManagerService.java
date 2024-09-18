@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,22 +56,36 @@ public class ManagerService {
         return dao.commissionList();
     }
 
-    // 경매 항목 삽입
+    // 경매 항목 삽입 (트랜잭션 적용)
+    @Transactional
     public void insertAuction(AuctionDTO auctionDTO) {
         log.info("@# ManagerService insertAuction auctionDTO => {}", auctionDTO);
 
         ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
+
+        // auctionSchedule_id에 대한 최대 auction_lot 값을 조회
+        Integer maxAuctionLot = dao.getMaxAuctionLotByScheduleId(auctionDTO.getAuctionSchedule_id());
+
+        // 새로운 auction_lot 값 계산 (최대 값 + 1, 없으면 1로 시작)
+        int newAuctionLot = (maxAuctionLot == null || maxAuctionLot == 0) ? 1 : maxAuctionLot + 1;
+        auctionDTO.setAuction_lot(newAuctionLot);
+
+        // auction_lot 삽입
+        dao.insertAuctionLot(newAuctionLot, auctionDTO.getAuctionSchedule_id());
+        log.info("@# 새로운 auction_lot 값: {}", newAuctionLot);
+
+        // auction 삽입
         dao.insertAuction(auctionDTO);
         log.info("@# ManagerService 경매 항목 삽입 성공");
 
-        //첨부파일 있는지 체크
-        log.info("@# auctionDTO.getAuctionAttachList()=>"+auctionDTO.getAuctionAttachList());
-        if (auctionDTO.getAuctionAttachList() == null || auctionDTO.getAuctionAttachList().size() == 0) {
-            log.info("@# null");
+        // 첨부파일이 있는지 체크
+        log.info("@# auctionDTO.getAuctionAttachList() => {}", auctionDTO.getAuctionAttachList());
+        if (auctionDTO.getAuctionAttachList() == null || auctionDTO.getAuctionAttachList().isEmpty()) {
+            log.info("@# 첨부 파일이 없습니다.");
             return;
         }
 
-        //첨부파일이 있는 경우 처리
+        // 첨부파일이 있는 경우 처리
         auctionDTO.getAuctionAttachList().forEach(attach -> {
             attach.setAuction_id(auctionDTO.getAuction_id());
             dao.auctionInsertFile(attach);
