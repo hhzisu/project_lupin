@@ -1,12 +1,9 @@
 package com.boot.project_lupin.dao;
 
-import com.boot.project_lupin.dto.AuctionAttach1DTO;
-import com.boot.project_lupin.dto.AuctionAttach2DTO;
 import com.boot.project_lupin.dto.AuctionDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Mapper
