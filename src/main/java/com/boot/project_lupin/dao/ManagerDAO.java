@@ -2,33 +2,44 @@ package com.boot.project_lupin.dao;
 
 import com.boot.project_lupin.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
 public interface ManagerDAO {
+
 	// 경매 스케줄 삽입
-	public void insertSchedule(AuctionScheduleDTO auctionScheduleDTO);
+	void insertSchedule(AuctionScheduleDTO auctionScheduleDTO);
 
 	// 경매 스케줄 리스트 조회
-	public ArrayList<AuctionScheduleDTO> scheduleList();
+	ArrayList<AuctionScheduleDTO> scheduleList();
 
-	public void scheduleDelete(String auctionSchedule_id);
+	// 경매 스케줄 삭제
+	void scheduleDelete(String auctionSchedule_id);
+
+	// 특정 auctionSchedule_id에 따른 최대 auction_lot 값 조회
+	Integer getMaxAuctionLotByScheduleId(@Param("auctionSchedule_id") int auctionSchedule_id);
+
+	// 경매 항목의 lot 번호를 생성하고 해당 값을 반환
+	void insertAuctionLot(@Param("auction_lot") int auction_lot, @Param("auctionSchedule_id") int auctionSchedule_id);
 
 	// 경매 항목 삽입
 	void insertAuction(AuctionDTO auctionDTO);
 
 	// 경매 위탁 리스트 조회
-	public ArrayList<CommissionDTO> commissionList();
+	ArrayList<CommissionDTO> commissionList();
 
-	//파일 업로드 1
-	public void auctionInsertFile(AuctionAttachDTO vo);
-	public List<AuctionAttachDTO> auctionGetFileList(int auction_id);
-	public void auctionDeleteFile(String auction_id);
+	// 파일 업로드 1
+	void auctionInsertFile(AuctionAttachDTO vo);
 
-	//파일 업로드 2
-//	public void auctionInsertFile2(AuctionAttach2DTO vo);  // 파라미터가 AuctionAttach2DTO / 파일추가
-//	public List<AuctionAttach2DTO> auctionGetFileList2(int auction_id); // int타입 auction_id 파라미터를 list타입 <AuctionAttach2DTO> getFileList로 사용하려함 / 파일열람
-//	public void auctionDeleteFile2(String auction_id);  // auction_id 맞춰서 파일삭제로직
+	List<AuctionAttachDTO> auctionGetFileList(int auction_id);
+
+	void auctionDeleteFile(String auction_id);
+
+	// 파일 업로드 2 (주석 처리된 부분은 사용하지 않음)
+	// public void auctionInsertFile2(AuctionAttach2DTO vo);
+	// public List<AuctionAttach2DTO> auctionGetFileList2(int auction_id);
+	// public void auctionDeleteFile2(String auction_id);
 }
