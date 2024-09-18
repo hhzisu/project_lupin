@@ -154,6 +154,14 @@
 	gap: 16px;
 }
 
+.rightBox a .reading.btn {
+	color: var(--color-white);
+}
+.rightBox a .reading.btn:hover {
+	color: var(--color-black);
+	background-color: var(--color-white);
+}
+
 .btn {
 	padding: 8px 26px;
 	border: 1px solid;

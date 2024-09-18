@@ -61,32 +61,32 @@
 	</select>
 
 	<!--파일 업로드1 -->
-	<insert id="auctionInsertFile1">
-		insert into auction_attach1(uuid ,uploadPath ,fileName, image, auction_id)
+	<insert id="auctionInsertFile">
+		insert into auction_attach(uuid ,uploadPath ,fileName, image, auction_id)
 		values(#{uuid},#{uploadPath},#{fileName},#{image},#{auction_id})
 	</insert>
 
-	<select id="auctionGetFileList1" resultType="com.boot.project_lupin.dto.AuctionAttach1DTO">
+	<select id="auctionGetFileList" resultType="com.boot.project_lupin.dto.AuctionAttachDTO">
 		select uuid ,uploadPath ,fileName, image, auction_id
-		from auction_attach1 where auction_id=#{auction_id}
+		from auction_attach where auction_id=#{auction_id}
 	</select>
 
-	<delete id="auctionDeleteFile1">
-		delete from auction_attach1 where auction_id=#{auction_id}
+	<delete id="auctionDeleteFile">
+		delete from auction_attach where auction_id=#{auction_id}
 	</delete>
 
 	<!--파일 업로드2 -->
-	<insert id="auctionInsertFile2">
-		insert into auction_attach2(uuid ,uploadPath ,fileName, image, auction_id)
-		values(#{uuid},#{uploadPath},#{fileName},#{image},#{auction_id})
-	</insert>
+<!--	<insert id="auctionInsertFile2">-->
+<!--		insert into auction_attach2(uuid ,uploadPath ,fileName, image, auction_id)-->
+<!--		values(#{uuid},#{uploadPath},#{fileName},#{image},#{auction_id})-->
+<!--	</insert>-->
 
-	<select id="auctionGetFileList2" resultType="com.boot.project_lupin.dto.AuctionAttach2DTO">
-		select uuid ,uploadPath ,fileName, image, auction_id
-		from auction_attach2 where auction_id=#{auction_id}
-	</select>
+<!--	<select id="auctionGetFileList2" resultType="com.boot.project_lupin.dto.AuctionAttach2DTO">-->
+<!--		select uuid ,uploadPath ,fileName, image, auction_id-->
+<!--		from auction_attach2 where auction_id=#{auction_id}-->
+<!--	</select>-->
 
-	<delete id="auctionDeleteFile2">
-		delete from auction_attach2 where auction_id=#{auction_id}
-	</delete>
+<!--	<delete id="auctionDeleteFile2">-->
+<!--		delete from auction_attach2 where auction_id=#{auction_id}-->
+<!--	</delete>-->
 </mapper>

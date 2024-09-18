@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuctionAttach2DTO {
+public class AuctionAttachDTO {
     // 파일업로드
     private int auction_id;
     private String uuid; // uuid

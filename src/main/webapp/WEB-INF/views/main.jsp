@@ -121,25 +121,32 @@
                         </div>
                         <div class="con1">
                             <c:forEach items="${list}" var="list" begin="0" end="2">
-                                <a href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
-                                <div class="auctionToday">
-                                    <div class="auctionImg">
-                                        <div class="uploadResult">
-                                            <ul>
-                                                <img src="images/auction1.jpg">
-                                            </ul>
+                                <a
+                                    href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
+                                    <div class="auctionToday">
+                                        <div class="auctionImg">
+                                            <div class="uploadResult">
+                                                <ul>
+                                                    <c:forEach items="${list.auctionAttachList}" var="attach">
+                                                        <li>
+                                                            <img src="/auctionMainDisplay?fileName=${attach.uploadPath}/s_${attach.uuid}_${attach.fileName}"
+                                                                style="width: 220px; height: 220px;">
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="auctionCon">
-                                        <h2>${list.auction_author}</h2>
-                                        <h3>${list.auction_title}</h3>
-                                        <h4>${list.auction_authorExp}</h4>
-                                        <h5>경매 마감 3일 5시간 전</h5>
-                                    </div>
-                                </div> <!--auctionToday 끝-->
-                            </a>
+                                        <div class="auctionCon">
+                                            <h2>${list.auction_author}</h2>
+                                            <h3>${list.auction_title}</h3>
+                                            <h4>${list.auction_authorExp}</h4>
+                                            <h5>경매 마감 3일 5시간 전</h5>
+                                        </div>
+                                    </div> <!--auctionToday 끝-->
+                                </a>
                             </c:forEach>
-                        </div> <!--con1 끝-->
+
+                        </div>
                         <div class="conTitle">
                             <h1>주요 출품작</h1>
                             <h5>더보기</h5>
@@ -388,4 +395,36 @@
                     }
                 });
             });
+        </script>
+
+        <script>
+            $(document).ready(function (e) {
+                // 업로드된 파일 목록 표시 함수
+                function showUploadResult(uploadResultArr, resultSelector) {
+                    if (!uploadResultArr || uploadResultArr.length == 0) {
+                        return;
+                    }
+
+                    var uploadUL = $(resultSelector + " ul");
+                    var str = "";
+
+                    $(uploadResultArr).each(function (i, obj) {
+                        if (obj.image) { // 이미지 파일의 경우
+                            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+                            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                            str += "<div><img style='width: 90px; height: 90px;' src='/auctionMainDisplay?fileName=" + fileCallPath + "'></div></li>";
+                        } else { // 이미지 외 파일의 경우
+                            var fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+                            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                            str += "<div><span>" + obj.fileName + "</span></div></li>";
+                        }
+                    });
+
+                    uploadUL.append(str); // 파일 목록 추가
+                }
+
+                // 이미지 목록을 추가하는 부분
+                showUploadResult(yourUploadResultArray, ".uploadResult");
+            });
+
         </script>

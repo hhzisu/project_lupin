@@ -62,9 +62,11 @@
                                                             ${dto.auctionSchedule_end} 18:00</p>
                                                     </div>
                                                     <div class="rightBox">
-                                                        <div class="reading btn">
-                                                            <p>열람</p>
-                                                        </div>
+                                                        <a href="auctionProgress">
+                                                            <div class="reading btn">
+                                                                <p>열람</p>
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </c:when>
