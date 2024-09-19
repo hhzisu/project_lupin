@@ -94,29 +94,45 @@
 	min-height: 450px;
 }
 
-.userBuyList .buyListColunmNames {
+
+.buyListHeader {
 	display: flex;
-	/* align-items: center; */
-	align-items: baseline;
-	/* justify-content: center; */
+	align-items: center;
 	justify-content: space-between;
-	padding: 15px 15px 4px 15px;
+	padding: 5px 20px 15px;
 	gap: 10px;
 	border-bottom: solid 0.5px var(--border-color-gray);
 	width: 800px;
 }
-.userBuyList .buyListColunmNames h5 {
+
+/* 진행경매보기 버튼 */
+.buyListHeader .currentAuctionBtn {
+	width: 100px;
+	height: 32px;
+	font-size: var(--font-size12);
+	background-color: var(--color-white);
+	color: var(--color-gray);
+	border: 1px solid var(--border-color-gray);
+	cursor: pointer;
+}
+
+
+.buyListHeader h5 {
 	font-size: var(--font-size16);
 	font-weight: 300;
 }
 
+.paystate {
+	padding: 20px;
+    padding-bottom: 0;
+}
 
-.userBuyList .buyList {
+.buyList {
 	display: flex;
+	/* flex-direction: column; */
 	align-items: center;
-	/* justify-content: center; */
 	justify-content: space-between;
-	padding: 20px 15px;
+	padding: 20px 20px;
 	gap: 10px;
 	border-bottom: solid 0.5px var(--border-color-gray);
 	width: 800px;
@@ -124,36 +140,99 @@
 	font-size: var(--font-size14);
 }
 
+/* 위시 리스트 이미지 */
+.buyList .buyListImg .uploadResult {
+   width: 160px;
+   height: 160px;
+   border: 0.5px solid var(--border-color-gray);
+   display: flex;
+   justify-content: center;
+}
 
-/* 구매 리스트 정렬 */
-.userBuyList .auctionDate {
-	width: 70px;
-	height: auto;
-	text-align: center;
+.buyList .buyListImg .uploadResult img {
+   width: 100%;
+   height: 100%;
+   object-fit: contain;
 }
-.userBuyList .workInfo {
-	width: 220px;
-	height: auto;
-	text-align: center;
+
+
+/* 위시 리스트 중간 */
+.buyList .buyListExplain {
+	/* margin-left: -280px; */
+	margin-left: -170px;
+	height: 162px;
 }
-.userBuyList .bidDate {
-	width: 100px;
-	height: auto;
-	text-align: center;
+.buyList .buyListExplain .authorName {
+	font-size: var(--font-size16);
+	color: var(--color-black);
+	margin-bottom: 10px;
+	margin-top: 40px;
 }
-.userBuyList .auctionPrice {
-	width: 130px;
-	height: auto;
-	text-align: center;
+.buyList .buyListExplain .workName {
+	font-size: var(--font-size14);
+	color: var(--color-black);
 }
-.userBuyList .auctionFee {
-	width: 140px;
-	height: auto;
-	text-align: center;
+
+
+/* 위시 리스트 오른쪽 */
+.buyList .buyListEnd {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	width: 300px;
+	gap: 40px;
+	border-left: solid 0.5px var(--border-color-gray);
 }
-.userBuyList .deliveryStat {
-	width: 70px;
-	height: auto;
-	text-align: center;
+.buyList .buyListEnd .buyListPrices {
+	/* text-align: right; */
+	/* color: var(--color-black); */
+	font-size: var(--font-size16);
 }
-/* 구매 리스트 정렬 끝 */
+.buyList .buyListEnd .buyListPrices div {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+/* 응찰가 */
+.buyList .buyListEnd .buyListPrices .bidPrice {
+	color: var(--color-gray);
+	margin-bottom: 10px;
+}
+
+
+/* 응찰일 */
+.buyList .buyListEnd .buyListPrices .bidDate {
+	display: flex;
+	justify-content: space-between;
+	color: var(--color-gray);
+	margin-bottom: 10px;
+}
+.buyList .buyListEnd .buyListPrices .bidDate .bidDateTitle {
+	margin-right: 50px;
+}
+
+
+/* 현재가 */
+.buyList .buyListEnd .buyListPrices .currentPrice {
+	color: var(--color-deepblue);
+}
+
+
+/* 낙찰가 */
+.buyList .buyListEnd .buyListPrices .endPrice {
+	color: var(--color-burgundy);
+}
+
+
+/* 응찰 상세보기 버튼 */
+.buyList .payBtn{
+	/* height: 28px; */
+	height: 38px;
+	/* width: 64px; */
+	width: 232px;
+	background-color: var(--color-white);
+	border: solid 0.5px var(--color-gray);
+	border-radius: 3px;
+	cursor: pointer;
+}

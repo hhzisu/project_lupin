@@ -43,41 +43,54 @@
                 </div>
                 <hr>
                 <div class="userBuyList">
-                    <div class="buyListColunmNames">
-                        <h5 class="auctionDate">경매일</h5>
-                        <h5 class="workInfo">작품 정보</h5>
-                        <h5 class="bidDate">응찰 일시</h5>
-                        <h5 class="auctionPrice">낙찰 가격</h5>
-                        <h5 class="auctionFee" style="display: flex; flex-direction: column;">
-                            낙찰 수수료
-                            <span style="font-size: 10px;">19.8%(부가가치세 1.8%포함)</span>
-                        </h5>
-                        <h5 class="deliveryStat">상태</h5>
+
+                    <div class="buyListHeader">
+                        <h5 class="auctionDate">24.09.01 온라인 경매</h5>
+                        <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
                     </div>
-                    <div class="buyList">
-                        <div class="auctionDate">24.08.30</div>
-                        <div class="workInfo">여덟을 꺼내는 시간</div>
-                        <div class="bidDate">24.08.30</div>
-                        <div class="auctionPrice">8,000,000 원</div>
-                        <div class="auctionFee">800,000 원</div>
-                        <div class="deliveryStat" style="color: #17517E;">배송중</div>
+
+                    <div class="buyListBody">
+                        <div class="paystate">결제 대기중</div>
+                        <div class="buyList">
+                            <div class="buyListImg">
+                                <div class="uploadResult">
+                                    <ul>
+                                        <img src="images/auction1.jpg">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="buyListExplain">
+                                <div class="WishListLotNum">LOT2</div>
+                                <div class="authorName">나성엽</div>
+                                <div class="workName">여덟을 꺼내는 시간</div>
+                            </div>
+                            <div class="buyListEnd">
+                                <div class="buyListPrices">
+                                    <div class="bidPrice">
+                                        <div>응찰가</div>
+                                        <div>KRW &nbsp; 800,000</div>
+                                    </div>
+                                    <div class="bidDate">
+                                        <div class="bidDateTitle">응찰일</div>
+                                        <div>2024.08.28 21:25:31</div>
+                                    </div>
+                                    <div class="endPrice">
+                                        <div>낙찰가</div>
+                                        <div>KRW &nbsp; 8,000,000</div>
+                                    </div>
+                                    <div class="bidFee">
+                                        <div>낙찰 수수료</div>
+                                        <div>KRW &nbsp; 8,000,000</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="payBtn">결제하기</button>
+                                </div>
+                            </div>
+                            <!-- bidListEnd 끝 -->
+                        </div>
                     </div>
-                    <div class="buyList">
-                        <div class="auctionDate">24.08.30</div>
-                        <div class="workInfo">여덟을 꺼내는 시간</div>
-                        <div class="bidDate">24.08.30</div>
-                        <div class="auctionPrice">8,000,000 원</div>
-                        <div class="auctionFee">800,000 원</div>
-                        <div class="deliveryStat" style="color: #800020;">배송완료</div>
-                    </div>
-                    <div class="buyList">
-                        <div class="auctionDate">24.08.30</div>
-                        <div class="workInfo">여덟을 꺼내는 시간</div>
-                        <div class="bidDate">24.08.30</div>
-                        <div class="auctionPrice">8,000,000 원</div>
-                        <div class="auctionFee">800,000 원</div>
-                        <div class="deliveryStat" style="color: #800020;">배송완료</div>
-                    </div>
+                    <!-- bidList 끝 -->
                 </div>
                 <hr>
             </div>
