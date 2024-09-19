@@ -81,7 +81,7 @@
                     </div>
                     <div class="headerCon con2">
                         <div class="headerTab cp">
-                            <a href="">
+                            <a href="guideAuction">
                                 <p>응찰 안내</p>
                             </a>
                         </div>

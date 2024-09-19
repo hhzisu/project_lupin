@@ -73,6 +73,11 @@ public class PageController {
 		return "guideStorage";
 	}
 
+	@RequestMapping("/guideAuction")
+	public String guideAuction() {
+		return "guideAuction";
+	}
+
 	// 이미지 파일을 받아서 화면에 출력 (byte 배열 타입)
 	@GetMapping("/auctionMainDisplay")
 	public ResponseEntity<byte[]> getFile(String fileName) {
