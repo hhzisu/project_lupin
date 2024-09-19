@@ -40,7 +40,7 @@
 
             <div class="auctionList">
                 <c:forEach items="${list}" var="list">
-                    <div class="auction">
+                    <div class="auction" data-auction-id="${list.auction_id}">
                         <a href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
                             <div class="auctionImg">
                                 <div class="uploadResult">
@@ -86,6 +86,52 @@
 </body>
 </html>
 <script>
+    $(document).ready(function () {
+
+        // auction클래스 반복하면서 데이터 가져옴
+        $('.auction').each(function () {
+            // auction클래스 data-auction-id 속성에서 값을 가져옴
+            var auctionId = $(this).data('auction-id');
+
+            // 현재 auction클래스 .uploadResult 요소를 선택
+            var uploadResultContainer = $(this).find('.uploadResult ul');
+
+            if (auctionId) {
+                $.ajax({
+                    url: '/auctionListGetFileList',
+                    type: 'GET',
+                    data: { auction_id: auctionId },
+                    dataType: 'json',
+                    success: function(data) {
+                        showUploadResult(data, uploadResultContainer);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching file list for notice_num ' + noticeNum + ':', error);
+                    }
+                });
+            }
+        });
+    });
+
+    function showUploadResult(uploadResultArr, uploadResultContainer){
+        if (!uploadResultArr || uploadResultArr.length == 0) {
+            return;
+        }
+
+        // 배열의 첫 번째 항목만 가져오기
+        var obj = uploadResultArr[0];
+        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
+        var str = "<li data-path='" + obj.uploadPath + "'";
+        str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+        str += "<div>";
+        str += "<span style='display:none;'>" + obj.fileName + "</span>";
+        str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+        str += "</div></li>";
+
+        // 컨테이너를 비우고 첫 번째 이미지 추가
+        uploadResultContainer.empty().append(str);
+    }
 
 </script>
 
