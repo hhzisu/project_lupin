@@ -51,7 +51,7 @@
                         </ul>
                         <ul class="rightMenu">
                             <li>
-                                <a href="loginPage">
+                                <a href="userInfo">
                                     <span class="icon">
                                         <i class="fa-solid fa-user"></i>
                                     </span>

@@ -31,7 +31,14 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())  // HTTP Basic 인증 비활성화
 
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll())  // 모든 요청을 인증 없이 허용
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()  // 정적 리소스 허용
+                        .requestMatchers("/managerAuction", "/managerAuctionRegist", "/managerCommission",
+                                         "/managerQuestion", "/userInfo", "/userCommission", "/userBidList",
+                                         "/userBuyList", "/userCommissionList", "/userQuestionList",
+                                         "/userWishList", "/question")
+                        .authenticated()  // 관리자 페이지 인증 요구
+                        .anyRequest().permitAll()  // 그 외 요청은 인증 없이 접근 허용
+                )
 
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/oauth2LoginPage")  // OAuth2 로그인 페이지
