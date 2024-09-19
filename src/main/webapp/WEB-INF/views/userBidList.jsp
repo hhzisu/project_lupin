@@ -46,7 +46,7 @@
 
                     <div class="bidListHeader">
                         <h5 class="auctionDate">24.09.01 온라인 경매</h5>
-                        <button class="currentAuctionBtn">진행경매보기</button>
+                        <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
                     </div>
 
                     <div class="bidList">
