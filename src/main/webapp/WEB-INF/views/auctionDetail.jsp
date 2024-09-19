@@ -284,6 +284,57 @@
             }
         }
     });
+
+    //이미지 불러오기
+    $(document).ready(function () {
+        // auction_id 값을 가져옴
+        var auctionId = "<c:out value='${auction.auction_id}'/>";
+
+        // 모든 .uploadResult 요소를 선택
+        var uploadResultContainerList = $('.uploadResult ul');
+
+        if (auctionId) {
+            $.ajax({
+                url: '/auctionListGetFileList',
+                type: 'GET',
+                data: { auction_id: auctionId },
+                dataType: 'json',
+                success: function(data) {
+                    // 불러온 파일 리스트를 각 uploadResult에 맞게 할당
+                    showUploadResult(data, uploadResultContainerList);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching file list for auction_id ' + auctionId + ':', error);
+                }
+            });
+        }
+    });
+
+
+    function showUploadResult(uploadResultArr, uploadResultContainerList) {
+        if (!uploadResultArr || uploadResultArr.length == 0 || uploadResultContainerList.length == 0) {
+            return;
+        }
+
+        // uploadResultContainerList와 uploadResultArr 크기 중 작은 쪽에 맞추어 순회
+        for (var i = 0; i < Math.min(uploadResultArr.length, uploadResultContainerList.length); i++) {
+            var obj = uploadResultArr[i];
+            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+
+            var str = "<li data-path='" + obj.uploadPath + "'";
+            str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+            str += "<div>";
+            str += "<span style='display:none;'>" + obj.fileName + "</span>";
+            str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+            str += "</div></li>";
+
+            // 각 uploadResultContainer에 하나씩 이미지를 추가
+            $(uploadResultContainerList[i]).empty().append(str);
+        }
+    }
+
+
+
 </script>
 </body>
 </html>
