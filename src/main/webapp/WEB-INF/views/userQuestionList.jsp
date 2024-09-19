@@ -30,7 +30,7 @@
                 <ul>
                     <li><a href="userInfo">회원정보관리</a></li>
                     <li><a href="userBidList">응찰 내역</a></li>
-                    <li><a href="userBuyList">구매 내역</a></li>
+                    <li><a href="userBuyList">결제/구매 내역</a></li>
                     <li><a href="userCommissionList">위탁 문의 내역</a></li>
                     <li><a href="userQuestionList" style="color: black; font-weight: 700;">1:1 문의 내역</a></li>
                     <li><a href="userWishList">위시 리스트</a></li>
