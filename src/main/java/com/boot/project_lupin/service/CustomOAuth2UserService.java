@@ -5,6 +5,7 @@ import com.boot.project_lupin.dto.NaverResponse;
 import com.boot.project_lupin.dto.OAuth2Response;
 import com.boot.project_lupin.entity.UserEntity;
 import com.boot.project_lupin.repository.UserRepository;
+import jakarta.servlet.http.HttpSession; // HttpSession 사용
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -17,9 +18,11 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
+    private final HttpSession session;  // HttpSession 주입
 
-    public CustomOAuth2UserService(UserRepository userRepository) {
+    public CustomOAuth2UserService(UserRepository userRepository, HttpSession session) {
         this.userRepository = userRepository;
+        this.session = session;  // HttpSession 초기화
     }
 
     @Override
@@ -75,11 +78,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userRepository.save(existData);
         }
 
-        // 사용자 정보 세션에 저장
+        // 사용자 정보 SecurityContext에 저장
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(oAuth2Response, role);
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // 사용자 정보 세션에 저장
+        session.setAttribute("user", customOAuth2User);  // 세션에 사용자 정보 저장
 
         return customOAuth2User;
     }

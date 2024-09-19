@@ -23,27 +23,24 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable()); // CSRF 비활성화
+                .csrf(csrf -> csrf.disable())  // CSRF 비활성화
 
-        http
-                .formLogin(login -> login.disable());  // 폼 로그인 비활성화
-        http
-                .httpBasic(basic -> basic.disable());  // HTTP Basic 인증 비활성화
-        http
+                .formLogin(login -> login
+                        .loginPage("/loginPage")  // 로그인 페이지 설정
+                        .permitAll())  // 로그인 페이지는 인증 없이 허용
+                .httpBasic(basic -> basic.disable())  // HTTP Basic 인증 비활성화
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()  // 정적 리소스 허용
-                        .anyRequest().permitAll()  // 그 외 요청은 인증 없이 접근 허용
-                );
-        http
+                        .anyRequest().permitAll())  // 모든 요청을 인증 없이 허용
+
                 .oauth2Login(oauth2 -> oauth2
-//                        .loginPage("/loginPage")
-                        .defaultSuccessUrl("/main", true)
+                        .loginPage("/oauth2LoginPage")  // OAuth2 로그인 페이지
+                        .defaultSuccessUrl("/main", true)  // 로그인 성공 시 /main 페이지로 이동
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)));  // OAuth2 사용자 정보 설정
 
         return http.build();
     }
-
 
     @Bean
     public HttpFirewall allowUrlEncodedDoubleSlashHttpFirewall() {
@@ -51,6 +48,4 @@ public class SecurityConfig {
         firewall.setAllowUrlEncodedDoubleSlash(true);  // 중복 슬래시 허용
         return firewall;
     }
-
-
 }

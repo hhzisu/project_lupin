@@ -49,9 +49,14 @@ public class PageController {
 	}
 
 
-	@RequestMapping("/loginPage")
-	public String loginPage() {
-		return "loginPage";
+	@RequestMapping("/oauth2LoginPage")
+	public String oauth2LoginPage() {
+		return "oauth2LoginPage";
+	}
+
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
 	}
 
 	@RequestMapping("/faq")
