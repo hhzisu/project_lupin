@@ -31,7 +31,7 @@
                 <ul>
                     <li><a href="userInfo" style="color: black; font-weight: 700;">회원정보관리</a></li>
                     <li><a href="userBidList">응찰 내역</a></li>
-                    <li><a href="userBuyList">구매 내역</a></li>
+                    <li><a href="userBuyList">결제/구매 내역</a></li>
                     <li><a href="userCommissionList">위탁 문의 내역</a></li>
                     <li><a href="userQuestionList">1:1 문의 내역</a></li>
                     <li><a href="userWishList">위시 리스트</a></li>
@@ -57,31 +57,43 @@
                     </div> -->
                     <div class="ManageDiv userName">
                         <h4 class="requiredInfo">이름</h4>
-                        <div>나성엽</div>
+                        <div>${loginUser.name}</div>
                         <!-- <input type="text" value="나성엽" readonly> -->
                         <h5 class="certifiedUser">인증회원</h5>
                     </div>
                     <div class="ManageDiv userEmail">
                         <h4 class="requiredInfo">이메일</h4>
-                        <div>fgghk132@naver.com</div>
+                        <div>${loginUser.email}</div>
                         <!-- <input type="text" value="fgghk132@naver.com" readonly> -->
                         <!-- <button>수정하기</button> -->
                     </div>
                     <div class="ManageDiv userPhoneNum">
                         <h4 class="requiredInfo">전화번호</h4>
-                        <div>010-1111-2222</div>
+                        <div>${loginUser.mobile}</div>
                         <!-- <input type="text" value="010-1111-2222" readonly> -->
                         <!-- <button>수정하기</button> -->
                     </div>
                     <div class="ManageDiv userBirth">
                         <h4 class="requiredInfo">생년월일</h4>
-                        <div>1999.03.14</div>
+                        <div>${loginUser.birthyear}-${loginUser.birthday}</div>
                         <!-- <input type="text" value="1999.03.14" readonly> -->
                         <!-- <button>수정하기</button> -->
                     </div>
                     <div class="ManageDiv userSex">
                         <h4>성별</h4>
-                        <div>남자</div>
+                        <div>
+                            <c:choose>
+                                <c:when test="${loginUser.gender == 'M'}">
+                                    남자
+                                </c:when>
+                                <c:when test="${loginUser.gender == 'F'}">
+                                    여자
+                                </c:when>
+                                <c:otherwise>
+                                    성별 정보 없음
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                         <!-- <input type="checkbox" value="남자">
                         <h5>남자</h5>
                         <input type="checkbox" value="여자">
