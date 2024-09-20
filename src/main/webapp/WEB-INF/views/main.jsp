@@ -127,7 +127,7 @@
                                         <div class="auctionImg">
                                             <div class="uploadResult">
                                                 <ul>
-                                                    <c:forEach items="${list.auctionAttachList}" var="attach">
+                                                    <c:forEach items="${list.auctionAttachList1}" var="attach">
                                                         <li>
                                                             <img src="/auctionMainDisplay?fileName=${attach.uploadPath}/s_${attach.uuid}_${attach.fileName}"
                                                                 style="width: 220px; height: 220px;">
@@ -139,7 +139,7 @@
                                         <div class="auctionCon">
                                             <h2>${list.auction_author}</h2>
                                             <h3>${list.auction_title}</h3>
-                                            <h4>${list.auction_authorExp}</h4>
+                                            <h4>${list.auction_materials}</h4>
                                             <h5>경매 마감 3일 5시간 전</h5>
                                         </div>
                                     </div> <!--auctionToday 끝-->

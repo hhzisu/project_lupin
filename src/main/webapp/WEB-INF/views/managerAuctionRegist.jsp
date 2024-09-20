@@ -77,8 +77,8 @@
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">제작년도</div>
-                                            <input class="commissionContentText" type="text" name="auction_madeDate"
-                                                maxlength="4" required>
+                                            <input class="commissionContentText" type="number" name="auction_madeDate"
+                                                maxlength="4" min="1901" required>
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">제작재료</div>
