@@ -57,9 +57,14 @@
 
             /* Apply when logged-in class is present */
             .headerMid .menu.logged-in {
-                margin-right: 14px;
+                margin-right: -28px;
             }
 
+            .userInfoWrap {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
         </style>
 
         <body>
@@ -105,18 +110,24 @@
                             <li>
                                 <c:choose>
                                     <c:when test="${sessionScope.user.role == 1}">
-                                        <a href="userInfo">
-                                            <span class="icon">
-                                                <i class="fa-solid fa-user"></i>
-                                            </span>
-                                        </a>
+                                        <div class="userInfoWrap">
+                                            <a href="userInfo">
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </span>
+                                            </a>
+                                            <p>${sessionScope.user.name}님</p>
+                                        </div>
                                     </c:when>
                                     <c:when test="${sessionScope.user.role == 2}">
-                                        <a href="managerAuction">
-                                            <span class="icon">
-                                                <i class="fa-solid fa-user"></i>
-                                            </span>
-                                        </a>
+                                        <div class="userInfoWrap">
+                                            <a href="managerAuction">
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </span>
+                                            </a>
+                                            <p>관리자님</p>
+                                        </div>
                                     </c:when>
                                     <c:otherwise>
                                         <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
