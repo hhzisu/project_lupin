@@ -439,53 +439,6 @@
                 }
             });
 
-
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-            //                             나성엽
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-
-            // STOMP 클라이언트 설정
-            var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
-            var stompClient = Stomp.over(socket);
-
-            // STOMP 연결
-            stompClient.connect({}, function (frame) {
-                console.log('STOMP 연결됨: ' + frame);
-
-                // 서버로부터 경매 업데이트 메시지를 받으면 처리
-                stompClient.subscribe('/sub/auctionUpdates', function (message) {
-                    var auctionUpdate = JSON.parse(message.body);
-                    console.log('경매 업데이트: ', auctionUpdate);
-
-                    // 예시: 현재가 업데이트
-                    document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.currentBid;
-                });
-            });
-
-            // 경매 참여 버튼 클릭 시 서버로 메시지 전송
-            // document.querySelector('.bidBtn').addEventListener('click', function() {
-            //     var selectedBid = document.querySelector('select').value;
-            //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
-            // });
-
-            // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
-            document.querySelector('.bidBtn').addEventListener('click', function () {
-                var selectedBid = document.querySelector('select').value;
-                stompClient.send("/app/bid", {}, JSON.stringify({
-                    userId: 1,  // 예시: 현재 사용자의 ID
-                    auctionId: 101,  // 예시: 경매 ID
-                    bidMoney: selectedBid
-                }));
-            });
-
-
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-            //                           나성엽 끝
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
         </script>
 
         <script>
@@ -513,21 +466,20 @@
                 var isLoggedIn = "${not empty sessionScope.user}";
                 if (isLoggedIn === "true") {
                     $("#menu").addClass("logged-in");
+                } else {
+                    console.log("응찰하기 버튼을 찾을 수 없습니다.");
                 }
             });
-
-        } else {
-            console.log("응찰하기 버튼을 찾을 수 없습니다.");
-        }
-    });
+        </script>
 
 
+<script>
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
 //                             나성엽
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
-
+    
     let userInfo;
 
     $(document).ready(function() {
