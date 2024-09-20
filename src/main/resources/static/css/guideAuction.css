@@ -90,29 +90,30 @@ hr.headLine {
 
 .box {
 	display: flex;
-	margin-top: 20px;
+	margin-top: 30px;
 	width: 1440px;
-	height: 300px;
+	height: 200px;
 	border: 1px solid #b1b1b1;
 	justify-content: center;
 	align-items: center;
-	gap: 130px;
 }
 
 .box .minibox {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	height: 110px;
+	width: 530px;
 }
 
 .minibox .num {
-	font-size: var(--font-size24);
-	margin: 15px 0 20px;
+	font-size: var(--font-size20);
+	font-weight: 600;
+	height: 60px;
 }
 
 .minibox .box_content {
-	font-size: var(--font-size20);
+	font-size: var(--font-size16);
 }
 
 .radius {

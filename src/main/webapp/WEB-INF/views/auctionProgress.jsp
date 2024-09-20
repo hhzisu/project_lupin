@@ -119,7 +119,7 @@
         }
 
         // 배열의 첫 번째 항목만 가져옴
-        var obj = uploadResultArr[1];
+        var obj = uploadResultArr[0];
         var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
 
         var str = "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
