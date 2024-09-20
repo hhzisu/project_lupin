@@ -284,70 +284,91 @@
     $(document).ready(function () {
         // auction_id 값을 가져옴
         var auctionId = "<c:out value='${auction.auction_id}'/>";
-        // header에 담긴 userInfo에서 id가져옴
-        var userId = userInfo.id;
 
 
 // -----------------------------------------------------------------
 //                           위시 버튼
 // -----------------------------------------------------------------
 
-        // 페이지 로드 시 위시 상태 확인하여 버튼 상태 설정
+        let userInfoId;
+
+        // 사용자 정보를 가져오는 AJAX 요청
         $.ajax({
-            url: '${pageContext.request.contextPath}/wish/state',
-            type: 'GET',
-            data: { auction_id: auctionId, user_id: userId },
-            success: function (data) {
+            url: "/api/auction/userInfo",
+            method: "GET",
+            success: function(data) {
+                console.log("API 호출 성공:", data); // API 성공 여부 확인
                 if (data) {
-                    // 사용자가 이미 위시를 눌렀다면 active 클래스 추가
-                    $('.wish button').addClass('active');
+                    userInfoId = data;  // 데이터를 전역 변수에 저장
+                    console.log("user_id =>", userInfoId.id); // ID 출력
+
+                    // 위시 상태 확인 및 버튼 상태 설정
+                    $.ajax({
+                        url: '/wish/state',
+                        type: 'GET',
+                        data: { auction_id: auctionId, user_id: userInfoId.id },
+                        success: function(data) {
+                            if (data) {
+                                // 사용자가 이미 위시를 눌렀다면 active 클래스 추가
+                                $('.wish button').addClass('active');
+                            } else {
+                                $('.wish button').removeClass('active');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error checking wish state:', error);
+                        }
+                    });
+
                 } else {
-                    $('.wish button').removeClass('active');
+                    console.log("사용자 정보가 없습니다.");
                 }
             },
-            error: function (xhr, status, error) {
-                console.error('Error checking wish state:', error);
+            error: function(err) {
+                console.error("API 호출 실패:", err); // API 에러 확인
             }
         });
 
         // WISH 버튼 클릭 시 이벤트 처리
-        $('.wish button').on('click', function () {
+        $(document).on('click', '.wish button', function() {
             var isWish = $(this).hasClass('active');  // 현재 active 클래스가 있는지 확인
+            console.log("버튼 클릭됨, isWish 상태:", isWish); // 클릭 여부 확인
 
             if (isWish) {
                 // 위시 삭제 요청
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/unwish',
+                    url: '/unwish',
                     type: 'POST',
-                    data: { auction_id: auctionId, user_id: userId },
-                    success: function (response) {
+                    data: { auction_id: auctionId, user_id: userInfoId.id },
+                    success: function(response) {
                         if (response === 'OK') {
                             $('.wish button').removeClass('active');  // active 클래스 제거
-                            alert('위시 목록에서 제거되었습니다.');
+                            // alert('위시 목록에서 제거되었습니다.');
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error removing wish:', error);
                     }
                 });
             } else {
                 // 위시 추가 요청
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/wish',
+                    url: '/wish',
                     type: 'POST',
-                    data: { auction_id: auctionId, user_id: userId },
-                    success: function (response) {
+                    data: { auction_id: auctionId, user_id: userInfoId.id },
+                    success: function(response) {
                         if (response === 'OK') {
                             $('.wish button').addClass('active');  // active 클래스 추가
-                            alert('위시 목록에 추가되었습니다.');
+                            // alert('위시 목록에 추가되었습니다.');
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error adding wish:', error);
                     }
                 });
             }
         });
+
 // -----------------------------------------------------------------
 //                           위시 버튼 끝
 // -----------------------------------------------------------------

@@ -7,7 +7,7 @@
     <!-- 위시 추가 -->
     <insert id="wishInsert">
         INSERT INTO auctionwish_tb (auction_id, user_id)
-        VALUES (#{auction_id}, #{user_id}
+        VALUES (#{auction_id}, #{user_id})
     </insert>
 
     <!-- 위시 삭제 -->

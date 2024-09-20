@@ -1,10 +1,14 @@
 package com.boot.project_lupin.controller;
 
+import com.boot.project_lupin.dto.CustomOAuth2User;
 import com.boot.project_lupin.dto.QuestionAttachDTO;
 import com.boot.project_lupin.dto.QuestionDTO;
+import com.boot.project_lupin.dto.UserInfoDTO;
 import com.boot.project_lupin.service.QuestionService;
+import com.boot.project_lupin.service.UserInfoService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +38,23 @@ public class QuestionController {
 
 	@Autowired
 	private QuestionService service;
+	@Autowired
+	private UserInfoService userService;
 
 	@Autowired
 	private ServletContext servletContext;  // 프로젝트 경로를 얻기 위한 ServletContext
 
 	// 문의 화면으로 이동하는 메서드
 	@RequestMapping("/question")
-	public String question() {
+	public String question(HttpServletRequest httpServletRequest, Model model) {
+		// HttpSession에서 사용자 정보 가져오기
+		HttpSession session = httpServletRequest.getSession();
+		CustomOAuth2User user = (CustomOAuth2User) session.getAttribute("user");
+		UserInfoDTO loginUser = userService.selectUserInfo(user.getUsername());
+
+		model.addAttribute("loginUser", loginUser);
+
+		log.info("@@@@loginUser=>"+loginUser);
 		return "question";
 	}
 
@@ -61,8 +75,14 @@ public class QuestionController {
 	@RequestMapping("/userQuestionList")
 	public String userQuestionList(HttpServletRequest httpServletRequest, Model model) {
 		log.info("userQuestionList");
+		// HttpSession에서 사용자 정보 가져오기
+		HttpSession session = httpServletRequest.getSession();
+		CustomOAuth2User user = (CustomOAuth2User) session.getAttribute("user");
+		UserInfoDTO loginUser = userService.selectUserInfo(user.getUsername());
 
-		ArrayList<QuestionDTO> questionList = service.questionList();
+		model.addAttribute("loginUser", loginUser);
+
+		ArrayList<QuestionDTO> questionList = service.questionListbyId(loginUser.getId());
 		model.addAttribute("questionList", questionList);
 
 		return "userQuestionList";

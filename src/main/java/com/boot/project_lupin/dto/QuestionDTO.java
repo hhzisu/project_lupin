@@ -18,7 +18,7 @@ public class QuestionDTO {
 
 	private String question_answer;
 	
-	private int user_id;
+	private long user_id;
 
 	private int id;
 	private String email;

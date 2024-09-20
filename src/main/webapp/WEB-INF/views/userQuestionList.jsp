@@ -51,6 +51,7 @@
                         <h5 class="questionStat">상태</h5>
                         <h5 class="questionListBtn"></h5>
                     </div>
+                    <input type="hidden" name="user_id" value="${loginUser.id}">
                     <c:forEach items="${questionList}" var="question">
                         <div class="questionCon" data-question-id="${question.question_id}">
                             <div class="questionList">
