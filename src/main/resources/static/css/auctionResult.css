@@ -96,6 +96,12 @@
 	display: flex;
 	justify-content: center;
 }
+.auctionProgress .auctionList .auction .auctionImg .uploadResult .uploadStyle
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 .auctionProgress .auctionList .auction .auctionImg .uploadResult img
 {

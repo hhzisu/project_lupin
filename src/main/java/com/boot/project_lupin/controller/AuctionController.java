@@ -103,13 +103,22 @@ public class AuctionController {
 
 
 	// 파일 목록을 JSON으로 가져오는 메서드
-	@GetMapping(value = "/auctionListGetFileList")
-	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList(@RequestParam HashMap<String, String> param) {
+	@GetMapping(value = "/auctionListGetFileList1")
+	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList1(@RequestParam HashMap<String, String> param) {
 		log.info("@# auctionListGetFileList()");
 		log.info("@# param => " + param);
 		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
 
 		// 질문 ID로 파일 목록을 조회하여 리턴
 		return new ResponseEntity<>(managerService.auctionGetFileList1(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
+	}
+	@GetMapping(value = "/auctionListGetFileList2")
+	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList2(@RequestParam HashMap<String, String> param) {
+		log.info("@# auctionListGetFileList()");
+		log.info("@# param => " + param);
+		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
+
+		// 질문 ID로 파일 목록을 조회하여 리턴
+		return new ResponseEntity<>(managerService.auctionGetFileList2(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
 	}
 }
