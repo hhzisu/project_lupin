@@ -56,6 +56,15 @@ public class QuestionService{
 	}
 
 	//문의 리스트 가져오기
+	public ArrayList<QuestionDTO> questionListbyId(long user_id){
+		log.info("@# QuestionService questionList");
+
+		QuestionDAO dao = sqlSession.getMapper(QuestionDAO.class);
+		ArrayList<QuestionDTO> list = dao.questionListbyId(user_id);
+
+		return list;
+	}
+	//문의 리스트 가져오기
 	public ArrayList<QuestionDTO> questionList(){
 		log.info("@# QuestionService questionList");
 

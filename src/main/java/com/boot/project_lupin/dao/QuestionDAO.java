@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface QuestionDAO {
 	public void insertQuestion(QuestionDTO questionDTO);
+	public ArrayList<QuestionDTO> questionListbyId(long user_id);
 	public ArrayList<QuestionDTO> questionList();
 
 	public void questionAnswer(QuestionDTO questionDTO);
