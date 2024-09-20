@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static org.springframework.data.projection.EntityProjection.ProjectionType.DTO;
 
 @Slf4j
@@ -27,14 +29,25 @@ public class AuctionBidService {
         dao.insertBid(auctionBidDTO);
     }
 
-    public AuctionBidDTO getLatestBidInfo(int auctionId) {
+
+    public AuctionDTO getAuctionById(int auctionId) {
+        log.info("@# AuctionBidService getAuctionById");
+        log.info("@# auctionId=>"+auctionId);
+
+        AuctionBidDAO dao = sqlSession.getMapper(AuctionBidDAO.class);
+
+        return dao.getAuctionById(auctionId);
+    }
+
+
+    public List<AuctionBidDTO> getLatestBidInfo(int auctionId) {
         // 경매의 최신 응찰 정보를 가져오는 로직
         log.info("@# AuctionBidService getLatestBidInfo");
         log.info("@# auctionId=>"+auctionId);
 
         AuctionBidDAO dao = sqlSession.getMapper(AuctionBidDAO.class);
-        AuctionBidDTO dto = dao.getLatestBidInfo(auctionId);
+        List<AuctionBidDTO> dtos = dao.getLatestBidInfo(auctionId);
 
-        return dto;
+        return dtos;
     }
 }

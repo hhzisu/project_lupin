@@ -235,30 +235,32 @@
 
                             <div class="right">
                                 <div class="time">
-                                    <h5>남은시간 3일 05:20:03</h5>
-                                    <h4>호가단위 : KRW 1,000,000</h4>
+                                    <h5></h5>
+                                    <h4></h4>
                                 </div>
                                 <div class="box">
                                     <div class="boxHead">
                                         <h4>현재가</h4>
                                         <div class="headCount">
-                                            <h4>KRW 12,500,000</h4>
-                                            <h4>(응찰 1)</h4>
+                                            <h4 class="boxCurrentPrice"></h4>
+                                            <h4 class="boxHeadCount"></h4>
                                         </div>
                                     </div>
                                     <div class="boxCon">
-                                        <div class="boxList">
+                                        <!-- <div class="boxList">
                                             <h3>하*수</h3>
                                             <h4 style="color: var(--color-burgundy);">12,500,000</h4>
                                             <h5>24.09.06</h5>
                                             <h5>13:56:31</h5>
-                                        </div> <!--boxList 끝-->
-                                        <div class="boxList">
+                                        </div>  -->
+                                        <!--boxList 끝-->
+                                        <!-- <div class="boxList">
                                             <h3>나*엽</h3>
                                             <h4>8,000,000</h4>
                                             <h5>24.09.06</h5>
                                             <h5>11:20:09</h5>
-                                        </div> <!--boxList 끝-->
+                                        </div>  -->
+                                        <!--boxList 끝-->
 
                                     </div> <!-- boxCon 끝-->
                                 </div> <!--box 끝-->
@@ -418,6 +420,8 @@
                     // 응찰하기 모달 열기
                     openModalBtn.addEventListener("click", function () {
                         console.log("응찰하기 버튼 클릭됨");
+                        console.log("@# 모달 열린 후 auctionId=>"+auctionId);
+                        loadAuctionData(auctionId);
                         document.getElementById("modalBid").style.display = "block";
                     });
 
@@ -480,7 +484,8 @@
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
     
-    let userInfo;
+    let userInfo; // 로그인 유저정보 전역변수
+    const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
 
     $(document).ready(function() {
         $.ajax({
@@ -489,6 +494,8 @@
             success: function(data) {
                 if (data) {
                     userInfo = data;  // 데이터를 전역 변수에 저장
+                    // alert("환영합니다, " + userInfo.name);
+                    console.log("@# userInfo.id=>"+userInfo.id);
                 } else {
                     console.log("사용자 정보가 없습니다.");
                 }
@@ -514,8 +521,10 @@
             var auctionUpdate = JSON.parse(message.body);
             console.log('경매 업데이트: ', auctionUpdate);
 
-            // 예시: 현재가 업데이트
-            document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.lateBidMoney;
+            loadAuctionData(auctionId);
+
+            // 현재가 업데이트
+            // document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.lateBidMoney;
         });
     });
 
@@ -532,11 +541,152 @@
         // 입찰 정보를 STOMP로 서버에 전송
         stompClient.send("/pub/bid", {}, JSON.stringify({
             userId: userInfo.id,  // 현재 사용자의 ID
-            auctionId: "${auction.auction_id}",  // 경매 ID
+            auctionId: auctionId,  // 경매 ID
             bidMoney: selectedBid
         }));
     });
 
+
+
+    function loadAuctionData(auctionId) {
+        $.ajax({
+            url: "/api/auction/" + auctionId,  // 서버의 경매 데이터를 가져오는 엔드포인트
+            method: "GET",
+            success: function(auction) {
+                // console.log('@# auction.auction_lot=>'+auction.auction_lot);
+                // console.log('@# auction.auctionSchedule_end=>'+auction.auctionSchedule_end);
+                // console.log('@# auction.bidHistory=>'+auction.bidHistory);
+                // console.log('@# auction.bidHistory[0].bidMoney=>'+auction.bidHistory[0].bidMoney);
+
+
+                // 콤마 제거 및 숫자로 변환
+                let startPrice = auction.auction_startPrice.replace(/,/g, '');  // 콤마를 제거
+                let numericStartPrice = parseInt(startPrice, 10);  // 문자열을 숫자로 변환
+
+                console.log('@# numericStartPrice=>'+numericStartPrice);
+
+                // 호가 단위 계산 및 표시
+                let bidIncrement = getBidIncrement(numericStartPrice);  // 호가 단위 결정
+
+                // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
+                let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
+                                 ? auction.bidHistory[0].bidMoney
+                                 : auction.auction_startPrice;
+
+
+                // 가져온 경매 데이터를 모달에 반영
+                $('#modalBid .left h5').text("LOT " + auction.auction_lot);
+                $('#modalBid .left h2').text(auction.auction_author);
+                $('#modalBid .left h3').text(auction.auction_title);
+                $('#modalBid .left h4.size').text(auction.auction_size + " | " + auction.auction_madeDate);
+                // $('#modalBid .left .auctionImg img').attr('src', auction.AuctionAttachList1[0].filename); // 경매 이미지 경로 설정
+                // $('#modalBid .time h5').text("남은시간 " + auction.auctionSchedule_end);
+                // $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auction.auctionSchedule_end));
+                // $('#modalBid .time h4').text("호가단위 : KRW " + getBidIncrement(auction.auction_startPrice).toLocaleString());
+                $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
+                $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice);
+                $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");
+
+
+                // 남은 시간을 매초 업데이트
+                let auctionEndTime = new Date(auction.auctionSchedule_end).getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
+
+                // 즉시 남은 시간을 한 번 계산하여 표시
+                $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auctionEndTime));
+
+                // 1초마다 업데이트
+                setInterval(function() {
+                    let remainingTime = calculateRemainingTime(auctionEndTime);
+                    $('#modalBid .time h5').text("남은시간 " + remainingTime);
+                }, 1000);  
+
+                
+                // 기존 응찰 내역을 업데이트
+                let bidHistory = '';
+                auction.bidHistory.forEach(function(bid) {
+                    bidHistory += `<div class="boxList">
+                        <h3>\${bid.userName}</h3>
+                        <h4 style="color: var(--color-burgundy);">\${bid.bidMoney}</h4>
+                        <h5>\${formatBidTime(bid.bidTime)}</h5>
+                    </div>`;
+                });
+                $('#modalBid .boxCon').html(bidHistory);
+
+                // 경매 모달을 열기
+                // $('#modalBid').show();
+            },
+            error: function(err) {
+                console.log("Error:", err);
+            }
+        });
+    }
+
+    // 경매 참여 버튼 클릭 시 모달을 열고 데이터 로드
+    // $('#openModalBidBtn').click(function() {
+    //     const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
+    //     loadAuctionData(auctionId);
+    // });
+
+
+    // 경매 남은 시간 계산 함수
+    function calculateRemainingTime(endTime) {
+        let now = new Date().getTime();  // 현재 시간
+        let distance = endTime - now;  // 남은 시간 계산 (밀리초 단위)
+
+        console.log('@# now=>'+now);
+        console.log('@# distance=>'+distance);
+
+        if (distance < 0) {
+            return "경매 종료";  // 경매가 종료되었을 경우
+        }
+
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        return `\${days}일 \${hours}:\${minutes}:\${seconds}`;
+    }
+
+    
+    // 응찰 시간 포맷팅 함수
+    function formatBidTime(bidTime) {
+        const date = new Date(bidTime);
+        const year = String(date.getFullYear()).substring(2);  // 연도의 마지막 두 자리만 표시
+        const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월을 두 자리로 표시
+        const day = ('0' + date.getDate()).slice(-2);
+        const hours = ('0' + date.getHours()).slice(-2);
+        const minutes = ('0' + date.getMinutes()).slice(-2);
+        const seconds = ('0' + date.getSeconds()).slice(-2);
+
+        return `\${year}.\${month}.\${day} \${hours}:\${minutes}:\${seconds}`;
+    }
+
+
+    // 호가 단위 결정 함수
+    function getBidIncrement(currentPrice) {
+    if (currentPrice < 300000) {
+        return 20000;  // 30만원 미만
+    } else if (currentPrice < 1000000) {
+        return 50000;  // 30만원 이상 ~ 100만원 미만
+    } else if (currentPrice < 3000000) {
+        return 100000; // 100만원 이상 ~ 300만원 미만
+    } else if (currentPrice < 5000000) {
+        return 200000; // 300만원 이상 ~ 500만원 미만
+    } else if (currentPrice < 10000000) {
+        return 500000; // 500만원 이상 ~ 1000만원 미만
+    } else if (currentPrice < 30000000) {
+        return 1000000; // 1000만원 이상 ~ 3000만원 미만
+    } else if (currentPrice < 50000000) {
+        return 2000000; // 3000만원 이상 ~ 5000만원 미만
+    } else if (currentPrice < 200000000) {
+        return 5000000; // 5000만원 이상 ~ 2억 미만
+    } else if (currentPrice < 500000000) {
+        return 10000000; // 2억 이상 ~ 5억 미만
+    } else {
+        return 20000000; // 5억 이상
+    }
+}
 
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
