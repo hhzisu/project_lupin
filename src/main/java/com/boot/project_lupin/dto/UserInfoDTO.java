@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserInfoDTO {
+
 	private Long id;
 	private String birthday;
 	private String birthyear;
@@ -18,8 +19,12 @@ public class UserInfoDTO {
 	private String mobile;
 	private String name;
 	private String role;
+
 	private String username;
-	private String userAddress;
+
+	private String postcode;
+	private String roadAddress;
+	private String detailAddress;
 
 	private String adminPw;
 }

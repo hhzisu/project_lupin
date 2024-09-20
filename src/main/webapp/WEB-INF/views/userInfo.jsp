@@ -101,17 +101,20 @@
                     </div>
                     <div class="ManageDiv userAddr">
                         <h4 class="requiredInfo">주소</h4>
-                        <div class="addrBigRow">
-                            <div class="addrRow">
-                                <input id="postcode" class="userAddrInput" type="text" placeholder="우편번호">
-                                <button class="addrSearchBtn" onclick="DaumPostcode()">주소검색</button>
+                        <form id="addressForm" action="updateInfo" method="POST">
+                            <input type="hidden" value="${loginUser.username}" name="username">
+                            <div class="addrBigRow">
+                                <div class="addrRow">
+                                    <input id="postcode" class="userAddrInput" type="text" value="${loginUser.postcode}" placeholder="우편번호" name="postcode">
+                                    <button type="button" class="addrSearchBtn" onclick="DaumPostcode()">주소검색</button>
+                                </div>
+                                <div id="showAddr" class="showAddr">
+                                    <h5 id="roadAddressDisplay">${loginUser.roadAddress}</h5>
+                                    <input id="roadAddress" type="hidden" value="${loginUser.roadAddress}" name="roadAddress">
+                                </div>
+                                <input class="userAddrDetail" type="text" value="${loginUser.detailAddress}" placeholder="상세주소" name="detailAddress">
                             </div>
-                            <div id="showAddr" class="showAddr">
-                                <h5 id="roadAddressDisplay"></h5>
-                                <input id="roadAddress" type="hidden">
-                            </div>
-                            <input class="userAddrDetail" type="text" placeholder="상세주소">
-                        </div>
+                        </form>
                     </div>
                     <!-- <div class="ManageDiv userdelivAddr">
                         <h4>배송지 주소</h4>
@@ -134,10 +137,10 @@
                 <!-- userInfoManage 끝 -->
                 <hr>
                 <div class="userInfoBtns">
-                    <button class="updateUserInfo">수정하기</button>
-                    <button class="removeUser">회원탈퇴</button>
+                    <button class="updateUserInfo" onclick="submitAddressForm()">주소수정</button>
+                    <!-- <button class="removeUser">회원탈퇴</button> -->
                 </div>
-                <h5 class="warningRemove" style="color: red;">*탈퇴 시 삭제된 정보는 복구될 수 없습니다.</h5>
+                <!-- <h5 class="warningRemove" style="color: red;">*탈퇴 시 삭제된 정보는 복구될 수 없습니다.</h5> -->
             </div>
             <!-- userInfoInfo 끝 -->
         </div>
@@ -149,6 +152,23 @@
 </body>
 </html>
 <script>
+    $(document).ready(function() {
+        var roadAddress = "${loginUser.roadAddress}";
+        
+        // loginUser.roadAddress 값이 있으면 display: block
+        if (roadAddress) {
+            document.getElementById("showAddr").style.display = "block";
+        } else {
+            document.getElementById("showAddr").style.display = "none";
+        }
+    });
+
+    
+    function submitAddressForm() {
+        document.getElementById('addressForm').submit(); // 주소 폼 제출
+    }
+
+
     function DaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {

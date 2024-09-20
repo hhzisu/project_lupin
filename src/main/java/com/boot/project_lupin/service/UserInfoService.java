@@ -32,5 +32,14 @@ public class UserInfoService {
 			return null; // 또는 기본 값을 반환하거나 적절한 예외 처리를 진행
 		}
 	}
+
+//	로그인 유저 정보 가져옴
+	public void updateAddress(UserInfoDTO userInfoDTO) {
+		log.info("@# UserInfoService updateAddress");
+		log.info("@# userInfoDTO=>" + userInfoDTO);
+
+		UserInfoDAO dao = sqlSession.getMapper(UserInfoDAO.class);
+		dao.updateAddress(userInfoDTO);
+	}
 }
 
