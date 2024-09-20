@@ -4,16 +4,22 @@
 
 <mapper namespace="com.boot.project_lupin.dao.AuctionBidDAO">
 
-	<insert id="insertBid">
+	<insert id="insertBid" parameterType="com.boot.project_lupin.dto.AuctionBidDTO">
 		INSERT INTO bid_tb (user_id, auction_id, bid_money, bid_time)
 		VALUES (#{userId}, #{auctionId}, #{bidMoney}, NOW())
 	</insert>
 
-	<select id="getLatestBid" resultType="AuctionBidDTO">
-		SELECT user_id, auction_id, bid_money, bid_time
-		FROM bid_tb
-		WHERE auction_id = #{auctionId}
-		ORDER BY bid_time DESC
+	<select id="getLatestBidInfo" resultType="com.boot.project_lupin.dto.AuctionBidDTO">
+		SELECT
+			b.user_id AS userId,
+			b.auction_id AS auctionId,
+			b.bid_money AS lateBidMoney,
+			b.bid_time AS bidTime,
+			u.name AS userName
+		FROM bid_tb b
+		JOIN userentity u ON b.user_id = u.id
+		WHERE b.auction_id = #{auctionId}
+		ORDER BY b.bid_time DESC
 		LIMIT 1
 	</select>
 

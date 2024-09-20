@@ -229,9 +229,9 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // 현재 auction_lot 및 auctionSchedule_id 값을 자바스크립트로 받아옵니다.
-        var currentLot = ${auction.auction_lot};
-        var auctionScheduleId = ${auction.auctionSchedule_id};
-        var totalLots = ${totalLots}; // 전체 경매 항목 수
+        var currentLot = "${auction.auction_lot}";
+        var auctionScheduleId = "${auction.auctionSchedule_id}";
+        var totalLots = "${totalLots}"; // 전체 경매 항목 수
 
         // 이전 및 다음 링크 설정
         var prevLink = document.getElementById("prevLink");

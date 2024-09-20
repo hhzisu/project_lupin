@@ -8,6 +8,7 @@
 		<mapper resource="mybatis/mappers/commission.xml"/>
 		<mapper resource="mybatis/mappers/manager.xml"/>
 		<mapper resource="mybatis/mappers/auction.xml"/>
+		<mapper resource="mybatis/mappers/auctionBid.xml"/>
 		<mapper resource="mybatis/mappers/admin.xml"/>
 		<mapper resource="mybatis/mappers/userInfo.xml"/>
 		<mapper resource="mybatis/mappers/wish.xml"/>

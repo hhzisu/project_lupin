@@ -20,6 +20,8 @@
             <!-- import js -->
             <script src="https://code.jquery.com/jquery-3.6.3.min.js"
                 integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
         </head>
         <style>
             .headerMid .rightMenu {
@@ -264,9 +266,9 @@
 
                                 <div class="buttonBid">
                                     <select name="" id="">
-                                        <option value="">13,000,000</option>
-                                        <option value="">14,000,000</option>
-                                        <option value="">15,000,000</option>
+                                        <option value="13,000,000">13,000,000</option>
+                                        <option value="14,000,000">14,000,000</option>
+                                        <option value="15,000,000">15,000,000</option>
                                     </select>
                                     <button class="bidBtn">응찰하기</button>
                                     <!-- <button class="bidBtn maximum">최고가 응찰 중</button> -->
@@ -502,4 +504,82 @@
                     $("#menu").addClass("logged-in");
                 }
             });
-        </script>
+
+        } else {
+            console.log("응찰하기 버튼을 찾을 수 없습니다.");
+        }
+    });
+
+
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+//                             나성엽
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+
+    let userInfo;
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "/api/auction/userInfo",
+            method: "GET",
+            success: function(data) {
+                if (data) {
+                    userInfo = data;  // 데이터를 전역 변수에 저장
+                } else {
+                    console.log("사용자 정보가 없습니다.");
+                }
+            },
+            error: function(err) {
+                console.log("Error:", err);
+            }
+        });
+    });
+
+
+
+    // STOMP 클라이언트 설정
+    var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
+    var stompClient = Stomp.over(socket);
+
+    // STOMP 연결
+    stompClient.connect({}, function (frame) {
+        console.log('STOMP 연결됨: ' + frame);
+
+        // 서버로부터 경매 업데이트 메시지를 받으면 처리
+        stompClient.subscribe('/sub/auctionUpdates', function (message) {
+            var auctionUpdate = JSON.parse(message.body);
+            console.log('경매 업데이트: ', auctionUpdate);
+
+            // 예시: 현재가 업데이트
+            document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.lateBidMoney;
+        });
+    });
+
+    // 경매 참여 버튼 클릭 시 서버로 메시지 전송
+    // document.querySelector('.bidBtn').addEventListener('click', function() {
+    //     var selectedBid = document.querySelector('select').value;
+    //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
+    // });
+
+    // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
+    document.querySelector('.bidBtn').addEventListener('click', function() {
+        var selectedBid = document.querySelector('select').value;
+
+        // 입찰 정보를 STOMP로 서버에 전송
+        stompClient.send("/pub/bid", {}, JSON.stringify({
+            userId: userInfo.id,  // 현재 사용자의 ID
+            auctionId: "${auction.auction_id}",  // 경매 ID
+            bidMoney: selectedBid
+        }));
+    });
+
+
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+//                           나성엽 끝
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+</script>
+
+

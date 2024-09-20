@@ -9,6 +9,6 @@ import java.util.ArrayList;
 
 @Mapper
 public interface AuctionBidDAO {
-    public void updateBid(AuctionBidDTO auctionBidDTO);
+    public void insertBid(AuctionBidDTO auctionBidDTO);
     public AuctionBidDTO getLatestBidInfo(int auctionId); //진행 경매 목록
 }
