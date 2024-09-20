@@ -14,9 +14,21 @@
         mobile,
         name,
         role,
+        postcode,
+        roadAddress,
+        detailAddress,
         username
         FROM userentity
         WHERE username = #{username}
     </select>
+
+    <update id="updateAddress" parameterType="com.boot.project_lupin.dto.UserInfoDTO">
+        UPDATE userentity
+        SET
+        postcode = #{postcode},
+        roadAddress = #{roadAddress},
+        detailAddress = #{detailAddress}
+        WHERE username = #{username}
+    </update>
 
 </mapper>
