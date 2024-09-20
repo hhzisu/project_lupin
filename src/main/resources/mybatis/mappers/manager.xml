@@ -22,6 +22,20 @@
 		order by auctionSchedule_start asc
 	</select>
 
+	<select id="getScheduleById" parameterType="String" resultType="com.boot.project_lupin.dto.AuctionScheduleDTO">
+		SELECT auctionschedule_id, auctionschedule_start, auctionschedule_end
+		FROM auctionschedule_tb
+		WHERE auctionschedule_id = #{auctionSchedule_id}
+	</select>
+
+
+	<update id="scheduleModify">
+		UPDATE auctionschedule_tb
+		SET auctionSchedule_start = #{auctionSchedule_start},
+			auctionSchedule_end = #{auctionSchedule_end}
+		WHERE auctionSchedule_id = #{auctionSchedule_id}
+	</update>
+
 	<delete id="scheduleDelete">
 		delete from auctionschedule_tb where auctionSchedule_id = #{auctionSchedule_id}
 	</delete>

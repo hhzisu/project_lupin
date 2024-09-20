@@ -74,7 +74,7 @@ section
 	cursor: pointer;
 }
 
-.detailAuction .left .auctionImg .leftImg .preview .uploadResult
+.detailAuction .left .auctionImg .leftImg .preview .uploadAuction
 {
 	width: 160px;
 	height: 160px;
@@ -83,7 +83,14 @@ section
 	justify-content: center;
 }
 
-.detailAuction .left .auctionImg .leftImg .preview .uploadResult img
+.detailAuction .left .auctionImg .leftImg .preview .uploadAuction .uploadStyle
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.detailAuction .left .auctionImg .leftImg .preview .uploadAuction img
 {
 	width: 100%;
 	height: 100%;
@@ -178,7 +185,7 @@ section
 }
 
 /* 위시 활성화 후 버튼 */
-/* .detailAuction .right .top .wish button
+.detailAuction .right .top .wish button.active
 {
 	width: 70px;
 	height: 30px;
@@ -189,7 +196,7 @@ section
 	font-weight: 300;
 	cursor: pointer;
 	border-radius: 4px;
-} */
+}
 
 .detailAuction .right .top h5
 {

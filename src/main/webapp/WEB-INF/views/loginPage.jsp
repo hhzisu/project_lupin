@@ -44,46 +44,12 @@
                                     <div>Login</div>
                                 </div>
                                 <div class="loginButtons">
-                                    <!-- <div class="kakaoLogin">
-                        <i class="fa-solid fa-comment" style="margin-right: 20px;"></i>
-                        <div class="kakao">카카오로 시작하기</div>
-                    </div> -->
                                     <a href="/oauth2/authorization/naver">
                                         <div class="naverLogin">
                                             <i class="fa-solid fa-n" style="color: #ffffff; margin-right: 20px;"></i>
-                                            <div class="naver">네이버 로그인</div>
+                                            <div class="naver" style="color: var(--color-white); font-weight: 900;">네이버 로그인</div>
                                         </div>
                                     </a>
-                                </div>
-                            </div>
-                            <div class="managerLogin">
-                                <div class="mangerLoginText">
-                                    <p>관리자 로그인</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 모달 구조 -->
-                    <div id="modal1" class="modal">
-                        <div class="modal-content" style="width: 300px; height: 300px;">
-                            <span class="close">&times;</span>
-                            <div class="modal-header">
-                                <h4>관리자 로그인</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="login">
-                                    <div class="managerId">
-                                        <p>ID</p>
-                                        <input type="text" class="managerLoginText">
-                                    </div>
-                                    <div class="managerPwd">
-                                        <p>PW</p>
-                                        <input type="text" class="managerLoginText">
-                                    </div>
-                                    <div class="managerLoginBtn">
-                                        <p>로그인</p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -95,23 +61,4 @@
 
         </html>
         <script>
-            // "낙찰 수수료" 버튼 클릭 시 모달1 표시
-            document.querySelector(".managerLogin").onclick = function () {
-                document.getElementById("modal1").style.display = "block";
-            }
-
-            // 모든 닫기 버튼 클릭 시 모달 닫기
-            var closeButtons = document.getElementsByClassName("close");
-            for (var i = 0; i < closeButtons.length; i++) {
-                closeButtons[i].onclick = function () {
-                    this.closest('.modal').style.display = "none";
-                }
-            }
-
-            // 모달 밖을 클릭하면 닫기
-            window.onclick = function (event) {
-                if (event.target.className === 'modal') {
-                    event.target.style.display = "none";
-                }
-            }
         </script>

@@ -1,5 +1,6 @@
 package com.boot.project_lupin.controller;
 
+import com.boot.project_lupin.dao.ManagerDAO;
 import com.boot.project_lupin.dto.*;
 import com.boot.project_lupin.service.ManagerService;
 import jakarta.servlet.ServletContext;
@@ -23,6 +24,7 @@ import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.*;
 
 @Controller
@@ -73,6 +75,42 @@ public class ManagerController {
 
 		return "redirect:managerAuction";
 	}
+
+	// 일정 수정 페이지로 이동
+	@RequestMapping("/managerAuctionModify")
+	public String managerAuctionModify(@RequestParam("auctionSchedule_id") String auctionSchedule_id, Model model) {
+		log.info("@# managerAuctionModify auctionSchedule_id => {}", auctionSchedule_id);
+
+		// auctionSchedule_id로 해당 일정 정보를 조회
+		AuctionScheduleDTO auctionScheduleDTO = managerService.getScheduleById(auctionSchedule_id);
+
+		// 조회된 일정 정보를 모델에 추가하여 JSP로 전달
+		model.addAttribute("auctionScheduleDTO", auctionScheduleDTO);
+
+
+		// 현재 연도 추가
+		int currentYear = Year.now().getValue();
+		model.addAttribute("currentYear", currentYear);
+
+		return "managerAuctionModify";
+	}
+
+	@PostMapping("/scheduleModify")
+	public String modifyAuctionSchedule(AuctionScheduleDTO auctionScheduleDTO, Model model) {
+		log.info("@# modifyAuctionSchedule auctionScheduleDTO => {}", auctionScheduleDTO);
+
+		try {
+			managerService.scheduleModify(auctionScheduleDTO);
+			model.addAttribute("result", "success");  // 성공 시
+		} catch (Exception e) {
+			model.addAttribute("result", "fail");  // 실패 시
+			log.error("경매 일정 수정 실패", e);
+		}
+
+		// 수정 후 경매 관리 페이지로 리다이렉트
+		return "redirect:/managerAuction";
+	}
+
 
 	@RequestMapping("/deleteSchedule")
 	public String deleteSchedule(String auctionSchedule_id) {

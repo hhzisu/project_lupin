@@ -27,7 +27,7 @@
         <div class="commissionContent">
             <div class="headBox">
                 <div class="commission_img">
-                    <img src="images/Commission.png" alt="commission">
+                    <img src="images/guideAuction.jpg" alt="commission">
                 </div>
                 <div class="commission_text">
                     <p class="text_top">How To Bid</p>
@@ -68,20 +68,20 @@
                         <p>· 동의 절차를 거친 뒤 온라인 응찰을 진행하실 수 있습니다.</p>
                         <div class="box">
                             <div class="minibox">
-                                <div class="radius">
-                                    <div class="radiusIcon">
-                                        <i class="fa-solid fa-gavel"></i>
-                                    </div>
-                                </div>
+<%--                                <div class="radius">--%>
+<%--                                    <div class="radiusIcon">--%>
+<%--                                        <i class="fa-solid fa-gavel"></i>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                                 <p class="num">1회 응찰</p>
                                 <p class="box_content">주어진 금액에 따라 1회씩 수동응찰</p>
                             </div>
                             <div class="minibox">
-                                <div class="radius">
-                                    <div class="radiusIcon">
-                                        <i class="fa-solid fa-desktop"></i>
-                                    </div>
-                                </div>
+<%--                                <div class="radius">--%>
+<%--                                    <div class="radiusIcon">--%>
+<%--                                        <i class="fa-solid fa-desktop"></i>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                                 <p class="num">자동응찰</p>
                                 <p class="box_content">작품의 한도액을 미리 설정해 자동으로 응찰</p>
                                 <p class="box_content">자동응찰의 경우 상대 응찰자가 없으면 최소금액으로 낙찰됩니다.</p>

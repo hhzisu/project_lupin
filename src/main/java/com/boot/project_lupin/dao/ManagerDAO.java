@@ -16,6 +16,12 @@ public interface ManagerDAO {
 	// 경매 스케줄 리스트 조회
 	ArrayList<AuctionScheduleDTO> scheduleList();
 
+	// 특정 auctionSchedule_id로 일정 조회
+	AuctionScheduleDTO getScheduleById(@Param("auctionSchedule_id") String auctionSchedule_id);
+
+	// 경매 스케줄 수정
+	void scheduleModify(AuctionScheduleDTO auctionScheduleDTO);
+
 	// 경매 스케줄 삭제
 	void scheduleDelete(String auctionSchedule_id);
 
@@ -38,8 +44,4 @@ public interface ManagerDAO {
 
 	void auctionDeleteFile(String auction_id);
 
-	// 파일 업로드 2 (주석 처리된 부분은 사용하지 않음)
-	// public void auctionInsertFile2(AuctionAttach2DTO vo);
-	// public List<AuctionAttach2DTO> auctionGetFileList2(int auction_id);
-	// public void auctionDeleteFile2(String auction_id);
 }

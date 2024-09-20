@@ -35,16 +35,16 @@
                 <div class="auctionImg">
                     <div class="leftImg">
                         <div class="preview">
-                            <div class="uploadResult">
-                                <ul>
+                            <div class="uploadAuction">
+                                <ul class="uploadStyle">
                                     <img src="images/auction1.jpg">
                                 </ul>
                             </div>
                         </div>
                         <div class="preview">
-                            <div class="uploadResult">
-                                <ul>
-                                    <img src="images/auction2.jpg">
+                            <div class="uploadAuction">
+                                <ul class="uploadStyle">
+                                    <img src="images/auction1.jpg">
                                 </ul>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
 
     <!-- 모달 구조 -->
     <div id="modal1" class="modal">
-        <div class="modal-content" style="width: 450px; height: 420px;">
+        <div class="modal-content" style="width: 450px; height: 370px;">
             <span class="close">&times;</span>
             <div class="modal-header">
                 <h4>낙찰 수수료 안내</h4>
@@ -144,20 +144,16 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>~10,000,000</td>
+                        <td>일괄</td>
                         <td>낙찰가의 19.8%</td>
-                    </tr>
-                    <tr>
-                        <td>10,000,001 ~</td>
-                        <td>1,000만원의 19.8% +<br>(낙찰가 - 1,000만원) × 16.5%</td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="notice">
                     <p>예시) 낙찰가 5,000만원일 경우</p>
                     <ul>
-                        <li>· 낙찰 수수료 : <br>198만원 + (5,000만원 - 1,000만원) × 16.5%<br>= 8,580,000원</li>
-                        <li>· 총 구매대금 : <br>낙찰가 + 낙찰수수료 = 58,580,000원</li>
+                        <li>· 낙찰 수수료 : <br>5,000만원 × 19.8%<br>= 9,900,000원</li>
+                        <li>· 총 구매대금 : <br>낙찰가 + 낙찰수수료 = 59,900,000원</li>
                     </ul>
                 </div>
             </div>
@@ -285,13 +281,84 @@
         }
     });
 
-    //이미지 불러오기
     $(document).ready(function () {
         // auction_id 값을 가져옴
         var auctionId = "<c:out value='${auction.auction_id}'/>";
+        // header에 담긴 userInfo에서 id가져옴
+        var userId = userInfo.id;
+
+
+// -----------------------------------------------------------------
+//                           위시 버튼
+// -----------------------------------------------------------------
+
+        // 페이지 로드 시 위시 상태 확인하여 버튼 상태 설정
+        $.ajax({
+            url: '${pageContext.request.contextPath}/wish/state',
+            type: 'GET',
+            data: { auction_id: auctionId, user_id: userId },
+            success: function (data) {
+                if (data) {
+                    // 사용자가 이미 위시를 눌렀다면 active 클래스 추가
+                    $('.wish button').addClass('active');
+                } else {
+                    $('.wish button').removeClass('active');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error checking wish state:', error);
+            }
+        });
+
+        // WISH 버튼 클릭 시 이벤트 처리
+        $('.wish button').on('click', function () {
+            var isWish = $(this).hasClass('active');  // 현재 active 클래스가 있는지 확인
+
+            if (isWish) {
+                // 위시 삭제 요청
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/unwish',
+                    type: 'POST',
+                    data: { auction_id: auctionId, user_id: userId },
+                    success: function (response) {
+                        if (response === 'OK') {
+                            $('.wish button').removeClass('active');  // active 클래스 제거
+                            alert('위시 목록에서 제거되었습니다.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error removing wish:', error);
+                    }
+                });
+            } else {
+                // 위시 추가 요청
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/wish',
+                    type: 'POST',
+                    data: { auction_id: auctionId, user_id: userId },
+                    success: function (response) {
+                        if (response === 'OK') {
+                            $('.wish button').addClass('active');  // active 클래스 추가
+                            alert('위시 목록에 추가되었습니다.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding wish:', error);
+                    }
+                });
+            }
+        });
+// -----------------------------------------------------------------
+//                           위시 버튼 끝
+// -----------------------------------------------------------------
+
+
+// -----------------------------------------------------------------
+//                           이미지 불러오기
+// -----------------------------------------------------------------
 
         // 모든 .uploadResult 요소를 선택
-        var uploadResultContainerList = $('.uploadResult ul');
+        var uploadResultContainerList = $('.uploadAuction ul');
 
         if (auctionId) {
             $.ajax({
@@ -300,38 +367,55 @@
                 data: { auction_id: auctionId },
                 dataType: 'json',
                 success: function(data) {
-                    // 불러온 파일 리스트를 각 uploadResult에 맞게 할당
+                    // 불러온 파일 리스트를 각 uploadResult에 하나씩 할당
                     showUploadResult(data, uploadResultContainerList);
+
+                    // 기본으로 첫 번째 이미지를 detail에 표시
+                    if (data.length > 0) {
+                        var firstImageSrc = encodeURIComponent(data[0].uploadPath + "/s_" + data[0].fileName);
+                        $('.detail img').attr('src', '/auctionListDisplay?fileName=' + firstImageSrc);
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching file list for auction_id ' + auctionId + ':', error);
                 }
             });
         }
+
+        // 이미지 클릭 시 detail 클래스에 이미지 표시
+        $(document).on('click', '.uploadAuction img', function() {
+            var imgSrc = $(this).attr('src');  // 클릭한 이미지의 src 속성을 가져옴
+            $('.detail img').attr('src', imgSrc);  // detail 클래스의 이미지 src를 업데이트
+        });
     });
 
-
+    // 이미지 목록을 각 컨테이너에 표시
     function showUploadResult(uploadResultArr, uploadResultContainerList) {
-        if (!uploadResultArr || uploadResultArr.length == 0 || uploadResultContainerList.length == 0) {
+        if (!uploadResultArr || uploadResultArr.length == 0) {
             return;
         }
 
-        // uploadResultContainerList와 uploadResultArr 크기 중 작은 쪽에 맞추어 순회
-        for (var i = 0; i < Math.min(uploadResultArr.length, uploadResultContainerList.length); i++) {
-            var obj = uploadResultArr[i];
-            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        // 각 컨테이너에 하나의 이미지만 할당
+        uploadResultContainerList.each(function(index) {
+            if (index < uploadResultArr.length) {
+                var obj = uploadResultArr[index];
+                var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
+                var str = "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                str += "<div>";
+                str += "<span style='display:none;'>" + obj.fileName + "</span>";
+                str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+                str += "</div></li>";
 
-            var str = "<li data-path='" + obj.uploadPath + "'";
-            str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-            str += "<div>";
-            str += "<span style='display:none;'>" + obj.fileName + "</span>";
-            str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
-            str += "</div></li>";
-
-            // 각 uploadResultContainer에 하나씩 이미지를 추가
-            $(uploadResultContainerList[i]).empty().append(str);
-        }
+                // 각 컨테이너에 하나의 이미지 할당
+                $(this).empty().append(str);
+            }
+        });
     }
+
+// -----------------------------------------------------------------
+//                           이미지 불러오기 끝
+// -----------------------------------------------------------------
+
 
 
 
