@@ -80,9 +80,12 @@
                                                     </div>
                                                     <div class="rightBox">
                                                         <div class="management btn">
-                                                            <p>관리</p>
+                                                            <a href="auctionScheduled">
+                                                                <p>관리</p>
+                                                            </a>
                                                         </div>
-                                                        <div class="modify btn" onclick="location.href='managerAuctionModify?auctionSchedule_id=${dto.auctionSchedule_id}'">
+                                                        <div class="modify btn"
+                                                            onclick="location.href='managerAuctionModify?auctionSchedule_id=${dto.auctionSchedule_id}'">
                                                             <p>수정</p>
                                                         </div>
                                                         <div class="delete btn" data-id="${dto.auctionSchedule_id}">
@@ -93,23 +96,6 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
-                                    <!-- <div class="expectAuction">
-                                        <div class="leftBox">
-                                            <p>예정 경매</p>
-                                            <p>24.09.16 12:00 ~ 24.09.20 18:00</p>
-                                        </div>
-                                        <div class="rightBox">
-                                            <div class="management btn">
-                                                <p>관리</p>
-                                            </div>
-                                            <div class="modify btn">
-                                                <p>수정</p>
-                                            </div>
-                                            <div class="delete btn">
-                                                <p>삭제</p>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                 </div>
                                 <div class="dateRegisterWrap">
                                     <hr>
