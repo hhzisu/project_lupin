@@ -35,14 +35,14 @@
                 <div class="auctionImg">
                     <div class="leftImg">
                         <div class="preview">
-                            <div class="uploadAuction">
+                            <div class="uploadAuction uploadAuction1">
                                 <ul class="uploadStyle">
                                     <img src="images/auction1.jpg">
                                 </ul>
                             </div>
                         </div>
                         <div class="preview">
-                            <div class="uploadAuction">
+                            <div class="uploadAuction uploadAuction2">
                                 <ul class="uploadStyle">
                                     <img src="images/auction1.jpg">
                                 </ul>
@@ -229,9 +229,12 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // 현재 auction_lot 및 auctionSchedule_id 값을 자바스크립트로 받아옵니다.
-        var currentLot = "${auction.auction_lot}";
+        var currentLot = parseInt("${auction.auction_lot}");
         var auctionScheduleId = "${auction.auctionSchedule_id}";
-        var totalLots = "${totalLots}"; // 전체 경매 항목 수
+        var totalLots = parseInt("${totalLots}");
+
+        console.log("currentLot:", currentLot);
+        console.log("totalLots:", totalLots);
 
         // 이전 및 다음 링크 설정
         var prevLink = document.getElementById("prevLink");
@@ -378,30 +381,37 @@
 //                           이미지 불러오기
 // -----------------------------------------------------------------
 
-        // 모든 .uploadResult 요소를 선택
-        var uploadResultContainerList = $('.uploadAuction ul');
+        // 업로드 컨테이너 및 URL로 이미지 리스트를 표시하는 함수를 정의
+        function loadAuctionImages(url, uploadResultContainer) {
+            if (auctionId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: { auction_id: auctionId },
+                    dataType: 'json',
+                    success: function(data) {
+                        showUploadResult(data, uploadResultContainer);
 
-        if (auctionId) {
-            $.ajax({
-                url: '/auctionListGetFileList',
-                type: 'GET',
-                data: { auction_id: auctionId },
-                dataType: 'json',
-                success: function(data) {
-                    // 불러온 파일 리스트를 각 uploadResult에 하나씩 할당
-                    showUploadResult(data, uploadResultContainerList);
-
-                    // 기본으로 첫 번째 이미지를 detail에 표시
-                    if (data.length > 0) {
-                        var firstImageSrc = encodeURIComponent(data[0].uploadPath + "/s_" + data[0].fileName);
-                        $('.detail img').attr('src', '/auctionListDisplay?fileName=' + firstImageSrc);
+                        // uploadAuction1에 이미지를 불러왔을 때 첫 번째 이미지를 detail에 기본으로 설정
+                        if (uploadResultContainer.is($('.uploadAuction1 ul')) && data.length > 0) {
+                            var firstImageSrc = encodeURIComponent(data[0].uploadPath + "/s_" + data[0].fileName);
+                            $('.detail img').attr('src', '/auctionListDisplay?fileName=' + firstImageSrc);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching file list for auction_id ' + auctionId + ':', error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching file list for auction_id ' + auctionId + ':', error);
-                }
-            });
+                });
+            }
         }
+
+        // 첫 번째 이미지 리스트 불러오기
+        var uploadResultContainer1 = $('.uploadAuction1 ul');
+        loadAuctionImages('/auctionListGetFileList1', uploadResultContainer1);
+
+        // 두 번째 이미지 리스트 불러오기
+        var uploadResultContainer2 = $('.uploadAuction2 ul');
+        loadAuctionImages('/auctionListGetFileList2', uploadResultContainer2);
 
         // 이미지 클릭 시 detail 클래스에 이미지 표시
         $(document).on('click', '.uploadAuction img', function() {
@@ -411,26 +421,23 @@
     });
 
     // 이미지 목록을 각 컨테이너에 표시
-    function showUploadResult(uploadResultArr, uploadResultContainerList) {
+    function showUploadResult(uploadResultArr, uploadResultContainer) {
         if (!uploadResultArr || uploadResultArr.length == 0) {
             return;
         }
 
-        // 각 컨테이너에 하나의 이미지만 할당
-        uploadResultContainerList.each(function(index) {
-            if (index < uploadResultArr.length) {
-                var obj = uploadResultArr[index];
-                var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
-                var str = "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-                str += "<div>";
-                str += "<span style='display:none;'>" + obj.fileName + "</span>";
-                str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
-                str += "</div></li>";
-
-                // 각 컨테이너에 하나의 이미지 할당
-                $(this).empty().append(str);
-            }
+        var str = "";
+        uploadResultArr.forEach(function (obj) {
+            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
+            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+            str += "<div>";
+            str += "<span style='display:none;'>" + obj.fileName + "</span>";
+            str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+            str += "</div></li>";
         });
+
+        // 컨테이너를 비우고 파일 리스트 추가
+        uploadResultContainer.empty().append(str);
     }
 
 // -----------------------------------------------------------------
