@@ -36,15 +36,15 @@ public class PageController {
 
 	@RequestMapping("/main")
 	public String main(Model model) {
-		ArrayList<AuctionDTO> list = auctionService.auctionProgressList();
+//		ArrayList<AuctionDTO> list = auctionService.auctionProgressList();
 
 		// 각 경매 항목에 대한 이미지 파일 리스트도 추가
-		for (AuctionDTO auction : list) {
-			List<AuctionAttachDTO> attachList = managerService.auctionGetFileList(auction.getAuction_id());
-			auction.setAuctionAttachList(attachList);
-		}
+//		for (AuctionDTO auction : list) {
+//			List<AuctionAttachDTO> attachList = managerService.auctionGetFileList1(auction.getAuction_id());
+//			auction.setAuctionAttachList1(attachList);
+//		}
 
-		model.addAttribute("list", list);
+//		model.addAttribute("list", list);
 		return "main";
 	}
 

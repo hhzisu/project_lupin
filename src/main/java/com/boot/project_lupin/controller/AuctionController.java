@@ -110,6 +110,6 @@ public class AuctionController {
 		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
 
 		// 질문 ID로 파일 목록을 조회하여 리턴
-		return new ResponseEntity<>(managerService.auctionGetFileList(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
+		return new ResponseEntity<>(managerService.auctionGetFileList1(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
 	}
 }
