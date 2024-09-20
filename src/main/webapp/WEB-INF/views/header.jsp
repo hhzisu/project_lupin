@@ -62,10 +62,11 @@
                 margin-right: -28px;
             }
 
-            .userInfoWrap {
+            .userInfoWrap a.userInfo {
                 display: flex;
                 gap: 10px;
                 align-items: center;
+                color: var(--color-black);
             }
         </style>
 
@@ -113,22 +114,22 @@
                                 <c:choose>
                                     <c:when test="${sessionScope.user.role == 1}">
                                         <div class="userInfoWrap">
-                                            <a href="userInfo">
+                                            <a class="userInfo" href="userInfo">
                                                 <span class="icon">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
+                                                <p>${sessionScope.user.name}님</p>
                                             </a>
-                                            <p>${sessionScope.user.name}님</p>
                                         </div>
                                     </c:when>
                                     <c:when test="${sessionScope.user.role == 2}">
                                         <div class="userInfoWrap">
-                                            <a href="managerAuction">
+                                            <a class="userInfo" href="managerAuction">
                                                 <span class="icon">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
+                                                <p>관리자님</p>
                                             </a>
-                                            <p>관리자님</p>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
