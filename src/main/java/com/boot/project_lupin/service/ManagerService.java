@@ -2,6 +2,7 @@ package com.boot.project_lupin.service;
 
 import com.boot.project_lupin.dao.CommissionDAO;
 import com.boot.project_lupin.dao.ManagerDAO;
+import com.boot.project_lupin.dao.QuestionDAO;
 import com.boot.project_lupin.dto.*;
 import jakarta.servlet.ServletContext;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,36 @@ public class ManagerService {
         log.info("@# ManagerService scheduleList");
         ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
         return dao.scheduleList();
+    }
+
+    // 경매 일정 조회 메서드 (auctionSchedule_id로 조회)
+    public AuctionScheduleDTO getScheduleById(String auctionSchedule_id) {
+        log.info("@# ManagerService getScheduleById auctionSchedule_id => {}", auctionSchedule_id);
+
+        ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
+        AuctionScheduleDTO auctionScheduleDTO = dao.getScheduleById(auctionSchedule_id);
+
+        if (auctionScheduleDTO == null) {
+            log.warn("@# ManagerService 해당 ID로 경매 일정 조회 실패");
+        } else {
+            log.info("@# ManagerService 경매 일정 조회 성공: {}", auctionScheduleDTO);
+        }
+
+        return auctionScheduleDTO;
+    }
+
+    // 일정 수정
+    public void scheduleModify(AuctionScheduleDTO auctionScheduleDTO) {
+        log.info("@# ManagerService scheduleModify auctionScheduleDTO => {}", auctionScheduleDTO);
+
+        ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
+        try {
+            dao.scheduleModify(auctionScheduleDTO);
+            log.info("@# ManagerService 경매 일정 수정 성공");
+        } catch (Exception e) {
+            log.error("@# ManagerService 경매 일정 수정 실패", e);
+            throw e;
+        }
     }
 
     // 일정 삭제 메서드

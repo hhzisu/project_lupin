@@ -82,7 +82,7 @@
                                                         <div class="management btn">
                                                             <p>관리</p>
                                                         </div>
-                                                        <div class="modify btn">
+                                                        <div class="modify btn" onclick="location.href='managerAuctionModify?auctionSchedule_id=${dto.auctionSchedule_id}'">
                                                             <p>수정</p>
                                                         </div>
                                                         <div class="delete btn" data-id="${dto.auctionSchedule_id}">

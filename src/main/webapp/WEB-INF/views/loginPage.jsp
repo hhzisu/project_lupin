@@ -47,7 +47,7 @@
                                     <a href="/oauth2/authorization/naver">
                                         <div class="naverLogin">
                                             <i class="fa-solid fa-n" style="color: #ffffff; margin-right: 20px;"></i>
-                                            <div class="naver" style="color: var(--color-white);">네이버 로그인</div>
+                                            <div class="naver" style="color: var(--color-white); font-weight: 900;">네이버 로그인</div>
                                         </div>
                                     </a>
                                 </div>
