@@ -9,17 +9,47 @@
 		VALUES (#{userId}, #{auctionId}, #{bidMoney}, NOW())
 	</insert>
 
+
 	<select id="getLatestBidInfo" resultType="com.boot.project_lupin.dto.AuctionBidDTO">
 		SELECT
 			b.user_id AS userId,
 			b.auction_id AS auctionId,
-			b.bid_money AS lateBidMoney,
+			b.bid_money AS bidMoney,
 			b.bid_time AS bidTime,
 			u.name AS userName
 		FROM bid_tb b
 		JOIN userentity u ON b.user_id = u.id
 		WHERE b.auction_id = #{auctionId}
 		ORDER BY b.bid_time DESC
+	</select>
+
+
+	<select id="getAuctionById" resultType="com.boot.project_lupin.dto.AuctionDTO">
+		SELECT
+			a.auction_id,
+			a.auction_lot,
+			a.auction_author,
+			a.auction_title,
+			a.auction_size,
+			a.auction_madeDate,
+			a.auction_materials,
+			a.auction_authorExp,
+			a.auction_startPrice,
+			a.auction_guessPrice,
+			s.auctionSchedule_id,
+			s.auctionSchedule_start,
+			s.auctionSchedule_end,
+			at1.uuid AS attachUuid1,
+			at1.uploadpath AS attachUploadpath1,
+			at1.filename AS attachFilename1,
+			at2.uuid AS attachUuid2,
+			at2.uploadpath AS attachUploadpath2,
+			at2.filename AS attachFilename2
+		FROM auction_tb a
+		LEFT JOIN auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
+		LEFT JOIN auction_attach1 at1 ON a.auction_id = at1.auction_id
+		LEFT JOIN auction_attach2 at2 ON a.auction_id = at2.auction_id
+		WHERE a.auction_id = #{auctionId}
 		LIMIT 1
 	</select>
 
