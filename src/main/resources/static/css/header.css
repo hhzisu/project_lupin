@@ -1,20 +1,19 @@
-:root 
-{
-	/* 컬러 모음 */
-	--color-black: #111;
-	--color-white: #fff;
-	--color-gray: #787878;
-	--input-gray: #e5e5ec;
-	--button-gray: #f7f7f7;
-	--border-color-gray: #dadada;
-	--color-deepblue: #17517e;
-	--color-burgundy: #800020;
-	--font-size32: 32px;
-	--font-size24: 24px;
-	--font-size20: 20px;
-	--font-size16: 16px;
-	--font-size14: 14px;
-	--font-size12: 12px;
+:root {
+    /* 컬러 모음 */
+    --color-black: #111;
+    --color-white: #fff;
+    --color-gray: #787878;
+    --input-gray: #e5e5ec;
+    --button-gray: #f7f7f7;
+    --border-color-gray: #dadada;
+    --color-deepblue: #17517e;
+    --color-burgundy: #800020;
+    --font-size32: 32px;
+    --font-size24: 24px;
+    --font-size20: 20px;
+    --font-size16: 16px;
+    --font-size14: 14px;
+    --font-size12: 12px;
 }
 
 .headerTop {
@@ -55,18 +54,20 @@
     cursor: pointer;
     /* background-color: #dadada; */
 }
+
 .headerMid .logo a img {
     width: 120px;
     min-width: 120px;
     height: 60px;
 }
 
-.headerMid .menu {
+/* .headerMid .menu {
     display: flex;
     justify-content: space-around;
     cursor: context-menu;
-    /* position: relative; */
-}
+    margin-right: 14px;
+    position: relative;
+} */
 
 .headerMid .menu li {
     display: flex;
@@ -87,18 +88,22 @@
     font-weight: 300;
 }
 
-.headerMid .rightMenu {
-    margin-left: auto;
+/* .headerMid .rightMenu {
+    display: flex;
+    margin-left: 254px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px
 }
 
 .headerMid .rightMenu li .icon {
     font-size: var(--font-size20);
     color: var(--color-black);
     cursor: pointer;
-}
+} */
 
 .headerContent {
-	position: absolute;
+    position: absolute;
     z-index: 1000;
     padding-left: 50px;
     background-color: #f5f5f5;
@@ -106,7 +111,7 @@
     display: flex;
     justify-content: center;
     display: none;
-	width: 100%;
+    width: 100%;
 }
 
 .headerContent .headerCon {
@@ -142,15 +147,13 @@
     cursor: pointer;
 }
 
-.headerTab a p
-{
+.headerTab a p {
     color: var(--color-black);
 }
 
 
 /*응찰 모달 css*/
-.modalBid
-{
+.modalBid {
     display: none;
     position: fixed;
     z-index: 1;
@@ -161,8 +164,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modalBid-content
-{
+.modalBid-content {
     background-color: white;
     margin: 10% auto;
     width: 630px;
@@ -170,15 +172,13 @@
     position: relative;
 }
 
-.modalBid .bidHead
-{
+.modalBid .bidHead {
     width: 100%;
     height: 12px;
     background-color: var(--color-black);
 }
 
-.close-btn
-{
+.close-btn {
     position: absolute;
     top: 12px;
     right: 10px;
@@ -186,8 +186,7 @@
     cursor: pointer;
 }
 
-.modalBid .bidCon
-{
+.modalBid .bidCon {
     display: flex;
     margin: 20px;
     justify-content: space-between;
@@ -195,8 +194,7 @@
 }
 
 
-.modalBid .bidCon .left .auctionImg .uploadResult
-{
+.modalBid .bidCon .left .auctionImg .uploadResult {
     width: 180px;
     height: 180px;
     display: flex;
@@ -205,75 +203,68 @@
     margin: 16px 0;
 }
 
-.modalBid .bidCon .left .auctionImg .uploadResult img
-{
+.modalBid .bidCon .left .auctionImg .uploadResult img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-.modalBid .bidCon .left h5
-{
+.modalBid .bidCon .left h5 {
     font-weight: 300;
     font-size: var(--font-size16);
 }
-.modalBid .bidCon .left h2
-{
+
+.modalBid .bidCon .left h2 {
     font-weight: 600;
     font-size: var(--font-size16);
     margin-top: 8px;
 }
-.modalBid .bidCon .left h3
-{
+
+.modalBid .bidCon .left h3 {
     font-weight: 300;
     font-size: var(--font-size14);
     margin-top: 8px;
 }
-.modalBid .bidCon .left h4
-{
+
+.modalBid .bidCon .left h4 {
     font-weight: 300;
     font-size: var(--font-size14);
     color: var(--color-gray);
     margin-top: 8px;
 }
 
-.modalBid .bidCon .right
-{
+.modalBid .bidCon .right {
     width: 360px;
     display: flex;
     flex-direction: column;
     margin: 0 28px;
 }
 
-.modalBid .bidCon .right .time
-{
+.modalBid .bidCon .right .time {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.modalBid .bidCon .right .time h5
-{
+.modalBid .bidCon .right .time h5 {
     font-size: var(--font-size12);
     font-weight: 300;
     color: var(--color-gray);
 }
 
-.modalBid .bidCon .right .time h4
-{
+.modalBid .bidCon .right .time h4 {
     font-size: var(--font-size12);
     font-weight: 300;
 }
 
-.modalBid .bidCon .right .box
-{
+.modalBid .bidCon .right .box {
     width: 360px;
     height: 200px;
     margin-top: 8px;
     border: 0.5px solid var(--border-color-gray);
 }
-.modalBid .bidCon .right .boxHead
-{
+
+.modalBid .bidCon .right .boxHead {
     height: 20px;
     background-color: var(--color-black);
     display: flex;
@@ -282,57 +273,54 @@
     justify-content: space-between;
     padding: 0 4px;
 }
-.modalBid .bidCon .right .boxHead h4
-{
+
+.modalBid .bidCon .right .boxHead h4 {
     font-size: var(--font-size12);
     font-weight: 300;
 }
-.modalBid .bidCon .right .boxHead .headCount
-{
+
+.modalBid .bidCon .right .boxHead .headCount {
     display: flex;
 }
 
-.modalBid .bidCon .right .boxCon
-{
+.modalBid .bidCon .right .boxCon {
     display: flex;
     flex-direction: column;
 }
 
-.modalBid .bidCon .right .boxCon .boxList
-{
+.modalBid .bidCon .right .boxCon .boxList {
     display: flex;
     justify-content: space-around;
     margin: 4px 2px;
 }
-.modalBid .bidCon .right .boxCon .boxList h3
-{
+
+.modalBid .bidCon .right .boxCon .boxList h3 {
     width: 40px;
     font-size: var(--font-size14);
     font-weight: 300;
 }
-.modalBid .bidCon .right .boxCon .boxList h4
-{
+
+.modalBid .bidCon .right .boxCon .boxList h4 {
     width: 90px;
     font-size: var(--font-size14);
     font-weight: 300;
     text-align: right;
 }
-.modalBid .bidCon .right .boxCon .boxList h5
-{
+
+.modalBid .bidCon .right .boxCon .boxList h5 {
     width: 60px;
     font-size: var(--font-size14);
     font-weight: 300;
 }
 
-.modalBid .bidCon .right .bidType
-{
+.modalBid .bidCon .right .bidType {
     display: flex;
     justify-content: center;
     margin-top: 12px;
     cursor: pointer;
 }
-.modalBid .bidCon .right .bidType .type
-{
+
+.modalBid .bidCon .right .bidType .type {
     width: 100%;
     height: 24px;
     border: 0.5px solid var(--input-gray);
@@ -342,43 +330,41 @@
     align-items: center;
     background-color: var(--input-gray);
 }
-.modalBid .bidCon .right .bidType .type.choice
-{
+
+.modalBid .bidCon .right .bidType .type.choice {
     background-color: var(--color-white);
     border: 0.5px solid var(--color-black);
 }
 
-.modalBid .bidCon .right h5
-{
+.modalBid .bidCon .right h5 {
     font-size: var(--font-size12);
     font-weight: 300;
     margin-top: 4px;
 }
-.modalBid .bidCon .right .red
-{
+
+.modalBid .bidCon .right .red {
     color: var(--color-burgundy);
 }
-.modalBid .bidCon .right .gray
-{
+
+.modalBid .bidCon .right .gray {
     color: var(--color-gray);
 }
 
-.modalBid .bidCon .right .buttonBid
-{
+.modalBid .bidCon .right .buttonBid {
     display: flex;
     justify-content: center;
     margin-top: 12px;
     align-items: center;
 }
-.modalBid .bidCon .right .buttonBid select
-{
+
+.modalBid .bidCon .right .buttonBid select {
     width: 100%;
     height: 24px;
     outline: none;
     /* display: none; */
 }
-.modalBid .bidCon .right .buttonBid .bidBtn
-{
+
+.modalBid .bidCon .right .buttonBid .bidBtn {
     width: 100%;
     height: 24px;
     background-color: var(--color-black);
@@ -387,8 +373,7 @@
     cursor: pointer;
 }
 
-.modalBid .bidCon .right .buttonBid .bidBtn.maximum
-{
+.modalBid .bidCon .right .buttonBid .bidBtn.maximum {
     display: block;
     background-color: var(--color-white);
     color: var(--color-gray);

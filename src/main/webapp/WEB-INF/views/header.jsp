@@ -21,6 +21,46 @@
             <script src="https://code.jquery.com/jquery-3.6.3.min.js"
                 integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
         </head>
+        <style>
+            .headerMid .rightMenu {
+                display: flex;
+                margin-left: 254px;
+                flex-direction: column;
+                align-items: flex-end;
+                margin-top: -30px;
+            }
+
+            .rightMenu .log {
+                display: flex;
+                margin-bottom: 10px;
+            }
+
+            .headerMid .rightMenu li .icon {
+                font-size: var(--font-size20);
+                color: var(--color-black);
+                cursor: pointer;
+            }
+
+            .headerMid .rightMenu .log {
+                font-size: var(--font-size12);
+                margin-top: 5px;
+                cursor: pointer;
+            }
+
+            /* Default style */
+            .headerMid .menu {
+                display: flex;
+                justify-content: space-around;
+                cursor: context-menu;
+                margin-right: 24px;
+            }
+
+            /* Apply when logged-in class is present */
+            .headerMid .menu.logged-in {
+                margin-right: 14px;
+            }
+
+        </style>
 
         <body>
 
@@ -35,7 +75,7 @@
                                 <img src="images/logo.png" alt="Logo">
                             </a>
                         </h5>
-                        <ul class="menu">
+                        <ul class="menu" id="menu">
                             <li class="tab t1">
                                 <h5>경매</h5>
                             </li>
@@ -50,12 +90,43 @@
                             </li>
                         </ul>
                         <ul class="rightMenu">
+                            <div class="log">
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.user}">
+                                        <p class="logOut" onclick="logout()">로그아웃</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="loginPage">
+                                            <p class="logIn" style="color: var(--color-black);">로그인</p>
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                             <li>
-                                <a href="userInfo">
-                                    <span class="icon">
-                                        <i class="fa-solid fa-user"></i>
-                                    </span>
-                                </a>
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.role == 1}">
+                                        <a href="userInfo">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-user"></i>
+                                            </span>
+                                        </a>
+                                    </c:when>
+                                    <c:when test="${sessionScope.user.role == 2}">
+                                        <a href="managerAuction">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-user"></i>
+                                            </span>
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
+                                        <a href="loginPage">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-user"></i>
+                                            </span>
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </li>
                         </ul>
                     </div> <!--headerMid 끝-->
@@ -321,85 +392,114 @@
             });
 
         </script>
-<script>
-    //응찰 모달 팝업 스크립트
-    document.addEventListener("DOMContentLoaded", function() {
-        console.log("페이지가 로드되었습니다.");
+        <script>
+            //응찰 모달 팝업 스크립트
+            document.addEventListener("DOMContentLoaded", function () {
+                console.log("페이지가 로드되었습니다.");
 
-        // "응찰하기" 버튼 존재 여부 확인
-        var openModalBtn = document.getElementById("openModalBidBtn");
-        if (openModalBtn) {
-            console.log("응찰하기 버튼이 있습니다.");
+                // "응찰하기" 버튼 존재 여부 확인
+                var openModalBtn = document.getElementById("openModalBidBtn");
+                if (openModalBtn) {
+                    console.log("응찰하기 버튼이 있습니다.");
 
-            // 응찰하기 모달 열기
-            openModalBtn.addEventListener("click", function() {
-                console.log("응찰하기 버튼 클릭됨");
-                document.getElementById("modalBid").style.display = "block";
-            });
+                    // 응찰하기 모달 열기
+                    openModalBtn.addEventListener("click", function () {
+                        console.log("응찰하기 버튼 클릭됨");
+                        document.getElementById("modalBid").style.display = "block";
+                    });
 
-            // 모달 닫기 버튼
-            document.querySelector(".close-btn").addEventListener("click", function() {
-                console.log("모달 닫기 버튼 클릭됨");
-                document.getElementById("modalBid").style.display = "none";
-            });
+                    // 모달 닫기 버튼
+                    document.querySelector(".close-btn").addEventListener("click", function () {
+                        console.log("모달 닫기 버튼 클릭됨");
+                        document.getElementById("modalBid").style.display = "none";
+                    });
 
-            // 모달 외부 클릭 시 닫기
-            window.addEventListener("click", function(event) {
-                if (event.target.classList.contains('modalBid')) {
-                    console.log("모달 외부 클릭됨");
-                    document.getElementById("modalBid").style.display = "none";
+                    // 모달 외부 클릭 시 닫기
+                    window.addEventListener("click", function (event) {
+                        if (event.target.classList.contains('modalBid')) {
+                            console.log("모달 외부 클릭됨");
+                            document.getElementById("modalBid").style.display = "none";
+                        }
+                    });
+                } else {
+                    console.log("응찰하기 버튼을 찾을 수 없습니다.");
                 }
             });
-        } else {
-            console.log("응찰하기 버튼을 찾을 수 없습니다.");
-        }
-    });
 
 
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-//                             나성엽
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            //                             나성엽
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
 
-    // STOMP 클라이언트 설정
-    var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
-    var stompClient = Stomp.over(socket);
+            // STOMP 클라이언트 설정
+            var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
+            var stompClient = Stomp.over(socket);
 
-    // STOMP 연결
-    stompClient.connect({}, function (frame) {
-        console.log('STOMP 연결됨: ' + frame);
+            // STOMP 연결
+            stompClient.connect({}, function (frame) {
+                console.log('STOMP 연결됨: ' + frame);
 
-        // 서버로부터 경매 업데이트 메시지를 받으면 처리
-        stompClient.subscribe('/sub/auctionUpdates', function (message) {
-            var auctionUpdate = JSON.parse(message.body);
-            console.log('경매 업데이트: ', auctionUpdate);
+                // 서버로부터 경매 업데이트 메시지를 받으면 처리
+                stompClient.subscribe('/sub/auctionUpdates', function (message) {
+                    var auctionUpdate = JSON.parse(message.body);
+                    console.log('경매 업데이트: ', auctionUpdate);
 
-            // 예시: 현재가 업데이트
-            document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.currentBid;
-        });
-    });
+                    // 예시: 현재가 업데이트
+                    document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.currentBid;
+                });
+            });
 
-    // 경매 참여 버튼 클릭 시 서버로 메시지 전송
-    // document.querySelector('.bidBtn').addEventListener('click', function() {
-    //     var selectedBid = document.querySelector('select').value;
-    //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
-    // });
+            // 경매 참여 버튼 클릭 시 서버로 메시지 전송
+            // document.querySelector('.bidBtn').addEventListener('click', function() {
+            //     var selectedBid = document.querySelector('select').value;
+            //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
+            // });
 
-    // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
-    document.querySelector('.bidBtn').addEventListener('click', function() {
-        var selectedBid = document.querySelector('select').value;
-        stompClient.send("/app/bid", {}, JSON.stringify({
-            userId: 1,  // 예시: 현재 사용자의 ID
-            auctionId: 101,  // 예시: 경매 ID
-            bidMoney: selectedBid
-        }));
-    });
+            // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
+            document.querySelector('.bidBtn').addEventListener('click', function () {
+                var selectedBid = document.querySelector('select').value;
+                stompClient.send("/app/bid", {}, JSON.stringify({
+                    userId: 1,  // 예시: 현재 사용자의 ID
+                    auctionId: 101,  // 예시: 경매 ID
+                    bidMoney: selectedBid
+                }));
+            });
 
 
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-//                           나성엽 끝
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-</script>
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            //                           나성엽 끝
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+        </script>
+
+        <script>
+            function logout() {
+                // 네이버 로그아웃 URL에 비동기 요청을 보내고, 페이지 전환을 막음
+                const naverLogoutUrl = "https://nid.naver.com/nidlogin.logout";
+
+                // 네이버 로그아웃 요청을 백그라운드에서 보내고, 사용자에게는 페이지 전환 없이 처리
+                var logoutWindow = window.open(naverLogoutUrl, "_blank", "width=1,height=1");
+
+                // 잠시 후 창을 닫음 (네이버 로그아웃 처리가 완료된 후 창을 닫기 위한 타이밍)
+                setTimeout(function () {
+                    logoutWindow.close();
+                    // 로컬 로그아웃 처리 후 메인 페이지로 이동
+                    $.post("${pageContext.request.contextPath}/logout", function () {
+                        window.location.href = "${pageContext.request.contextPath}/main";
+                    });
+                }, 1000);  // 1초 정도 기다린 후 창 닫기
+            }
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                // 세션 정보가 있는지 확인하여 메뉴 스타일 변경
+                var isLoggedIn = "${not empty sessionScope.user}";
+                if (isLoggedIn === "true") {
+                    $("#menu").addClass("logged-in");
+                }
+            });
+        </script>
