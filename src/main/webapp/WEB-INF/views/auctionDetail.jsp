@@ -35,16 +35,16 @@
                 <div class="auctionImg">
                     <div class="leftImg">
                         <div class="preview">
-                            <div class="uploadResult">
+                            <div class="uploadAuction">
                                 <ul>
                                     <img src="images/auction1.jpg">
                                 </ul>
                             </div>
                         </div>
                         <div class="preview">
-                            <div class="uploadResult">
+                            <div class="uploadAuction">
                                 <ul>
-                                    <img src="images/auction2.jpg">
+                                    <img src="images/auction1.jpg">
                                 </ul>
                             </div>
                         </div>
@@ -291,7 +291,7 @@
         var auctionId = "<c:out value='${auction.auction_id}'/>";
 
         // 모든 .uploadResult 요소를 선택
-        var uploadResultContainerList = $('.uploadResult ul');
+        var uploadResultContainerList = $('.uploadAuction ul');
 
         if (auctionId) {
             $.ajax({
@@ -300,7 +300,7 @@
                 data: { auction_id: auctionId },
                 dataType: 'json',
                 success: function(data) {
-                    // 불러온 파일 리스트를 각 uploadResult에 맞게 할당
+                    // 불러온 파일 리스트를 각 uploadResult에 하나씩 할당
                     showUploadResult(data, uploadResultContainerList);
                 },
                 error: function(xhr, status, error) {
@@ -310,28 +310,28 @@
         }
     });
 
-
     function showUploadResult(uploadResultArr, uploadResultContainerList) {
-        if (!uploadResultArr || uploadResultArr.length == 0 || uploadResultContainerList.length == 0) {
+        if (!uploadResultArr || uploadResultArr.length == 0) {
             return;
         }
 
-        // uploadResultContainerList와 uploadResultArr 크기 중 작은 쪽에 맞추어 순회
-        for (var i = 0; i < Math.min(uploadResultArr.length, uploadResultContainerList.length); i++) {
-            var obj = uploadResultArr[i];
-            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        // 각 컨테이너에 하나의 이미지만 할당
+        uploadResultContainerList.each(function(index) {
+            if (index < uploadResultArr.length) {
+                var obj = uploadResultArr[index];
+                var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
+                var str = "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                str += "<div>";
+                str += "<span style='display:none;'>" + obj.fileName + "</span>";
+                str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+                str += "</div></li>";
 
-            var str = "<li data-path='" + obj.uploadPath + "'";
-            str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-            str += "<div>";
-            str += "<span style='display:none;'>" + obj.fileName + "</span>";
-            str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
-            str += "</div></li>";
-
-            // 각 uploadResultContainer에 하나씩 이미지를 추가
-            $(uploadResultContainerList[i]).empty().append(str);
-        }
+                // 각 컨테이너에 하나의 이미지 할당
+                $(this).empty().append(str);
+            }
+        });
     }
+
 
 
 

@@ -74,7 +74,7 @@ section
 	cursor: pointer;
 }
 
-.detailAuction .left .auctionImg .leftImg .preview .uploadResult
+.detailAuction .left .auctionImg .leftImg .preview .uploadAuction
 {
 	width: 160px;
 	height: 160px;
@@ -83,7 +83,7 @@ section
 	justify-content: center;
 }
 
-.detailAuction .left .auctionImg .leftImg .preview .uploadResult img
+.detailAuction .left .auctionImg .leftImg .preview .uploadAuction img
 {
 	width: 100%;
 	height: 100%;
