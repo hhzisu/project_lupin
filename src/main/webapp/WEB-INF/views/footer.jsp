@@ -94,6 +94,7 @@
 			}
 			.right_conWrap a .admin {
 				cursor: pointer;
+				font-size: var(--font-size14);
 				color: var(--color-white);
 			}
 
@@ -134,7 +135,7 @@
 							오전 9시 ~ 오후 6시(토요일, 공휴일 휴무)<br>
 							Copyright ⓒ RUPIN. All Rights Reserved
 						</p>
-						<a href="">
+						<a href="adminLogin">
 							<p class="admin">관리자 Login</p>
 						</a>
 					</div>
