@@ -113,25 +113,25 @@
         });
     });
 
-    function showUploadResult(uploadResultArr, uploadResultContainer){
+    function showUploadResult(uploadResultArr, uploadResultContainer) {
         if (!uploadResultArr || uploadResultArr.length == 0) {
             return;
         }
 
-        // 배열의 첫 번째 항목만 가져오기
-        var obj = uploadResultArr[0];
-        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        // 배열의 첫 번째 항목만 가져옴
+        var obj = uploadResultArr[1];
+        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
 
-        var str = "<li data-path='" + obj.uploadPath + "'";
-        str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+        var str = "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
         str += "<div>";
         str += "<span style='display:none;'>" + obj.fileName + "</span>";
         str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
         str += "</div></li>";
 
-        // 컨테이너를 비우고 첫 번째 이미지 추가
+        // 컨테이너를 비우고 첫 번째 파일 추가
         uploadResultContainer.empty().append(str);
     }
+
 
 </script>
 
