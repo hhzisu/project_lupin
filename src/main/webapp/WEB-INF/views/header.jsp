@@ -26,7 +26,7 @@
         <style>
             .headerMid .rightMenu {
                 display: flex;
-                margin-left: 254px;
+                margin-left: auto;
                 flex-direction: column;
                 align-items: flex-end;
                 margin-top: -30px;
@@ -67,6 +67,10 @@
                 gap: 10px;
                 align-items: center;
                 color: var(--color-black);
+            }
+
+            .con4.headerCon {
+                margin-right: 35px;
             }
         </style>
 
@@ -185,9 +189,28 @@
                             </a>
                         </div>
                         <div class="headerTab cp">
-                            <a href="userCommission">
-                                <p>위탁 신청</p>
-                            </a>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role == 1}">
+                                    <div class="userInfoWrap">
+                                        <a href="userCommission">
+                                            <p>위탁 신청</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:when test="${sessionScope.user.role == 2}">
+                                    <div class="userInfoWrap">
+                                        <a href="managerCommission">
+                                            <p>위탁 신청</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
+                                    <a href="loginPage">
+                                        <p>위탁 신청</p>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="headerTab cp">
                             <a href="guideStorage">
@@ -203,9 +226,28 @@
                             </a>
                         </div>
                         <div class="headerTab rt cp">
-                            <a href="question">
-                                <p>1:1 문의</p>
-                            </a>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role == 1}">
+                                    <div class="userInfoWrap">
+                                        <a href="question">
+                                            <p>1:1 문의</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:when test="${sessionScope.user.role == 2}">
+                                    <div class="userInfoWrap">
+                                        <a href="managerQuestion">
+                                            <p>1:1 문의</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
+                                    <a href="loginPage">
+                                        <p>1:1 문의</p>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="headerTab rt"></div>
                         <div class="headerTab rt"></div>
@@ -474,76 +516,74 @@
         </script>
 
 
-<script>
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-//                             나성엽
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-    
-    let userInfo;
+        <script>
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            //                             나성엽
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
 
-    $(document).ready(function() {
-        $.ajax({
-            url: "/api/auction/userInfo",
-            method: "GET",
-            success: function(data) {
-                if (data) {
-                    userInfo = data;  // 데이터를 전역 변수에 저장
-                } else {
-                    console.log("사용자 정보가 없습니다.");
-                }
-            },
-            error: function(err) {
-                console.log("Error:", err);
-            }
-        });
-    });
+            let userInfo;
 
-
-
-    // STOMP 클라이언트 설정
-    var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
-    var stompClient = Stomp.over(socket);
-
-    // STOMP 연결
-    stompClient.connect({}, function (frame) {
-        console.log('STOMP 연결됨: ' + frame);
-
-        // 서버로부터 경매 업데이트 메시지를 받으면 처리
-        stompClient.subscribe('/sub/auctionUpdates', function (message) {
-            var auctionUpdate = JSON.parse(message.body);
-            console.log('경매 업데이트: ', auctionUpdate);
-
-            // 예시: 현재가 업데이트
-            document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.lateBidMoney;
-        });
-    });
-
-    // 경매 참여 버튼 클릭 시 서버로 메시지 전송
-    // document.querySelector('.bidBtn').addEventListener('click', function() {
-    //     var selectedBid = document.querySelector('select').value;
-    //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
-    // });
-
-    // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
-    document.querySelector('.bidBtn').addEventListener('click', function() {
-        var selectedBid = document.querySelector('select').value;
-
-        // 입찰 정보를 STOMP로 서버에 전송
-        stompClient.send("/pub/bid", {}, JSON.stringify({
-            userId: userInfo.id,  // 현재 사용자의 ID
-            auctionId: "${auction.auction_id}",  // 경매 ID
-            bidMoney: selectedBid
-        }));
-    });
+            $(document).ready(function () {
+                $.ajax({
+                    url: "/api/auction/userInfo",
+                    method: "GET",
+                    success: function (data) {
+                        if (data) {
+                            userInfo = data;  // 데이터를 전역 변수에 저장
+                        } else {
+                            console.log("사용자 정보가 없습니다.");
+                        }
+                    },
+                    error: function (err) {
+                        console.log("Error:", err);
+                    }
+                });
+            });
 
 
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-//                           나성엽 끝
-// -----------------------------------------------------------------
-// -----------------------------------------------------------------
-</script>
+
+            // STOMP 클라이언트 설정
+            var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
+            var stompClient = Stomp.over(socket);
+
+            // STOMP 연결
+            stompClient.connect({}, function (frame) {
+                console.log('STOMP 연결됨: ' + frame);
+
+                // 서버로부터 경매 업데이트 메시지를 받으면 처리
+                stompClient.subscribe('/sub/auctionUpdates', function (message) {
+                    var auctionUpdate = JSON.parse(message.body);
+                    console.log('경매 업데이트: ', auctionUpdate);
+
+                    // 예시: 현재가 업데이트
+                    document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.lateBidMoney;
+                });
+            });
+
+            // 경매 참여 버튼 클릭 시 서버로 메시지 전송
+            // document.querySelector('.bidBtn').addEventListener('click', function() {
+            //     var selectedBid = document.querySelector('select').value;
+            //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
+            // });
+
+            // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
+            document.querySelector('.bidBtn').addEventListener('click', function () {
+                var selectedBid = document.querySelector('select').value;
+
+                // 입찰 정보를 STOMP로 서버에 전송
+                stompClient.send("/pub/bid", {}, JSON.stringify({
+                    userId: userInfo.id,  // 현재 사용자의 ID
+                    auctionId: "${auction.auction_id}",  // 경매 ID
+                    bidMoney: selectedBid
+                }));
+            });
 
 
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            //                           나성엽 끝
+            // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+        </script>
