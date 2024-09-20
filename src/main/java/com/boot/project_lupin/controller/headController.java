@@ -38,9 +38,9 @@ public class headController {
         }
     }
 
-    @GetMapping("/{auctionId}")
-    public ResponseEntity<AuctionDTO> getAuction(@PathVariable int auctionId) {
-        AuctionDTO auction = auctionService.getAuctionById(auctionId);
-        return ResponseEntity.ok(auction);
-    }
+//    @GetMapping("/{auctionId}")
+//    public ResponseEntity<AuctionDTO> getAuction(@PathVariable int auctionId) {
+//        AuctionDTO auction = auctionService.getAuctionById(auctionId);
+//        return ResponseEntity.ok(auction);
+//    }
 }
