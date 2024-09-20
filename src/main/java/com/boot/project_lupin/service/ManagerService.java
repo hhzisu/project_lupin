@@ -119,29 +119,29 @@ public class ManagerService {
         log.info("@# ManagerService 경매 항목 삽입 성공");
 
         // 첨부파일이 있는지 체크
-        log.info("@# auctionDTO.getAuctionAttachList() => {}", auctionDTO.getAuctionAttachList());
-        if (auctionDTO.getAuctionAttachList() == null || auctionDTO.getAuctionAttachList().isEmpty()) {
+        log.info("@# auctionDTO.getAuctionAttachList() => {}", auctionDTO.getAuctionAttachList1());
+        if (auctionDTO.getAuctionAttachList1() == null || auctionDTO.getAuctionAttachList1().isEmpty()) {
             log.info("@# 첨부 파일이 없습니다.");
             return;
         }
 
         // 첨부파일이 있는 경우 처리
-        auctionDTO.getAuctionAttachList().forEach(attach -> {
+        auctionDTO.getAuctionAttachList1().forEach(attach -> {
             attach.setAuction_id(auctionDTO.getAuction_id());
-            dao.auctionInsertFile(attach);
+            dao.auctionInsertFile1(attach);
         });
     }
 
     // AuctionAttachDTO 리스트 가져오기
-    public List<AuctionAttachDTO> auctionGetFileList(int auction_id) {
+    public List<AuctionAttachDTO> auctionGetFileList1(int auction_id) {
         log.info("@# ManagerService auctionGetFileList auction_id => {}", auction_id);
 
         ManagerDAO dao = sqlSession.getMapper(ManagerDAO.class);
-        return dao.auctionGetFileList(auction_id);
+        return dao.auctionGetFileList1(auction_id);
     }
 
     // 파일 삭제 메서드
-    public void auctionDeleteFile(List<AuctionAttachDTO> fileList) {
+    public void auctionDeleteFile1(List<AuctionAttachDTO> fileList) {
         if (fileList == null || fileList.isEmpty()) {
             log.info("@# 삭제할 파일이 없습니다.");
             return;

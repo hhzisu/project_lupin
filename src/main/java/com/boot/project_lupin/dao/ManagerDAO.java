@@ -38,10 +38,17 @@ public interface ManagerDAO {
 	ArrayList<CommissionDTO> commissionList();
 
 	// 파일 업로드 1
-	void auctionInsertFile(AuctionAttachDTO vo);
+	void auctionInsertFile1(AuctionAttachDTO vo);
 
-	List<AuctionAttachDTO> auctionGetFileList(int auction_id);
+	List<AuctionAttachDTO> auctionGetFileList1(int auction_id);
 
-	void auctionDeleteFile(String auction_id);
+	void auctionDeleteFile1(String auction_id);
+
+	// 파일 업로드 2
+	void auctionInsertFile2(AuctionAttachDTO vo);
+
+	List<AuctionAttachDTO> auctionGetFileList2(int auction_id);
+
+	void auctionDeleteFile2(String auction_id);
 
 }
