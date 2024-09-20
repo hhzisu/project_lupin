@@ -23,7 +23,7 @@
 .pageFixSize {
 	display: flex;
 	justify-content: center;
-	/* width: 1440px; */
+	width: 100%;
 }
 
 
