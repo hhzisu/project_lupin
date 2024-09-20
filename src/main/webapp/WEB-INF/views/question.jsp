@@ -31,9 +31,11 @@
                     <hr class="headLine">
                     <div class="smallgray">Lupin 이용에 있어 궁금한 점을 문의해주세요. 답변은 마이페이지 > 1:1문의 에서 확인하실 수 있습니다.</div>
                 </div>
+
                 <div class="questionBoardWrap">
                     <form id="questionForm" method="post" action="questionPost">
                         <hr class="questionBoardLine_bold">
+                        <input type="hidden" name="user_id" value="${loginUser.id}">
                         <div class="inquiryTypeWrap">
                             <h3>문의종류 <span class="red">*</span></h3>
                             <select name="question_type" id="inquiryType">

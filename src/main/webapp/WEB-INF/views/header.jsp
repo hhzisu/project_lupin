@@ -26,7 +26,7 @@
         <style>
             .headerMid .rightMenu {
                 display: flex;
-                margin-left: 254px;
+                margin-left: auto;
                 flex-direction: column;
                 align-items: flex-end;
                 margin-top: -30px;
@@ -62,10 +62,15 @@
                 margin-right: -28px;
             }
 
-            .userInfoWrap {
+            .userInfoWrap a.userInfo {
                 display: flex;
                 gap: 10px;
                 align-items: center;
+                color: var(--color-black);
+            }
+
+            .con4.headerCon {
+                margin-right: 35px;
             }
         </style>
 
@@ -113,22 +118,22 @@
                                 <c:choose>
                                     <c:when test="${sessionScope.user.role == 1}">
                                         <div class="userInfoWrap">
-                                            <a href="userInfo">
+                                            <a class="userInfo" href="userInfo">
                                                 <span class="icon">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
+                                                <p>${sessionScope.user.name}님</p>
                                             </a>
-                                            <p>${sessionScope.user.name}님</p>
                                         </div>
                                     </c:when>
                                     <c:when test="${sessionScope.user.role == 2}">
                                         <div class="userInfoWrap">
-                                            <a href="managerAuction">
+                                            <a class="userInfo" href="managerAuction">
                                                 <span class="icon">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
+                                                <p>관리자님</p>
                                             </a>
-                                            <p>관리자님</p>
                                         </div>
                                     </c:when>
                                     <c:otherwise>
@@ -184,9 +189,28 @@
                             </a>
                         </div>
                         <div class="headerTab cp">
-                            <a href="userCommission">
-                                <p>위탁 신청</p>
-                            </a>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role == 1}">
+                                    <div class="userInfoWrap">
+                                        <a href="userCommission">
+                                            <p>위탁 신청</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:when test="${sessionScope.user.role == 2}">
+                                    <div class="userInfoWrap">
+                                        <a href="managerCommission">
+                                            <p>위탁 신청</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
+                                    <a href="loginPage">
+                                        <p>위탁 신청</p>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="headerTab cp">
                             <a href="guideStorage">
@@ -202,9 +226,28 @@
                             </a>
                         </div>
                         <div class="headerTab rt cp">
-                            <a href="question">
-                                <p>1:1 문의</p>
-                            </a>
+                            <c:choose>
+                                <c:when test="${sessionScope.user.role == 1}">
+                                    <div class="userInfoWrap">
+                                        <a href="question">
+                                            <p>1:1 문의</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:when test="${sessionScope.user.role == 2}">
+                                    <div class="userInfoWrap">
+                                        <a href="managerQuestion">
+                                            <p>1:1 문의</p>
+                                        </a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
+                                    <a href="loginPage">
+                                        <p>1:1 문의</p>
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="headerTab rt"></div>
                         <div class="headerTab rt"></div>
@@ -477,6 +520,7 @@
         </script>
 
 
+
 <script>
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
@@ -694,5 +738,3 @@
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
 </script>
-
-

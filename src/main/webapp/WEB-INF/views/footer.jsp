@@ -135,9 +135,9 @@
 							오전 9시 ~ 오후 6시(토요일, 공휴일 휴무)<br>
 							Copyright ⓒ RUPIN. All Rights Reserved
 						</p>
-						<a href="adminLogin">
+						<!-- <a href="adminLogin">
 							<p class="admin">관리자 Login</p>
-						</a>
+						</a> -->
 					</div>
 				</div>
 			</footer>

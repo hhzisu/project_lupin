@@ -35,14 +35,14 @@
                 <div class="auctionImg">
                     <div class="leftImg">
                         <div class="preview">
-                            <div class="uploadAuction">
+                            <div class="uploadAuction uploadAuction1">
                                 <ul class="uploadStyle">
                                     <img src="images/auction1.jpg">
                                 </ul>
                             </div>
                         </div>
                         <div class="preview">
-                            <div class="uploadAuction">
+                            <div class="uploadAuction uploadAuction2">
                                 <ul class="uploadStyle">
                                     <img src="images/auction1.jpg">
                                 </ul>
@@ -229,9 +229,12 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // 현재 auction_lot 및 auctionSchedule_id 값을 자바스크립트로 받아옵니다.
-        var currentLot = "${auction.auction_lot}";
+        var currentLot = parseInt("${auction.auction_lot}");
         var auctionScheduleId = "${auction.auctionSchedule_id}";
-        var totalLots = "${totalLots}"; // 전체 경매 항목 수
+        var totalLots = parseInt("${totalLots}");
+
+        console.log("currentLot:", currentLot);
+        console.log("totalLots:", totalLots);
 
         // 이전 및 다음 링크 설정
         var prevLink = document.getElementById("prevLink");
@@ -284,70 +287,91 @@
     $(document).ready(function () {
         // auction_id 값을 가져옴
         var auctionId = "<c:out value='${auction.auction_id}'/>";
-        // header에 담긴 userInfo에서 id가져옴
-        var userId = userInfo.id;
 
 
 // -----------------------------------------------------------------
 //                           위시 버튼
 // -----------------------------------------------------------------
 
-        // 페이지 로드 시 위시 상태 확인하여 버튼 상태 설정
+        let userInfoId;
+
+        // 사용자 정보를 가져오는 AJAX 요청
         $.ajax({
-            url: '${pageContext.request.contextPath}/wish/state',
-            type: 'GET',
-            data: { auction_id: auctionId, user_id: userId },
-            success: function (data) {
+            url: "/api/auction/userInfo",
+            method: "GET",
+            success: function(data) {
+                console.log("API 호출 성공:", data); // API 성공 여부 확인
                 if (data) {
-                    // 사용자가 이미 위시를 눌렀다면 active 클래스 추가
-                    $('.wish button').addClass('active');
+                    userInfoId = data;  // 데이터를 전역 변수에 저장
+                    console.log("user_id =>", userInfoId.id); // ID 출력
+
+                    // 위시 상태 확인 및 버튼 상태 설정
+                    $.ajax({
+                        url: '/wish/state',
+                        type: 'GET',
+                        data: { auction_id: auctionId, user_id: userInfoId.id },
+                        success: function(data) {
+                            if (data) {
+                                // 사용자가 이미 위시를 눌렀다면 active 클래스 추가
+                                $('.wish button').addClass('active');
+                            } else {
+                                $('.wish button').removeClass('active');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error checking wish state:', error);
+                        }
+                    });
+
                 } else {
-                    $('.wish button').removeClass('active');
+                    console.log("사용자 정보가 없습니다.");
                 }
             },
-            error: function (xhr, status, error) {
-                console.error('Error checking wish state:', error);
+            error: function(err) {
+                console.error("API 호출 실패:", err); // API 에러 확인
             }
         });
 
         // WISH 버튼 클릭 시 이벤트 처리
-        $('.wish button').on('click', function () {
+        $(document).on('click', '.wish button', function() {
             var isWish = $(this).hasClass('active');  // 현재 active 클래스가 있는지 확인
+            console.log("버튼 클릭됨, isWish 상태:", isWish); // 클릭 여부 확인
 
             if (isWish) {
                 // 위시 삭제 요청
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/unwish',
+                    url: '/unwish',
                     type: 'POST',
-                    data: { auction_id: auctionId, user_id: userId },
-                    success: function (response) {
+                    data: { auction_id: auctionId, user_id: userInfoId.id },
+                    success: function(response) {
                         if (response === 'OK') {
                             $('.wish button').removeClass('active');  // active 클래스 제거
-                            alert('위시 목록에서 제거되었습니다.');
+                            // alert('위시 목록에서 제거되었습니다.');
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error removing wish:', error);
                     }
                 });
             } else {
                 // 위시 추가 요청
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/wish',
+                    url: '/wish',
                     type: 'POST',
-                    data: { auction_id: auctionId, user_id: userId },
-                    success: function (response) {
+                    data: { auction_id: auctionId, user_id: userInfoId.id },
+                    success: function(response) {
                         if (response === 'OK') {
                             $('.wish button').addClass('active');  // active 클래스 추가
-                            alert('위시 목록에 추가되었습니다.');
+                            // alert('위시 목록에 추가되었습니다.');
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error adding wish:', error);
                     }
                 });
             }
         });
+
 // -----------------------------------------------------------------
 //                           위시 버튼 끝
 // -----------------------------------------------------------------
@@ -357,30 +381,37 @@
 //                           이미지 불러오기
 // -----------------------------------------------------------------
 
-        // 모든 .uploadResult 요소를 선택
-        var uploadResultContainerList = $('.uploadAuction ul');
+        // 업로드 컨테이너 및 URL로 이미지 리스트를 표시하는 함수를 정의
+        function loadAuctionImages(url, uploadResultContainer) {
+            if (auctionId) {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: { auction_id: auctionId },
+                    dataType: 'json',
+                    success: function(data) {
+                        showUploadResult(data, uploadResultContainer);
 
-        if (auctionId) {
-            $.ajax({
-                url: '/auctionListGetFileList',
-                type: 'GET',
-                data: { auction_id: auctionId },
-                dataType: 'json',
-                success: function(data) {
-                    // 불러온 파일 리스트를 각 uploadResult에 하나씩 할당
-                    showUploadResult(data, uploadResultContainerList);
-
-                    // 기본으로 첫 번째 이미지를 detail에 표시
-                    if (data.length > 0) {
-                        var firstImageSrc = encodeURIComponent(data[0].uploadPath + "/s_" + data[0].fileName);
-                        $('.detail img').attr('src', '/auctionListDisplay?fileName=' + firstImageSrc);
+                        // uploadAuction1에 이미지를 불러왔을 때 첫 번째 이미지를 detail에 기본으로 설정
+                        if (uploadResultContainer.is($('.uploadAuction1 ul')) && data.length > 0) {
+                            var firstImageSrc = encodeURIComponent(data[0].uploadPath + "/s_" + data[0].fileName);
+                            $('.detail img').attr('src', '/auctionListDisplay?fileName=' + firstImageSrc);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching file list for auction_id ' + auctionId + ':', error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching file list for auction_id ' + auctionId + ':', error);
-                }
-            });
+                });
+            }
         }
+
+        // 첫 번째 이미지 리스트 불러오기
+        var uploadResultContainer1 = $('.uploadAuction1 ul');
+        loadAuctionImages('/auctionListGetFileList1', uploadResultContainer1);
+
+        // 두 번째 이미지 리스트 불러오기
+        var uploadResultContainer2 = $('.uploadAuction2 ul');
+        loadAuctionImages('/auctionListGetFileList2', uploadResultContainer2);
 
         // 이미지 클릭 시 detail 클래스에 이미지 표시
         $(document).on('click', '.uploadAuction img', function() {
@@ -390,26 +421,23 @@
     });
 
     // 이미지 목록을 각 컨테이너에 표시
-    function showUploadResult(uploadResultArr, uploadResultContainerList) {
+    function showUploadResult(uploadResultArr, uploadResultContainer) {
         if (!uploadResultArr || uploadResultArr.length == 0) {
             return;
         }
 
-        // 각 컨테이너에 하나의 이미지만 할당
-        uploadResultContainerList.each(function(index) {
-            if (index < uploadResultArr.length) {
-                var obj = uploadResultArr[index];
-                var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
-                var str = "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-                str += "<div>";
-                str += "<span style='display:none;'>" + obj.fileName + "</span>";
-                str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
-                str += "</div></li>";
-
-                // 각 컨테이너에 하나의 이미지 할당
-                $(this).empty().append(str);
-            }
+        var str = "";
+        uploadResultArr.forEach(function (obj) {
+            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
+            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+            str += "<div>";
+            str += "<span style='display:none;'>" + obj.fileName + "</span>";
+            str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+            str += "</div></li>";
         });
+
+        // 컨테이너를 비우고 파일 리스트 추가
+        uploadResultContainer.empty().append(str);
     }
 
 // -----------------------------------------------------------------

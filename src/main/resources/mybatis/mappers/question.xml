@@ -19,7 +19,7 @@
 	        #{question_title},
 	        #{question_content},
 			now(),
-	        "2"
+			#{user_id}
 	    )
 	</insert>
 
@@ -36,8 +36,23 @@
 		FROM
 		question_tb q
 		JOIN userentity u ON q.user_id = u.id
+		ORDER BY q.question_date DESC
+	</select>
+	<select id="questionListbyId" resultType="com.boot.project_lupin.dto.QuestionDTO" parameterType="long">
+		SELECT
+		q.question_id,
+		q.question_type,
+		q.question_title,
+		q.question_content,
+		q.question_answer,
+		q.question_date,
+		q.user_id,
+		u.email
+		FROM
+		question_tb q
+		JOIN userentity u ON q.user_id = u.id
 		WHERE
-		q.user_id = "2"
+		q.user_id = #{user_id}
 		ORDER BY q.question_date DESC
 	</select>
 

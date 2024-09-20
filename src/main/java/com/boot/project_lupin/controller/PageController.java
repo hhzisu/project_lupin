@@ -36,17 +36,22 @@ public class PageController {
 
 	@RequestMapping("/main")
 	public String main(Model model) {
+		// 진행 중인 경매 리스트를 가져옴
 		ArrayList<AuctionDTO> list = auctionService.auctionProgressList();
 
-		// 각 경매 항목에 대한 이미지 파일 리스트도 추가
+		// 각 경매 항목에 대한 이미지 파일 리스트 추가
 		for (AuctionDTO auction : list) {
-			List<AuctionAttachDTO> attachList = managerService.auctionGetFileList(auction.getAuction_id());
-			auction.setAuctionAttachList(attachList);
+			// auction_id에 해당하는 첨부파일 리스트를 가져와서 설정
+			List<AuctionAttachDTO> attachList = managerService.auctionGetFileList1(auction.getAuction_id());
+			auction.setAuctionAttachList1(attachList);
 		}
 
+		// 모델에 경매 리스트와 이미지 파일 리스트를 추가
 		model.addAttribute("list", list);
-		return "main";
+
+		return "main";  // main.jsp 또는 main.html 페이지로 이동
 	}
+
 
 
 	@RequestMapping("/loginPage")

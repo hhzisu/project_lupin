@@ -44,7 +44,7 @@
                         <a href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
                             <div class="auctionImg">
                                 <div class="uploadResult">
-                                    <ul>
+                                    <ul class="uploadStyle>
                                         <img src="images/auction1.jpg">
                                     </ul>
                                 </div>
@@ -91,7 +91,7 @@
 
             if (auctionId) {
                 $.ajax({
-                    url: '/auctionListGetFileList',
+                    url: '/auctionListGetFileList1',
                     type: 'GET',
                     data: { auction_id: auctionId },
                     dataType: 'json',
@@ -106,23 +106,22 @@
         });
     });
 
-    function showUploadResult(uploadResultArr, uploadResultContainer){
+    function showUploadResult(uploadResultArr, uploadResultContainer) {
         if (!uploadResultArr || uploadResultArr.length == 0) {
             return;
         }
 
-        // 배열의 첫 번째 항목만 가져오기
-        var obj = uploadResultArr[0];
-        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+        var str = "";
+        uploadResultArr.forEach(function (obj) {
+            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 파일 경로 생성
+            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+            str += "<div>";
+            str += "<span style='display:none;'>" + obj.fileName + "</span>";
+            str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+            str += "</div></li>";
+        });
 
-        var str = "<li data-path='" + obj.uploadPath + "'";
-        str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-        str += "<div>";
-        str += "<span style='display:none;'>" + obj.fileName + "</span>";
-        str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
-        str += "</div></li>";
-
-        // 컨테이너를 비우고 첫 번째 이미지 추가
+        // 컨테이너를 비우고 파일 리스트 추가
         uploadResultContainer.empty().append(str);
     }
 </script>

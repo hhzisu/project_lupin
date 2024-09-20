@@ -212,7 +212,6 @@ s
 {
 	display: flex;
 	justify-content: space-between;
-	flex-direction: column;
 }
 
 .userCommission .commissionAttach.flex
@@ -280,4 +279,10 @@ hr {
     text-align: center;
     cursor: pointer;
     font-size: 14px;
+}
+
+.commissionBtns {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
 }

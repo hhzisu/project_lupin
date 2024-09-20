@@ -31,4 +31,3 @@ public class AuctionDTO {
     // 경매 입찰 내역
     private List<AuctionBidDTO> bidHistory;
 }
-

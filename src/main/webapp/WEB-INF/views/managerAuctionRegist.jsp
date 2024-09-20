@@ -77,13 +77,13 @@
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">제작년도</div>
-                                            <input class="commissionContentText" type="text" name="auction_madeDate"
-                                                maxlength="4" required>
+                                            <input class="commissionContentText" type="number" name="auction_madeDate"
+                                                maxlength="4" min="1901" required>
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">제작재료</div>
                                             <input class="commissionContentText" type="text" name="auction_materials"
-                                                maxlength="10" required>
+                                                maxlength="4" required>
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">작가 설명</div>
@@ -105,38 +105,36 @@
 
                                         <div class="commissionContent flex">
                                             <div class="commissionAttach flex line">
-                                                <div class="commissionContentTitle">작품사진</div>
-                                                <input type="file" id="upload1" name="uploadFile" style="display: none;"
-                                                    multiple>
+                                                <div class="commissionContentTitle">작품사진 1</div>
+                                                <input type="file" id="upload1" name="uploadFile1"
+                                                    style="display: none;">
                                                 <label for="upload1" class="commissionAttachBtn">파일첨부</label>
                                                 <div class="fileImg">
                                                     <div class="uploadResult" id="upload1Result">
                                                         <ul></ul>
                                                     </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="commissionAttach flex">
+                                                <div class="commissionContentTitle">작품사진 2</div>
+                                                <input type="file" id="upload2" name="uploadFile2"
+                                                    style="display: none;">
+                                                <label for="upload2" class="commissionAttachBtn">파일첨부</label>
+                                                <div class="fileImg">
                                                     <div class="uploadResult" id="upload2Result">
                                                         <ul></ul>
                                                     </div>
                                                 </div>
-
-                                                <!-- <div class="commissionAttach flex">
-                                                    <div class="commissionContentTitle">작품사진 2</div>
-                                                    <input type="file" id="upload2" name="uploadFile2"
-                                                        style="display: none;">
-                                                    <label for="upload2" class="commissionAttachBtn">파일첨부</label>
-                                                    <div class="fileImg">
-                                                        <div class="uploadResult" id="upload2Result">
-                                                            <ul></ul>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-
                                             </div>
-                                            <div class="commissionBtns">
-                                                <button type="button" class="commissionCancleBtn">취소</button>
-                                                <button type="submit" class="commissionBtn">경매 등록</button>
-                                            </div>
-                                            <!-- <input type="hidden" name="auction_id" value="${auctionDTO.auction_id}"> -->
+
                                         </div>
+                                        <hr>
+                                        <div class="commissionBtns">
+                                            <button type="button" class="commissionCancleBtn">취소</button>
+                                            <button type="submit" class="commissionBtn">경매 등록</button>
+                                        </div>
+                                        <!-- <input type="hidden" name="auction_id" value="${auctionDTO.auction_id}"> -->
                                     </form>
                                 </div>
                             </div>
@@ -154,7 +152,7 @@
         <script>
             $(document).ready(function (e) {
 
-                // 확장자(exe, sh, alz), 파일크기(5MB 미만) 조건
+                // 확장자 검사 및 파일 크기(5MB 미만) 검사
                 var regex = new RegExp("(.*?)\.(exe|sh|alz)$");
                 var maxSize = 5242880; // 5MB
 
@@ -170,74 +168,85 @@
                     return true;
                 }
 
-                // 파일 업로드 시 이벤트 처리
-                $("input[type='file']").change(function (e) {
-                    var inputId = $(this).attr('id'); // 어느 input에서 파일이 선택되었는지 확인
-                    var uploadResultSelector = (inputId === 'upload1') ? "#upload1Result" : "#upload2Result"; // 어느 결과 영역에 출력할지 결정
-
+                // 파일 선택 시 처리 (upload1 처리)
+                $("#upload1").change(function (e) {
                     var formData = new FormData();
-                    var inputFile = $(this); // 현재 선택된 input file
-                    var files = inputFile[0].files;
+                    var inputFile = $("#upload1")[0].files;
 
-                    for (var i = 0; i < files.length; i++) {
-                        console.log("@# files=>" + files[i].name);
-
-                        // 파일크기와 종류 확인
-                        if (!checkExtension(files[i].name, files[i].size)) {
-                            $(this).val(""); // 파일 입력 초기화
+                    for (var i = 0; i < inputFile.length; i++) {
+                        if (!checkExtension(inputFile[i].name, inputFile[i].size)) {
+                            $("#upload1").val(""); // 파일 입력 초기화
                             return false;
                         }
-
-                        // 파일 정보를 formData에 추가
-                        formData.append("uploadFile", files[i]);
+                        formData.append("uploadFile1", inputFile[i]); // 수정된 부분
                     }
 
+                    // 파일을 서버로 전송 (upload1)
                     $.ajax({
                         type: "post",
                         data: formData,
-                        url: "auctionUploadAjaxAction",
+                        url: "auctionUploadAjaxAction1", // 수정된 부분
                         processData: false,
                         contentType: false,
                         success: function (result) {
-                            alert("파일 업로드 완료");
-                            console.log(result);
-                            // 업로드 결과를 해당 영역에 출력
-                            showUploadResult(result, uploadResultSelector);
+                            alert("파일 업로드 완료 (작품사진 1)");
+                            showUploadResult(result, '#upload1Result'); // 업로드 결과 표시 (upload1)
                         }
                     });
                 });
 
-                // 파일 업로드 결과를 해당 위치에 출력하는 함수
-                function showUploadResult(uploadResultArr, uploadResultSelector) {
+                // 파일 선택 시 처리 (upload2 처리)
+                $("#upload2").change(function (e) {
+                    var formData = new FormData();
+                    var inputFile = $("#upload2")[0].files;
+
+                    for (var i = 0; i < inputFile.length; i++) {
+                        if (!checkExtension(inputFile[i].name, inputFile[i].size)) {
+                            $("#upload2").val(""); // 파일 입력 초기화
+                            return false;
+                        }
+                        formData.append("uploadFile2", inputFile[i]); // 수정된 부분
+                    }
+
+                    // 파일을 서버로 전송 (upload2)
+                    $.ajax({
+                        type: "post",
+                        data: formData,
+                        url: "auctionUploadAjaxAction2", // 수정된 부분
+                        processData: false,
+                        contentType: false,
+                        success: function (result) {
+                            alert("파일 업로드 완료 (작품사진 2)");
+                            showUploadResult(result, '#upload2Result'); // 업로드 결과 표시 (upload2)
+                        }
+                    });
+                });
+
+
+                // 업로드된 파일 목록 표시 함수
+                function showUploadResult(uploadResultArr, resultSelector) {
                     if (!uploadResultArr || uploadResultArr.length == 0) {
                         return;
                     }
 
-                    var uploadUL = $(uploadResultSelector + " ul"); // 해당 결과 영역
+                    var uploadUL = $(resultSelector + " ul");
                     var str = "";
 
                     $(uploadResultArr).each(function (i, obj) {
-                        if (obj.image) {
+                        if (obj.image) { // 이미지 파일의 경우
                             var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
                             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-                            str += "<div>";
-                            str += "<span>" + "</span>";
-                            str += "<img style='width: 90px; height: 90px;' src='/auctionDisplay?fileName=" + fileCallPath + "'>";
-                            str += "</div>";
-                            str += "<div class='imgDelete'>";
-                            str += "<span style='cursor: pointer;' data-file='" + fileCallPath + "' data-type='image'>[삭제]</span>";
-                            str += "</div></li>";
-                        } else {
+                            str += "<div><span>" + "</span>";
+                            str += "<img style='width: 90px; height: 90px;' src='/auctionDisplay?fileName=" + fileCallPath + "'></div>";
+                            str += "<div class='imgDelete'><span style='cursor: pointer;' data-file='" + fileCallPath + "' data-type='image'>[삭제]</span></div></li>";
+                        } else { // 이미지 외 파일의 경우
                             var fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
                             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-                            str += "<div>";
-                            str += "<span>" + obj.fileName + "</span>";
-                            str += "<span data-file='" + fileCallPath + "' data-type='file'> [삭제] </span>";
-                            str += "</div></li>";
+                            str += "<div><span>" + obj.fileName + "</span><span data-file='" + fileCallPath + "' data-type='file'> [삭제] </span></div></li>";
                         }
                     });
 
-                    uploadUL.append(str); // 파일 정보를 해당 결과 리스트에 추가
+                    uploadUL.append(str); // 파일 목록 추가
                 }
 
                 // 파일 삭제 처리
@@ -249,10 +258,10 @@
                     $.ajax({
                         type: "post",
                         data: { fileName: targetFile, type: type },
-                        url: "auctionDeleteFile",
+                        url: "auctionDeleteFile", // 수정된 부분
                         success: function (result) {
                             alert("삭제 완료");
-                            uploadResultItem.remove();
+                            uploadResultItem.remove(); // 브라우저에서 파일 목록 제거
                         }
                     });
                 });
