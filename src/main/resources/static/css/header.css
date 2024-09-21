@@ -286,6 +286,9 @@
 .modalBid .bidCon .right .boxCon {
     display: flex;
     flex-direction: column;
+    height: 180px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .modalBid .bidCon .right .boxCon .boxList {
@@ -373,7 +376,7 @@
     cursor: pointer;
 }
 
-.modalBid .bidCon .right .buttonBid .bidBtn.maximum {
+.modalBid .bidCon .right .bidBtn.maximum {
     display: block;
     background-color: var(--color-white);
     color: var(--color-gray);

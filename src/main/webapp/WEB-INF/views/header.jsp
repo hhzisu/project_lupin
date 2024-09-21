@@ -604,18 +604,50 @@
 
 
                 // 콤마 제거 및 숫자로 변환
-                let startPrice = auction.auction_startPrice.replace(/,/g, '');  // 콤마를 제거
-                let numericStartPrice = parseInt(startPrice, 10);  // 문자열을 숫자로 변환
+                // let startPrice = auction.auction_startPrice.replace(/,/g, '');  // 콤마를 제거
+                // let numericStartPrice = parseInt(startPrice, 10);  // 문자열을 숫자로 변환
 
-                console.log('@# numericStartPrice=>'+numericStartPrice);
+                // console.log('@# numericStartPrice=>'+numericStartPrice);
 
                 // 호가 단위 계산 및 표시
-                let bidIncrement = getBidIncrement(numericStartPrice);  // 호가 단위 결정
+                // let bidIncrement = getBidIncrement(numericStartPrice);  // 호가 단위 결정
 
                 // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
                 let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
                                  ? auction.bidHistory[0].bidMoney
                                  : auction.auction_startPrice;
+
+
+                // 드롭박스에 호가 단위로 금액 추가
+                const selectBox = $('.buttonBid select');
+                selectBox.empty();  // 기존의 옵션 제거
+
+                let currentPriceDrop = parseInt(currentPrice.replace(/,/g, ''), 10);  // 문자열을 숫자로 변환
+
+                // 호가 단위 계산 및 표시
+                let bidIncrement = getBidIncrement(currentPriceDrop);  // 호가 단위 결정
+
+                // 현재가에서 5단계 높은 가격까지 옵션 추가
+                for (let i = 1; i <= 5; i++) {
+                    let newBidAmount = currentPriceDrop + (i * bidIncrement);
+                    let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
+                    selectBox.append(`<option value="\${formattedBidAmount}">KRW \${formattedBidAmount}</option>`);
+                }
+
+
+                // 드롭박스와 버튼을 숨길지 결정
+                let isHighestBidder = (auction.bidHistory[0].userId == userInfo.id);
+                console.log('@# auction.bidHistory[0].userId=>', auction.bidHistory[0].userId);
+                console.log('@# isHighestBidder=>', isHighestBidder);
+
+                const buttonBid = $('.buttonBid');
+                const highestBidMessage = '<div class="buttonBid">최고가 응찰 중입니다</div>';
+
+                // 본인이 최고가 응찰자일 경우 버튼과 드롭박스를 숨기고 메시지 표시
+                if (isHighestBidder) {
+                    buttonBid.hide();  // 버튼 숨기기
+                    buttonBid.after(highestBidMessage);  // 메시지 추가
+                }
 
 
                 // 가져온 경매 데이터를 모달에 반영
@@ -628,7 +660,7 @@
                 // $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auction.auctionSchedule_end));
                 // $('#modalBid .time h4').text("호가단위 : KRW " + getBidIncrement(auction.auction_startPrice).toLocaleString());
                 $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
-                $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice);
+                $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice.toLocaleString());
                 $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");
 
 
@@ -648,8 +680,9 @@
                 // 기존 응찰 내역을 업데이트
                 let bidHistory = '';
                 auction.bidHistory.forEach(function(bid) {
+                    const maskedUserName = maskUserName(bid.userName);  // 중간 글자를 *로 마스킹
                     bidHistory += `<div class="boxList">
-                        <h3>\${bid.userName}</h3>
+                        <h3>\${maskedUserName}</h3>
                         <h4 style="color: var(--color-burgundy);">\${bid.bidMoney}</h4>
                         <h5>\${formatBidTime(bid.bidTime)}</h5>
                     </div>`;
@@ -677,8 +710,8 @@
         let now = new Date().getTime();  // 현재 시간
         let distance = endTime - now;  // 남은 시간 계산 (밀리초 단위)
 
-        console.log('@# now=>'+now);
-        console.log('@# distance=>'+distance);
+        // console.log('@# now=>'+now);
+        // console.log('@# distance=>'+distance);
 
         if (distance < 0) {
             return "경매 종료";  // 경매가 종료되었을 경우
@@ -688,6 +721,11 @@
         let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // 한 자리 숫자일 때 앞에 0을 붙임
+        hours = String(hours).padStart(2, '0');
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
 
         return `\${days}일 \${hours}:\${minutes}:\${seconds}`;
     }
@@ -709,28 +747,42 @@
 
     // 호가 단위 결정 함수
     function getBidIncrement(currentPrice) {
-    if (currentPrice < 300000) {
-        return 20000;  // 30만원 미만
-    } else if (currentPrice < 1000000) {
-        return 50000;  // 30만원 이상 ~ 100만원 미만
-    } else if (currentPrice < 3000000) {
-        return 100000; // 100만원 이상 ~ 300만원 미만
-    } else if (currentPrice < 5000000) {
-        return 200000; // 300만원 이상 ~ 500만원 미만
-    } else if (currentPrice < 10000000) {
-        return 500000; // 500만원 이상 ~ 1000만원 미만
-    } else if (currentPrice < 30000000) {
-        return 1000000; // 1000만원 이상 ~ 3000만원 미만
-    } else if (currentPrice < 50000000) {
-        return 2000000; // 3000만원 이상 ~ 5000만원 미만
-    } else if (currentPrice < 200000000) {
-        return 5000000; // 5000만원 이상 ~ 2억 미만
-    } else if (currentPrice < 500000000) {
-        return 10000000; // 2억 이상 ~ 5억 미만
-    } else {
-        return 20000000; // 5억 이상
+        if (currentPrice < 300000) {
+            return 20000;  // 30만원 미만
+        } else if (currentPrice < 1000000) {
+            return 50000;  // 30만원 이상 ~ 100만원 미만
+        } else if (currentPrice < 3000000) {
+            return 100000; // 100만원 이상 ~ 300만원 미만
+        } else if (currentPrice < 5000000) {
+            return 200000; // 300만원 이상 ~ 500만원 미만
+        } else if (currentPrice < 10000000) {
+            return 500000; // 500만원 이상 ~ 1000만원 미만
+        } else if (currentPrice < 30000000) {
+            return 1000000; // 1000만원 이상 ~ 3000만원 미만
+        } else if (currentPrice < 50000000) {
+            return 2000000; // 3000만원 이상 ~ 5000만원 미만
+        } else if (currentPrice < 200000000) {
+            return 5000000; // 5000만원 이상 ~ 2억 미만
+        } else if (currentPrice < 500000000) {
+            return 10000000; // 2억 이상 ~ 5억 미만
+        } else {
+            return 20000000; // 5억 이상
+        }
     }
-}
+
+
+    // 이름 *로 나오게하는 함수
+    function maskUserName(userName) {
+        if (userName.length <= 2) {
+            // 이름이 2자 이하면 마지막 글자를 *로 대체
+            return userName.charAt(0) + '*';
+        } else {
+            // 이름이 3자 이상일 경우 중간 글자를 *로 대체
+            const firstChar = userName.charAt(0);
+            const lastChar = userName.charAt(userName.length - 1);
+            return firstChar + '*'.repeat(userName.length - 2) + lastChar;
+        }
+    }
 
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
