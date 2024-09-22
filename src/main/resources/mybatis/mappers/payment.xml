@@ -6,21 +6,32 @@
 
     <select id="payListbyId" resultType="com.boot.project_lupin.dto.PaymentDTO">
         SELECT
-            b.buy_id,
-            b.user_id,
-            b.auction_id,
-            b.bid_id,
-            b.buy_date,
-            b.buy_state,
-            m.bid_money,
-            m.bid_time
+        b.buy_id,
+        b.user_id,
+        b.auction_id,
+        b.bid_id,
+        b.buy_date,
+        b.buy_state,
+        m.bid_money,
+        m.bid_time,
+        a.auction_author,
+        a.auction_title,
+        a.auction_lot
         FROM
-            buy_tb b
+        buy_tb b
         JOIN bid_tb m ON b.bid_id = m.bid_id
+        JOIN auction_tb a ON b.auction_id = a.auction_id
         WHERE
-            b.user_id = #{user_id}
+        b.user_id = #{user_id}
         ORDER BY b.buy_id DESC
     </select>
+
+    <!-- 결제 완료 후 buy_state와 buy_date 업데이트 -->
+    <update id="updateBuyState">
+        UPDATE buy_tb
+        SET buy_state = #{buy_state}, buy_date = NOW()
+        WHERE buy_id = #{buy_id}
+    </update>
 
     <!-- 결제 정보를 buy_tb에 삽입 -->
     <insert id="insertPayment" parameterType="com.boot.project_lupin.dto.PaymentDTO">
