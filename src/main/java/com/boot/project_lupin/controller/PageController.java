@@ -15,10 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -84,7 +86,7 @@ public class PageController {
 	}
 
 	// 이미지 파일을 받아서 화면에 출력 (byte 배열 타입)
-	@GetMapping("/auctionMainDisplay")
+	@GetMapping("/auctionListMainDisplay")
 	public ResponseEntity<byte[]> getFile(String fileName) {
 		log.info("@# display fileName => " + fileName);
 
@@ -105,6 +107,27 @@ public class PageController {
 		}
 
 		return result;
+	}
+
+
+	// 파일 목록을 JSON으로 가져오는 메서드
+	@GetMapping(value = "/auctionListMainGetFileList1")
+	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList1(@RequestParam HashMap<String, String> param) {
+		log.info("@# auctionListGetFileList()");
+		log.info("@# param => " + param);
+		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
+
+		// 질문 ID로 파일 목록을 조회하여 리턴
+		return new ResponseEntity<>(managerService.auctionGetFileList1(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
+	}
+	@GetMapping(value = "/auctionListMainGetFileList2")
+	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList2(@RequestParam HashMap<String, String> param) {
+		log.info("@# auctionListGetFileList()");
+		log.info("@# param => " + param);
+		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
+
+		// 질문 ID로 파일 목록을 조회하여 리턴
+		return new ResponseEntity<>(managerService.auctionGetFileList2(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
 	}
 
 }
