@@ -12,6 +12,7 @@
 		<mapper resource="mybatis/mappers/admin.xml"/>
 		<mapper resource="mybatis/mappers/userInfo.xml"/>
 		<mapper resource="mybatis/mappers/wish.xml"/>
+		<mapper resource="mybatis/mappers/Payment.xml"/>
 	</mappers>
 </configuration>
 
