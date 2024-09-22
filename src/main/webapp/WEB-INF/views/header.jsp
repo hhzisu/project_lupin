@@ -623,7 +623,7 @@
         stompClient.send("/pub/autoBid", {}, JSON.stringify({
             userId: userInfo.id,  // 현재 사용자의 ID
             auctionId: auctionId,  // 경매 ID
-            autoBidLimit: selectedBid // 자동응찰 한도금액
+            maxBidLimit: selectedBid // 자동응찰 한도금액
         }));
     });
 
@@ -634,28 +634,44 @@
             url: "/api/auction/" + auctionId,  // 서버의 경매 데이터를 가져오는 엔드포인트
             method: "GET",
             success: function(auction) {
+                let bidStartPrice = parseInt(auction.auction_startPrice.replace(/,/g, ''), 10);
 
                 // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
                 let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
                                  ? auction.bidHistory[0].bidMoney
-                                 : auction.auction_startPrice;
+                                 : bidStartPrice;
 
 
                 // 드롭박스에 호가 단위로 금액 추가
                 const selectBox = $('.buttonBid select');
                 selectBox.empty();  // 기존의 옵션 제거
 
-                let currentPriceDrop = parseInt(currentPrice.replace(/,/g, ''), 10);  // 문자열을 숫자로 변환
+                // let currentPriceDrop = parseInt(currentPrice.replace(/,/g, ''), 10);  // 문자열을 숫자로 변환
 
                 // 호가 단위 계산 및 표시
-                let bidIncrement = getBidIncrement(currentPriceDrop);  // 호가 단위 결정
+                let bidIncrement = getBidIncrement(currentPrice);  // 호가 단위 결정
 
-                // 현재가에서 5단계 높은 가격까지 옵션 추가
-                for (let i = 1; i <= 5; i++) {
-                    let newBidAmount = currentPriceDrop + (i * bidIncrement);
-                    let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
-                    selectBox.append(`<option value="\${formattedBidAmount}">KRW \${formattedBidAmount}</option>`);
+                // 응찰자 유무로 현재가/시작가 기준 바뀜
+                if (currentPrice == bidStartPrice) {
+                    console.log('시작가로 첫응찰 시작');
+
+                    // 현재가에서 5단계 높은 가격까지 옵션 추가
+                    for (let i = 0; i <= 4; i++) {
+                        let newBidAmount = currentPrice + (i * bidIncrement);
+                        let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
+                        selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
+                    }
+                } else {
+                    console.log('현재가로 응찰');
+
+                    // 현재가에서 5단계 높은 가격까지 옵션 추가
+                    for (let i = 1; i <= 5; i++) {
+                        let newBidAmount = currentPrice + (i * bidIncrement);
+                        let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
+                        selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
+                    }
                 }
+
 
                 if (auction.bidHistory.length > 0) {
                     // 드롭박스와 버튼을 숨길지 결정

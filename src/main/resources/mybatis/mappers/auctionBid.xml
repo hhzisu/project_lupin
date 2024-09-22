@@ -20,7 +20,7 @@
 		FROM bid_tb b
 		JOIN userentity u ON b.user_id = u.id
 		WHERE b.auction_id = #{auctionId}
-		ORDER BY b.bid_time DESC
+		ORDER BY b.bid_money DESC
 	</select>
 
 
@@ -53,4 +53,35 @@
 		LIMIT 1
 	</select>
 
+
+	<!-- 자동응찰 정보 삽입 -->
+	<insert id="insertAutoBid" parameterType="com.boot.project_lupin.dto.AutoBidDTO">
+		INSERT INTO auto_bid_tb (user_id, auction_id, max_bid_limit, bid_status)
+		VALUES (#{userId}, #{auctionId}, #{maxBidLimit}, 'ACTIVE')
+	</insert>
+
+	<!-- 특정 경매의 자동응찰 정보 가져오기 -->
+	<select id="getAutoBidsByAuctionId" resultType="com.boot.project_lupin.dto.AutoBidDTO">
+		SELECT auto_bid_id AS autoBidId,
+		user_id AS userId,
+		auction_id AS auctionId,
+		max_bid_limit AS maxBidLimit,
+		bid_status AS bidStatus
+		FROM auto_bid_tb
+		WHERE auction_id = #{auctionId} AND bid_status = 'ACTIVE'
+	</select>
+
+	<!-- 자동응찰 한도 업데이트 -->
+	<update id="updateAutoBidStatus" parameterType="map">
+		UPDATE auto_bid_tb
+		SET bid_status = #{bidStatus}
+		WHERE auto_bid_id = #{autoBidId}
+	</update>
+
+	<!-- 경매의 시작가 조회 -->
+	<select id="getAuctionStartPrice" resultType="int">
+		SELECT auction_startPrice
+		FROM auction_tb
+		WHERE auction_id = #{auctionId}
+	</select>
 </mapper>
