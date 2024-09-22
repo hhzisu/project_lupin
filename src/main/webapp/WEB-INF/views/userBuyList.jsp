@@ -17,6 +17,8 @@
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"/>
 <!-- import js -->
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<!--아임포트 라이브러리 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 </head>
 <body>
     
@@ -45,15 +47,15 @@
 
                 <div class="userBuyList">
 
-                    <div class="buyListHeader">
-                        <h5 class="auctionDate">24.09.01 온라인 경매</h5>
-                        <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
-                    </div>
+<%--                    <div class="buyListHeader">--%>
+<%--                        <h5 class="auctionDate">24.09.01 온라인 경매</h5>--%>
+<%--                        <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>--%>
+<%--                    </div>--%>
 
                     <input type="hidden" name="user_id" value="${loginUser.id}">
                     <c:forEach items="${buyList}" var="buyList">
                     <div class="buyListBody">
-                        <div class="paystate">결제 대기중</div>
+                        <div class="paystate">${buyList.buy_state}</div>
                         <div class="buyList">
                             <div class="buyListImg">
                                 <div class="uploadResult">
@@ -63,9 +65,9 @@
                                 </div>
                             </div>
                             <div class="buyListExplain">
-                                <div class="WishListLotNum">LOT2</div>
-                                <div class="authorName">나성엽</div>
-                                <div class="workName">여덟을 꺼내는 시간</div>
+                                <div class="WishListLotNum">LOT ${buyList.auction_lot}</div>
+                                <div class="authorName">${buyList.auction_author}</div>
+                                <div class="workName">${buyList.auction_title}</div>
                             </div>
                             <div class="buyListEnd">
                                 <div class="buyListPrices">
@@ -87,7 +89,13 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="payBtn">결제하기</button>
+                                    <button class="payBtn"
+                                            data-auction-id="${buyList.auction_id}"
+                                            data-bid-id="${buyList.bid_id}"
+                                            data-buy-id="${buyList.buy_id}"
+                                            data-bid-money="${buyList.bid_money}">
+                                        결제하기
+                                    </button>
                                 </div>
                             </div>
                             <!-- bidListEnd 끝 -->
@@ -117,7 +125,60 @@
             var fee = bidMoney * 0.198;
             $(this).text(fee.toLocaleString());  // 결과를 다시 콤마 포맷으로 표시
         });
+
+        $(".payBtn").click(function() {
+            // 클릭된 버튼에서 data-* 속성으로 정보를 가져옴
+            var auctionId = $(this).data("auction-id");
+            var bidId = $(this).data("bid-id");
+            var buyId = $(this).data("buy-id");
+
+            // 결제 API 호출 (PortOne 결제 창 띄우기)
+            callPaymentAPI(auctionId, bidId, buyId);
+        });
     });
+
+    function callPaymentAPI(auctionId, bidId, buyId) {
+        // PortOne 결제 API로 결제창을 호출
+        IMP.init('imp84226213'); // 가맹점 식별코드
+        IMP.request_pay({
+            pg: 'html5_inicis', // 결제 창 종류
+            pay_method: 'card', // 결제 방식
+            merchant_uid: 'merchant_' + new Date().getTime(), // 고유 주문번호
+            name: 'Auction Payment', // 결제 상품명
+            amount: 1, // 테스트 결제 금액 (PortOne에서 실제로 처리할 결제 금액)
+            buyer_email: 'user@example.com', // 구매자 이메일
+            buyer_name: '홍길동', // 구매자 이름
+            buyer_tel: '010-1234-5678', // 구매자 연락처
+            buyer_addr: '서울특별시 강남구', // 구매자 주소
+            buyer_postcode: '123-456', // 구매자 우편번호
+        }, function (rsp) {
+            if (rsp.success) {
+                // 결제가 성공했을 때
+                alert('결제가 완료되었습니다.');
+                // 결제 성공 시 서버로 결제 상태 업데이트 요청
+                $.ajax({
+                    url: "/api/payment/complete", // 결제 완료 상태 업데이트 API
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        auction_id: auctionId,
+                        bid_id: bidId,
+                        buy_id: buyId,
+                        pay_state: '결제 완료'  // 결제 상태만 서버로 전송
+                    }),
+                    success: function(response) {
+                        alert("결제 상태가 성공적으로 업데이트되었습니다.");
+                    },
+                    error: function(xhr) {
+                        alert("결제 상태 업데이트 실패: " + xhr.responseText);
+                    }
+                });
+            } else {
+                // 결제가 실패했을 때
+                alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
+            }
+        });
+    }
 </script>
-</script>
+
 
