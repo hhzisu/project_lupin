@@ -42,6 +42,7 @@
                     <h3>구매 내역</h3>
                 </div>
                 <hr>
+
                 <div class="userBuyList">
 
                     <div class="buyListHeader">
@@ -49,6 +50,8 @@
                         <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
                     </div>
 
+                    <input type="hidden" name="user_id" value="${loginUser.id}">
+                    <c:forEach items="${buyList}" var="buyList">
                     <div class="buyListBody">
                         <div class="paystate">결제 대기중</div>
                         <div class="buyList">
@@ -66,21 +69,21 @@
                             </div>
                             <div class="buyListEnd">
                                 <div class="buyListPrices">
-                                    <div class="bidPrice">
-                                        <div>응찰가</div>
-                                        <div>KRW &nbsp; 800,000</div>
-                                    </div>
+<%--                                    <div class="bidPrice">--%>
+<%--                                        <div>응찰가</div>--%>
+<%--                                        <div>KRW &nbsp; ${buyList.bid_money}</div>--%>
+<%--                                    </div>--%>
                                     <div class="bidDate">
                                         <div class="bidDateTitle">응찰일</div>
-                                        <div>2024.08.28 21:25:31</div>
+                                        <div>${buyList.bid_time}</div>
                                     </div>
                                     <div class="endPrice">
                                         <div>낙찰가</div>
-                                        <div>KRW &nbsp; 8,000,000</div>
+                                        <div>KRW &nbsp; ${buyList.bid_money}</div>
                                     </div>
                                     <div class="bidFee">
                                         <div>낙찰 수수료</div>
-                                        <div>KRW &nbsp; 8,000,000</div>
+                                        <div>KRW &nbsp; <span class="bid_fee" data-money="${buyList.bid_money}"></span></div>
                                     </div>
                                 </div>
                                 <div>
@@ -90,6 +93,7 @@
                             <!-- bidListEnd 끝 -->
                         </div>
                     </div>
+                    </c:forEach>
                     <!-- bidList 끝 -->
                 </div>
                 <hr>
@@ -104,6 +108,16 @@
 </body>
 </html>
 <script>
-
+    $(document).ready(function() {
+        // 페이지가 로드된 후 수수료 계산
+        $(".bid_fee").each(function() {
+            // 콤마를 제거하고 숫자로 변환
+            var bidMoneyStr = $(this).data("money").toString();
+            var bidMoney = parseInt(bidMoneyStr.replace(/,/g, '')); // 콤마 제거 후 숫자로 변환
+            var fee = bidMoney * 0.198;
+            $(this).text(fee.toLocaleString());  // 결과를 다시 콤마 포맷으로 표시
+        });
+    });
+</script>
 </script>
 
