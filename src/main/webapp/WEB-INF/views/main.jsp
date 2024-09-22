@@ -150,71 +150,26 @@
                             </a>
                         </div>
                         <div class="con2">
-                            <div class="mainAuction">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction3.jpg">
-                                        </ul>
-                                    </div>
+                            <c:forEach items="${list2}" var="list" begin="0" end="4">
+                                <div class="auction" data-auction-id="${list.auction_id}">
+                                    <a
+                                        href="auctionDetail?auction_lot=${list.auction_lot}&auctionSchedule_id=${list.auctionSchedule_id}">
+                                        <div class="mainAuction">
+                                            <div class="auctionImg">
+                                                <div class="uploadResult">
+                                                    <ul>
+                                                        <img src="images/auction3.jpg">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="mainAuctionCon">
+                                                <h4>${list.auction_author}</h4>
+                                                <h5>${list.auction_title}</h5>
+                                            </div>
+                                        </div> <!--mainAuction 끝-->
+                                    </a>
                                 </div>
-                                <div class="mainAuctionCon">
-                                    <h4>최민중</h4>
-                                    <h5>작은 바람들</h5>
-                                </div>
-                            </div> <!--mainAuction 끝-->
-                            <div class="mainAuction">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction4.jpg">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="mainAuctionCon">
-                                    <h4>최민중</h4>
-                                    <h5>작은 바람들</h5>
-                                </div>
-                            </div> <!--mainAuction 끝-->
-                            <div class="mainAuction">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction3.jpg">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="mainAuctionCon">
-                                    <h4>최민중</h4>
-                                    <h5>작은 바람들</h5>
-                                </div>
-                            </div> <!--mainAuction 끝-->
-                            <div class="mainAuction">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction3.jpg">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="mainAuctionCon">
-                                    <h4>최민중</h4>
-                                    <h5>작은 바람들</h5>
-                                </div>
-                            </div> <!--mainAuction 끝-->
-                            <div class="mainAuction">
-                                <div class="auctionImg">
-                                    <div class="uploadResult">
-                                        <ul>
-                                            <img src="images/auction3.jpg">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="mainAuctionCon">
-                                    <h4>최민중</h4>
-                                    <h5>작은 바람들</h5>
-                                </div>
-                            </div> <!--mainAuction 끝-->
+                            </c:forEach>
                         </div>
                     </div> <!-- mainContent 끝-->
                     <div class="banner2">

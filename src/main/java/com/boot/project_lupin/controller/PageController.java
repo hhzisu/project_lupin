@@ -40,6 +40,8 @@ public class PageController {
 	public String main(Model model) {
 		// 진행 중인 경매 리스트를 가져옴
 		ArrayList<AuctionDTO> list = auctionService.auctionProgressList();
+		// 예정 경매 목록
+		ArrayList<AuctionDTO> list2 = auctionService.auctionScheduledList();
 
 		// 각 경매 항목에 대한 이미지 파일 리스트 추가
 		for (AuctionDTO auction : list) {
@@ -48,8 +50,18 @@ public class PageController {
 			auction.setAuctionAttachList1(attachList);
 		}
 
+		for (AuctionDTO auction : list2) {
+			// auction_id에 해당하는 첨부파일 리스트를 가져와서 설정
+			List<AuctionAttachDTO> attachList = managerService.auctionGetFileList1(auction.getAuction_id());
+			auction.setAuctionAttachList1(attachList);
+		}
+
+
 		// 모델에 경매 리스트와 이미지 파일 리스트를 추가
 		model.addAttribute("list", list);
+
+		// 모델에 예정 경매 리스트와 이미지 파일 리스트를 추가
+		model.addAttribute("list2", list2);
 
 		return "main";  // main.jsp 또는 main.html 페이지로 이동
 	}
