@@ -19,4 +19,8 @@ public class PaymentDTO {
 
     private String bid_money;  // 결제 금액
     private String bid_time;  // 결제 금액
+
+    private String auction_title;  // 경매품 제목
+    private String auction_author;  // 경매품 작가
+    private int auction_lot;  // 경매 랏 번호
 }
