@@ -32,4 +32,20 @@ public class AuctionBidController {
         log.info("@# update=>"+update);
         return update;
     }
+
+    // 자동응찰 한도액 입력
+//    @MessageMapping("/autoBid")
+//    @SendTo("/sub/auctionUpdates")
+//    public List<AuctionBidDTO> insertAutoBid(AuctionBidDTO bid) throws Exception {
+//        log.info("@# AuctionBidController insertAutoBid");
+//        log.info("@# auctionBidDTO=>"+bid);
+//
+//        bidService.insertAutoBid(bid);  // 데이터베이스에 저장
+//
+//        // 모든 클라이언트에 최신 경매 상태 브로드캐스트
+////        AuctionBidDTO update = bidService.getLatestBidInfo(bid.getAuctionId());
+//        List<AuctionBidDTO> update = bidService.getLatestBidInfo(bid.getAuctionId());
+//        log.info("@# update=>"+update);
+//        return update;
+//    }
 }

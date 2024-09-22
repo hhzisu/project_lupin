@@ -322,11 +322,12 @@
 
                                 <div class="buttonBid">
                                     <select name="" id="">
-                                        <option value="13,000,000">13,000,000</option>
+                                        <!-- <option value="13,000,000">13,000,000</option>
                                         <option value="14,000,000">14,000,000</option>
-                                        <option value="15,000,000">15,000,000</option>
+                                        <option value="15,000,000">15,000,000</option> -->
                                     </select>
-                                    <button class="bidBtn">응찰하기</button>
+                                    <button class="bidBtn onceBiding">응찰하기</button>
+                                    <button class="bidBtn AutoBiding">자동응찰</button>
                                     <!-- <button class="bidBtn maximum">최고가 응찰 중</button> -->
                                 </div>
                             </div> <!--right 끝-->
@@ -532,6 +533,10 @@
     const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
 
     $(document).ready(function() {
+
+        $('.bidBtn.AutoBiding').hide();
+
+
         $.ajax({
             url: "/api/auction/userInfo",
             method: "GET",
@@ -551,6 +556,33 @@
     });
 
 
+ 
+    // 1회 응찰 / 자동응찰 선택
+
+    $(document).ready(function() {
+        // 1회 응찰과 자동응찰 버튼을 클릭할 때 클래스 변경 및 UI 업데이트
+        $('.bidType .type').click(function() {
+            // 기존 choice 클래스 제거
+            $('.bidType .type').removeClass('choice');
+            
+            // 클릭한 버튼에 choice 클래스 추가
+            $(this).addClass('choice');
+            
+            // 선택된 응찰 방식에 따른 UI 업데이트
+            if ($(this).text().trim() === '1회 응찰') {
+                // 1회 응찰이 선택된 경우
+                $('.onceBiding').show();
+                $('.AutoBiding').hide();
+            } else {
+                // 자동응찰이 선택된 경우
+                $('.AutoBiding').show();
+                $('.onceBiding').hide();
+            }
+        });
+    });
+
+
+
 
     // STOMP 클라이언트 설정
     var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
@@ -566,27 +598,32 @@
             console.log('경매 업데이트: ', auctionUpdate);
 
             loadAuctionData(auctionId);
-
-            // 현재가 업데이트
-            // document.querySelector('.headCount h4').textContent = 'KRW ' + auctionUpdate.lateBidMoney;
         });
     });
 
-    // 경매 참여 버튼 클릭 시 서버로 메시지 전송
-    // document.querySelector('.bidBtn').addEventListener('click', function() {
-    //     var selectedBid = document.querySelector('select').value;
-    //     stompClient.send("/app/bid", {}, JSON.stringify({ bidAmount: selectedBid }));
-    // });
 
-    // STOMP 연결 후 응찰하기 버튼 클릭 시 서버로 메시지 전송
-    document.querySelector('.bidBtn').addEventListener('click', function() {
+    // STOMP 연결 후 '응찰하기' 버튼 클릭 시 서버로 메시지 전송
+    document.querySelector('.onceBiding').addEventListener('click', function() {
         var selectedBid = document.querySelector('select').value;
 
         // 입찰 정보를 STOMP로 서버에 전송
         stompClient.send("/pub/bid", {}, JSON.stringify({
             userId: userInfo.id,  // 현재 사용자의 ID
             auctionId: auctionId,  // 경매 ID
-            bidMoney: selectedBid
+            bidMoney: selectedBid // 입찰가
+        }));
+    });
+
+
+    // STOMP 연결 후 '자동응찰' 버튼 클릭 시 서버로 메시지 전송
+    document.querySelector('.AutoBiding').addEventListener('click', function() {
+        var selectedBid = document.querySelector('select').value;
+
+        // 입찰 정보를 STOMP로 서버에 전송
+        stompClient.send("/pub/autoBid", {}, JSON.stringify({
+            userId: userInfo.id,  // 현재 사용자의 ID
+            auctionId: auctionId,  // 경매 ID
+            autoBidLimit: selectedBid // 자동응찰 한도금액
         }));
     });
 
@@ -597,20 +634,6 @@
             url: "/api/auction/" + auctionId,  // 서버의 경매 데이터를 가져오는 엔드포인트
             method: "GET",
             success: function(auction) {
-                // console.log('@# auction.auction_lot=>'+auction.auction_lot);
-                // console.log('@# auction.auctionSchedule_end=>'+auction.auctionSchedule_end);
-                // console.log('@# auction.bidHistory=>'+auction.bidHistory);
-                // console.log('@# auction.bidHistory[0].bidMoney=>'+auction.bidHistory[0].bidMoney);
-
-
-                // 콤마 제거 및 숫자로 변환
-                // let startPrice = auction.auction_startPrice.replace(/,/g, '');  // 콤마를 제거
-                // let numericStartPrice = parseInt(startPrice, 10);  // 문자열을 숫자로 변환
-
-                // console.log('@# numericStartPrice=>'+numericStartPrice);
-
-                // 호가 단위 계산 및 표시
-                // let bidIncrement = getBidIncrement(numericStartPrice);  // 호가 단위 결정
 
                 // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
                 let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
@@ -634,19 +657,22 @@
                     selectBox.append(`<option value="\${formattedBidAmount}">KRW \${formattedBidAmount}</option>`);
                 }
 
+                if (auction.bidHistory.length > 0) {
+                    // 드롭박스와 버튼을 숨길지 결정
+                    console.log('@# auction.bidHistory=>', auction.bidHistory);
+                    console.log('@# auction.bidHistory[0].userId=>', auction.bidHistory[0].userId);
 
-                // 드롭박스와 버튼을 숨길지 결정
-                let isHighestBidder = (auction.bidHistory[0].userId == userInfo.id);
-                console.log('@# auction.bidHistory[0].userId=>', auction.bidHistory[0].userId);
-                console.log('@# isHighestBidder=>', isHighestBidder);
+                    let isHighestBidder = (auction.bidHistory[0].userId == userInfo.id);
+                    console.log('@# isHighestBidder=>', isHighestBidder);
 
-                const buttonBid = $('.buttonBid');
-                const highestBidMessage = '<div class="buttonBid">최고가 응찰 중입니다</div>';
+                    const buttonBid = $('.buttonBid');
+                    const highestBidMessage = '<div class="buttonBid">최고가 응찰 중입니다</div>';
 
-                // 본인이 최고가 응찰자일 경우 버튼과 드롭박스를 숨기고 메시지 표시
-                if (isHighestBidder) {
-                    buttonBid.hide();  // 버튼 숨기기
-                    buttonBid.after(highestBidMessage);  // 메시지 추가
+                    // 본인이 최고가 응찰자일 경우 버튼과 드롭박스를 숨기고 메시지 표시
+                    if (isHighestBidder) {
+                        buttonBid.hide();  // 버튼 숨기기
+                        buttonBid.after(highestBidMessage);  // 메시지 추가
+                    }
                 }
 
 
@@ -655,10 +681,6 @@
                 $('#modalBid .left h2').text(auction.auction_author);
                 $('#modalBid .left h3').text(auction.auction_title);
                 $('#modalBid .left h4.size').text(auction.auction_size + " | " + auction.auction_madeDate);
-                // $('#modalBid .left .auctionImg img').attr('src', auction.AuctionAttachList1[0].filename); // 경매 이미지 경로 설정
-                // $('#modalBid .time h5').text("남은시간 " + auction.auctionSchedule_end);
-                // $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auction.auctionSchedule_end));
-                // $('#modalBid .time h4').text("호가단위 : KRW " + getBidIncrement(auction.auction_startPrice).toLocaleString());
                 $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
                 $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice.toLocaleString());
                 $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");
@@ -698,11 +720,6 @@
         });
     }
 
-    // 경매 참여 버튼 클릭 시 모달을 열고 데이터 로드
-    // $('#openModalBidBtn').click(function() {
-    //     const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
-    //     loadAuctionData(auctionId);
-    // });
 
 
     // 경매 남은 시간 계산 함수
