@@ -222,32 +222,28 @@
                     });
                 });
 
-
-                // 업로드된 파일 목록 표시 함수
-                function showUploadResult(uploadResultArr, resultSelector) {
-                    if (!uploadResultArr || uploadResultArr.length == 0) {
+                function showUploadResult(uploadResultArr, uploadResultContainer) {
+                    if (!uploadResultArr || uploadResultArr.length === 0) {
                         return;
                     }
 
-                    var uploadUL = $(resultSelector + " ul");
                     var str = "";
+                    uploadResultArr.forEach(function (obj) {
+                        var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.fileName);  // 썸네일 이미지 경로 생성
+                        console.log("fileCallPath: ", fileCallPath);  // 경로 확인용 로그 추가
 
-                    $(uploadResultArr).each(function (i, obj) {
-                        if (obj.image) { // 이미지 파일의 경우
-                            var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-                            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-                            str += "<div><span>" + "</span>";
-                            str += "<img style='width: 90px; height: 90px;' src='/auctionDisplay?fileName=" + fileCallPath + "'></div>";
-                            str += "<div class='imgDelete'><span style='cursor: pointer;' data-file='" + fileCallPath + "' data-type='image'>[삭제]</span></div></li>";
-                        } else { // 이미지 외 파일의 경우
-                            var fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
-                            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
-                            str += "<div><span>" + obj.fileName + "</span><span data-file='" + fileCallPath + "' data-type='file'> [삭제] </span></div></li>";
-                        }
+                        str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+                        str += "<div>";
+                        str += "<span style='display:none;'>" + obj.fileName + "</span>";
+                        str += "<img src='/auctionListAdminDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "' style='width: 90px; height: 90px;'>";  // 이미지 태그에 크기 추가
+                        str += "</div></li>";
                     });
 
-                    uploadUL.append(str); // 파일 목록 추가
+                    // 기존 결과를 비우고 새로운 결과를 추가
+                    $(uploadResultContainer).empty().append(str);
                 }
+
+
 
                 // 파일 삭제 처리
                 $(".uploadResult").on("click", "span[data-file]", function () {

@@ -252,31 +252,6 @@ public class ManagerController {
 		return false;
 	}
 
-	@GetMapping("/auctionDisplay")
-	public ResponseEntity<byte[]> getFile(String fileName) {
-		log.info("@# display fileName => " + fileName);
-
-		File file = new File(servletContext.getRealPath("/upload/") + fileName);
-		log.info("@# file => " + file);
-
-		if (!file.exists()) {
-			log.error("@# file does not exist: " + file.getAbsolutePath());
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		ResponseEntity<byte[]> result = null;
-		HttpHeaders headers = new HttpHeaders();
-
-		try {
-			headers.add("Content-Type", Files.probeContentType(file.toPath()));
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
-		} catch (Exception e) {
-			log.error("파일을 불러오는 중 오류 발생: " + e.getMessage());
-		}
-
-		return result;
-	}
-
 	@PostMapping("/auctionDeleteFile")
 	public ResponseEntity<String> deleteFile(String fileName, String type) {
 		log.info("@# deleteFile fileName => " + fileName);
@@ -301,13 +276,48 @@ public class ManagerController {
 		return new ResponseEntity<>("deleted", HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/auctionGetFileList")
-	public ResponseEntity<List<AuctionAttachDTO>> auctionGetFileList1(@RequestParam HashMap<String, String> param) {
-		log.info("@# auctionGetFileList1()");
+	// 이미지 파일을 받아서 화면에 출력 (byte 배열 타입)
+	@GetMapping("/auctionListAdminDisplay")
+	public ResponseEntity<byte[]> getFile(String fileName) {
+		log.info("@# display fileName => " + fileName);
+
+		// 프로젝트 내부 경로로 파일을 찾기
+		File file = new File(servletContext.getRealPath("/upload/") + fileName);  // 파일 경로 설정
+		log.info("@# file => " + file);
+
+		ResponseEntity<byte[]> result = null;
+		HttpHeaders headers = new HttpHeaders();
+
+		try {
+			// 파일의 Content-Type을 헤더에 추가
+			headers.add("Content-Type", Files.probeContentType(file.toPath()));
+			// 파일을 byte 배열로 복사하여 리턴
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	// 파일 목록을 JSON으로 가져오는 메서드
+	@GetMapping(value = "/auctionListAdminGetFileList1")
+	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList1(@RequestParam HashMap<String, String> param) {
+		log.info("@# auctionListGetFileList()");
 		log.info("@# param => " + param);
 		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
 
+		// 질문 ID로 파일 목록을 조회하여 리턴
 		return new ResponseEntity<>(managerService.auctionGetFileList1(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
+	}
+	@GetMapping(value = "/auctionListAdminGetFileList2")
+	public ResponseEntity<List<AuctionAttachDTO>> auctionListGetFileList2(@RequestParam HashMap<String, String> param) {
+		log.info("@# auctionListGetFileList()");
+		log.info("@# param => " + param);
+		log.info("@# param.get('auction_id') => " + param.get("auction_id"));
+
+		// 질문 ID로 파일 목록을 조회하여 리턴
+		return new ResponseEntity<>(managerService.auctionGetFileList2(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/managerCommissionGetFileList")
