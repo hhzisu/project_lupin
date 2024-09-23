@@ -14,5 +14,4 @@ public interface AuctionDAO {
     public ArrayList<AuctionDTO> auctionResultList(); //경매 결과 목록
     public int auctionCount(int auctionSchedule_id); // 경매 lot 수
 
-
 }
