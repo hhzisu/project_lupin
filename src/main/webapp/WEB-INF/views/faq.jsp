@@ -22,7 +22,6 @@
 <body>
     
     <%@ include file="header.jsp" %>
-    <%@ include file="sidebar.jsp" %>
 
     <div class="faqContainer">
         <div class="faqContent">

@@ -21,7 +21,6 @@
 <body>
     
     <%@ include file="header.jsp" %>
-    <%@ include file="sidebar.jsp" %>
 
     <div class="commissionContainer">
         <div class="commissionContent">

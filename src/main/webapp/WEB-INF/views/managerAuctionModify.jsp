@@ -41,7 +41,6 @@
             <body>
 
                 <%@ include file="header.jsp" %>
-                    <%@ include file="sidebar.jsp" %>
 
                         <div class="pageFixSize">
                             <div class="userInfo">
