@@ -33,4 +33,9 @@ public class AuctionDTO {
     // 경매 입찰 내역
     private List<AuctionBidDTO> bidHistory;
 
+    private int bid_id;
+    private int bid_money;
+    private String bid_time;
+
+    private int nowPrice; //현재가
 }

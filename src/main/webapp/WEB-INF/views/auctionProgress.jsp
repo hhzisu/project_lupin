@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,14 +61,15 @@
                             <h5>시작가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
-                                <h5>${list.auction_startPrice}</h5>
+                                <h5 class="startPrice" data-price="${list.auction_startPrice}">${list.auction_startPrice}</h5>
+<%--                                <h5><fmt:formatNumber value="${list.auction_startPrice}" type="number" groupingUsed="true" /></h5>--%>
                             </div>
                         </div>
                         <div class="auctionCost">
                             <h5 style="color: #111;">현재가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
-                                <h5>12,500,000</h5>
+                                <h5 class="nowPrice"></h5>
                             </div>
                         </div>
                         <div class="bidButton">
@@ -87,10 +89,16 @@
 <script>
     $(document).ready(function () {
 
+        formatAuctionPrices();
+
         // auction클래스 반복하면서 데이터 가져옴
         $('.auction').each(function () {
             // auction클래스 data-auction-id 속성에서 값을 가져옴
             var auctionId = $(this).data('auction-id');
+            var auctionElement = $(".auction[data-auction-id='" + auctionId + "']");
+            var auctionCostElement = auctionElement.find('.nowPrice');  // 현재가가 표시될 요소 선택
+            var startPriceElement = auctionElement.find('.startPrice'); // 시작가 요소 선택
+            var startPrice = startPriceElement.data('price'); // 시작가 값
 
             // 현재 auction클래스 .uploadResult 요소를 선택
             var uploadResultContainer = $(this).find('.uploadResult ul');
@@ -109,6 +117,25 @@
                     }
                 });
             }
+            if (auctionId) {
+                $.ajax({
+                    url: '/auctionNowPrice',
+                    type: 'GET',
+                    data: { auction_id: auctionId },
+                    success: function (data) {
+                        if (data !== null && data !== 0) {
+                            auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                        } else {
+                            auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없을 때는 시작가로 표시
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
+                        auctionCostElement.text(Number(startPrice).toLocaleString());  // 오류 발생 시에도 시작가로 표시
+                    }
+                });
+            }
+
         });
     });
 
@@ -130,6 +157,28 @@
         // 컨테이너를 비우고 파일 리스트 추가
         uploadResultContainer.empty().append(str);
     }
+
+    // 숫자에 천 단위로 콤마를 추가하는 함수
+    function formatAuctionPrices() {
+        $('.auction').each(function () {
+            // 시작가에 대한 처리
+            var startPriceElement = $(this).find('.startPrice');
+            var startPrice = startPriceElement.data('price');
+
+            if (startPrice) {
+                startPriceElement.text(Number(startPrice).toLocaleString()); // 시작가에 콤마 적용
+            }
+
+            // 현재가에 대한 처리
+            var nowPriceElement = $(this).find('.nowPrice');
+            var nowPrice = nowPriceElement.data('price');  // 만약 현재가가 있을 경우 처리
+
+            if (nowPrice) {
+                nowPriceElement.text(Number(nowPrice).toLocaleString()); // 현재가에 콤마 적용
+            }
+        });
+    }
+
 
     // 검색어가 입력될 때마다 실행되는 함수
     function searchAuction() {
@@ -162,6 +211,8 @@
                     $("#auctionList .auction").each(function () {
                         var auctionId = $(this).data("auction-id");
                         loadAuctionImage(auctionId); // 각 경매 항목에 대해 이미지 로드 함수 호출
+                        getNowPrice(auctionId);
+                        formatAuctionPrices();
                     });
                 },
                 error: function (xhr, status, error) {
@@ -177,10 +228,10 @@
         auctionListDiv.empty(); // 기존 리스트 비우기
 
         // 검색된 경매 목록을 하나씩 추가
-        auctionList.forEach(function (auction) {
+        auctionList.forEach(function (list) {
             var auctionHtml = `
-                <div class="auction" data-auction-id="\${auction.auction_id}">
-                    <a href="auctionDetail?auction_lot=\${auction.auction_lot}&auctionSchedule_id=\${auction.auctionSchedule_id}">
+                <div class="auction" data-auction-id="\${list.auction_id}">
+                    <a href="auctionDetail?auction_lot=\${list.auction_lot}&auctionSchedule_id=\${list.auctionSchedule_id}">
                         <div class="auctionImg">
                             <div class="uploadResult">
                                 <ul class="uploadStyle">
@@ -190,34 +241,37 @@
                         </div> <!--auctionImg 끝-->
                     </a>
                     <div class="auctionCon">
-                        <h5>LOT \${auction.auction_lot}</h5>
-                        <h2>\${auction.auction_author}</h2>
-                        <h3>\${auction.auction_title}</h3>
-                        <h4>\${auction.auction_materials}</h4>
-                        <h4 class="size">\${auction.auction_size} | \${auction.auction_madeDate}</h4>
+                        <h5>LOT \${list.auction_lot}</h5>
+                        <h2>\${list.auction_author}</h2>
+                        <h3>\${list.auction_title}</h3>
+                        <h4>\${list.auction_materials}</h4>
+                        <h4 class="size">\${list.auction_size} | \${list.auction_madeDate}</h4>
                     </div>
                     <div class="auctionCost">
                         <h5>시작가</h5>
                         <div class="money">
                             <h4>KRW</h4>
-                            <h5>\${auction.auction_startPrice}</h5>
+                            <h5 class="startPrice" data-price="\${list.auction_startPrice}">\${list.auction_startPrice}</h5>
                         </div>
                     </div>
                     <div class="auctionCost">
                         <h5 style="color: #111;">현재가</h5>
                         <div class="money">
                             <h4>KRW</h4>
-                            <h5>12,500,000</h5>
+                            <h5 class="nowPrice"></h5>
                         </div>
                     </div>
                     <div class="bidButton">
-                        <a href="auctionDetail?auction_lot=\${auction.auction_lot}&auctionSchedule_id=\${auction.auctionSchedule_id}"><h5>응찰하기</h5></a>
+                        <a href="auctionDetail?auction_lot=\${list.auction_lot}&auctionSchedule_id=\${list.auctionSchedule_id}"><h5>응찰하기</h5></a>
                     </div>
                 </div> <!--auction 끝-->
             `;
             auctionListDiv.append(auctionHtml); // 새로운 경매 항목 추가
             // 각 경매 항목에 대해 이미지 로드 함수 호출
-            loadAuctionImage(auction.auction_id);
+            loadAuctionImage(list.auction_id);
+            // 검색 후에도 가격 포맷 적용
+            formatAuctionPrices();
+            getNowPrice(list.auction_id);
         });
     }
 
@@ -237,6 +291,32 @@
             }
         });
     }
+
+    // 경매 아이디로 현재가 불러오는 함수
+    function getNowPrice(auctionId) {
+        var auctionElement = $(".auction[data-auction-id='" + auctionId + "']");
+        var auctionCostElement = auctionElement.find('.nowPrice');  // 현재가가 표시될 요소 선택
+        var startPriceElement = auctionElement.find('.startPrice'); // 시작가 요소 선택
+        var startPrice = startPriceElement.data('price'); // 시작가 값
+
+        $.ajax({
+            url: '/auctionNowPrice',
+            type: 'GET',
+            data: { auction_id: auctionId },
+            success: function (data) {
+                if (data !== null && data !== 0) {
+                    auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                } else {
+                    auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없을 때는 시작가로 표시
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
+                auctionCostElement.text(Number(startPrice).toLocaleString());  // 오류 발생 시에도 시작가로 표시
+            }
+        });
+    }
+
 
 </script>
 

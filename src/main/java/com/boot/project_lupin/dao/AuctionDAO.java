@@ -15,6 +15,8 @@ public interface AuctionDAO {
     public ArrayList<AuctionDTO> auctionResultList(); //경매 결과 목록
     public int auctionCount(int auctionSchedule_id); // 경매 lot 수
 
+    public Integer auctionNowPrice(int auction_id); //현재가
+
     public List<AuctionDTO> auctionProgressSearch(String searchTerm); //진행 경매 검색
     public List<AuctionDTO> auctionScheduledSearch(String searchTerm); //예정 경매 검색
     public List<AuctionDTO> auctionResultSearch(String searchTerm); //경매 결과 검색

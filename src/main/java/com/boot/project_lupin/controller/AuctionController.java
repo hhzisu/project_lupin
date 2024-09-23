@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -55,6 +56,13 @@ public class AuctionController {
 		model.addAttribute("list", list);
 
 		return "auctionProgress";
+	}
+
+	@GetMapping("/auctionNowPrice")
+	@ResponseBody
+	public ResponseEntity<Integer> getAuctionNowPrice(@RequestParam("auction_id") int auction_id) {
+		Integer nowPrice = service.auctionNowPrice(auction_id);
+		return ResponseEntity.ok(nowPrice != null ? nowPrice : 0);  // 현재가가 없을 경우 0 반환
 	}
 
 	@RequestMapping("/auctionScheduled")
