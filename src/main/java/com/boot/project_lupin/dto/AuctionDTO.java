@@ -18,8 +18,8 @@ public class AuctionDTO {
     private String auction_madeDate;
     private String auction_materials;
     private String auction_authorExp;
-    private String auction_startPrice;
-    private String auction_guessPrice;
+    private int auction_startPrice;
+    private int auction_guessPrice;
 
     private int auctionSchedule_id;
     private String auctionSchedule_start;
