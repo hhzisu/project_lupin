@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service("AuctionService")
@@ -27,7 +28,15 @@ public class AuctionService {
 		log.info("AuctionService auctionProgressList");
 		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
 		ArrayList<AuctionDTO> list = dao.auctionProgressList();
+
 		return list;
+	}
+
+	public Integer auctionNowPrice(int auction_id){
+		log.info("AuctionService getAuctionNowPrice");
+		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
+		Integer price = dao.auctionNowPrice(auction_id);
+		return price;
 	}
 
 	//예정 경매 목록
@@ -52,5 +61,25 @@ public class AuctionService {
 		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
 		return dao.auctionCount(auctionSchedule_id);
 	}
+
+	public List<AuctionDTO> auctionProgressSearch(String searchTerm){
+		log.info("AuctionService auctionProgressSearch");
+		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
+		List<AuctionDTO> list = dao.auctionProgressSearch(searchTerm);
+		return list;
+	}
+	public List<AuctionDTO> auctionScheduledSearch(String searchTerm){
+		log.info("AuctionService auctionScheduledSearch");
+		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
+		List<AuctionDTO> list = dao.auctionScheduledSearch(searchTerm);
+		return list;
+	}
+	public List<AuctionDTO> auctionResultSearch(String searchTerm){
+		log.info("AuctionService auctionResultSearch");
+		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
+		List<AuctionDTO> list = dao.auctionResultSearch(searchTerm);
+		return list;
+	}
+
 }
 

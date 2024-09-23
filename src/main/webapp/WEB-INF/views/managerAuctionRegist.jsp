@@ -26,124 +26,121 @@
 
             <%@ include file="header.jsp" %>
 
-                    <div class="pageFixSize">
-                        <div class="userInfo">
-                            <div class="userNav">
-                                <h3 class="navUserName">관리자</h3>
-                                <ul>
-                                    <li><a href="${pageContext.request.contextPath}/managerQuestion">1:1 문의 내역</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerCommission">위탁 관리</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerAuction">경매 관리</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/managerAuctionRegist"
-                                            style="color: black; font-weight: 700;">경매 물품
-                                            등록</a></li>
-                                </ul>
+                <div class="pageFixSize">
+                    <div class="userInfo">
+                        <div class="userNav">
+                            <h3 class="navUserName">관리자</h3>
+                            <ul>
+                                <li><a href="${pageContext.request.contextPath}/managerQuestion">1:1 문의 내역</a></li>
+                                <li><a href="${pageContext.request.contextPath}/managerCommission">위탁 관리</a></li>
+                                <li><a href="${pageContext.request.contextPath}/managerAuction">경매 관리</a></li>
+                                <li><a href="${pageContext.request.contextPath}/managerAuctionRegist"
+                                        style="color: black; font-weight: 700;">경매 물품
+                                        등록</a></li>
+                            </ul>
+                        </div>
+                        <!-- userNav 끝 -->
+                        <div class="userInfoInfo">
+                            <div class="userInfoTitle">
+                                <h3>경매 물품 등록</h3>
                             </div>
-                            <!-- userNav 끝 -->
-                            <div class="userInfoInfo">
-                                <div class="userInfoTitle">
-                                    <h3>경매 물품 등록</h3>
-                                </div>
-                                <hr>
-                                <div class="userCommission">
-                                    <form action="insertAuction" method="post" enctype="multipart/form-data">
-                                        <div class="commissionContent commissionContentTop">
-                                            <div class="commissionContentTitle">경매일자</div>
-                                            <select class="commissionContentText" name="auctionSchedule_id"
-                                                id="schedule">
-                                                <c:forEach var="dto" items="${scheduleList}">
-                                                    <option value="${dto.auctionSchedule_id}">
-                                                        ${dto.auctionSchedule_start} 12:00 ~ ${dto.auctionSchedule_end}
-                                                        18:00
-                                                    </option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">작가명</div>
-                                            <input class="commissionContentText" type="text" name="auction_author"
-                                                maxlength="26" required>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">작품명</div>
-                                            <input class="commissionContentText" type="text" name="auction_title"
-                                                maxlength="26" required>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">작품크기</div>
-                                            <input class="commissionContentText" type="text" name="auction_size"
-                                                maxlength="26" required>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">제작년도</div>
-                                            <input class="commissionContentText" type="number" name="auction_madeDate"
-                                                maxlength="4" min="1901" required>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">제작재료</div>
-                                            <input class="commissionContentText" type="text" name="auction_materials"
-                                                maxlength="4" required>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">작가 설명</div>
-                                            <textarea class="commissionContentTextBox2" name="auction_authorExp"
-                                                required></textarea>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">시작가</div>
-                                            <input class="commissionContentText" type="text" name="auction_startPrice"
-                                                maxlength="26" required>
-                                            <span class="currencyUnit">KRW</span>
-                                        </div>
-                                        <div class="commissionContent">
-                                            <div class="commissionContentTitle">추정가</div>
-                                            <input class="commissionContentText" type="text" name="auction_guessPrice"
-                                                maxlength="26" required>
-                                            <span class="currencyUnit">KRW</span>
-                                        </div>
+                            <hr>
+                            <div class="userCommission">
+                                <form action="insertAuction" method="post" enctype="multipart/form-data">
+                                    <div class="commissionContent commissionContentTop">
+                                        <div class="commissionContentTitle">경매일자</div>
+                                        <select class="commissionContentText" name="auctionSchedule_id" id="schedule">
+                                            <c:forEach var="dto" items="${scheduleList}">
+                                                <option value="${dto.auctionSchedule_id}">
+                                                    ${dto.auctionSchedule_start} 12:00 ~ ${dto.auctionSchedule_end}
+                                                    18:00
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">작가명</div>
+                                        <input class="commissionContentText" type="text" name="auction_author"
+                                            maxlength="26" required>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">작품명</div>
+                                        <input class="commissionContentText" type="text" name="auction_title"
+                                            maxlength="26" required>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">작품크기</div>
+                                        <input class="commissionContentText" type="text" name="auction_size"
+                                            maxlength="26" required>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">제작년도</div>
+                                        <input class="commissionContentText" type="number" name="auction_madeDate"
+                                            maxlength="4" min="1901" required>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">제작재료</div>
+                                        <input class="commissionContentText" type="text" name="auction_materials"
+                                            maxlength="4" required>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">작가 설명</div>
+                                        <textarea class="commissionContentTextBox2" name="auction_authorExp"
+                                            required></textarea>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">시작가</div>
+                                        <input class="commissionContentText" type="number" name="auction_startPrice"
+                                            maxlength="26" max="2147483647" required>
+                                        <span class="currencyUnit">KRW</span>
+                                    </div>
+                                    <div class="commissionContent">
+                                        <div class="commissionContentTitle">추정가</div>
+                                        <input class="commissionContentText" type="number" name="auction_guessPrice"
+                                            maxlength="26" max="2147483647" required>
+                                        <span class="currencyUnit">KRW</span>
+                                    </div>
 
-                                        <div class="commissionContent flex">
-                                            <div class="commissionAttach flex line">
-                                                <div class="commissionContentTitle">작품사진 1</div>
-                                                <input type="file" id="upload1" name="uploadFile1"
-                                                    style="display: none;">
-                                                <label for="upload1" class="commissionAttachBtn">파일첨부</label>
-                                                <div class="fileImg">
-                                                    <div class="uploadResult" id="upload1Result">
-                                                        <ul></ul>
-                                                    </div>
+                                    <div class="commissionContent flex">
+                                        <div class="commissionAttach flex line">
+                                            <div class="commissionContentTitle">작품사진 1</div>
+                                            <input type="file" id="upload1" name="uploadFile1" style="display: none;">
+                                            <label for="upload1" class="commissionAttachBtn">파일첨부</label>
+                                            <div class="fileImg">
+                                                <div class="uploadResult" id="upload1Result">
+                                                    <ul></ul>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="commissionAttach flex">
-                                                <div class="commissionContentTitle">작품사진 2</div>
-                                                <input type="file" id="upload2" name="uploadFile2"
-                                                    style="display: none;">
-                                                <label for="upload2" class="commissionAttachBtn">파일첨부</label>
-                                                <div class="fileImg">
-                                                    <div class="uploadResult" id="upload2Result">
-                                                        <ul></ul>
-                                                    </div>
+                                        <div class="commissionAttach flex">
+                                            <div class="commissionContentTitle">작품사진 2</div>
+                                            <input type="file" id="upload2" name="uploadFile2" style="display: none;">
+                                            <label for="upload2" class="commissionAttachBtn">파일첨부</label>
+                                            <div class="fileImg">
+                                                <div class="uploadResult" id="upload2Result">
+                                                    <ul></ul>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                        </div>
-                                        <hr>
-                                        <div class="commissionBtns">
-                                            <button type="button" class="commissionCancleBtn">취소</button>
-                                            <button type="submit" class="commissionBtn">경매 등록</button>
-                                        </div>
-                                        <!-- <input type="hidden" name="auction_id" value="${auctionDTO.auction_id}"> -->
-                                    </form>
-                                </div>
+                                    </div>
+                                    <hr>
+                                    <div class="commissionBtns">
+                                        <button type="button" class="commissionCancleBtn">취소</button>
+                                        <button type="submit" class="commissionBtn">경매 등록</button>
+                                    </div>
+                                    <!-- <input type="hidden" name="auction_id" value="${auctionDTO.auction_id}"> -->
+                                </form>
                             </div>
                         </div>
-                        <!-- userInfoInfo 끝 -->
                     </div>
-                    <!-- userInfo 끝 -->
-                    </div>
+                    <!-- userInfoInfo 끝 -->
+                </div>
+                <!-- userInfo 끝 -->
+                </div>
 
-                    <%@ include file="footer.jsp" %>
+                <%@ include file="footer.jsp" %>
 
         </body>
 
@@ -259,6 +256,31 @@
                             uploadResultItem.remove(); // 브라우저에서 파일 목록 제거
                         }
                     });
+                });
+            });
+        </script>
+
+        <script>
+            // 경매 등록 처리
+            $(".commissionBtn").on("click", function (e) {
+                e.preventDefault();  // 기본 폼 제출 동작 막기
+
+                var form = $("form")[0]; // 첫 번째 form 선택
+                var formData = new FormData(form);
+
+                $.ajax({
+                    type: "post",
+                    url: "insertAuction",  // insertAuction 경로로 전송
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        alert("경매 등록이 완료되었습니다.");
+                        window.location.href = "/managerAuction";  // 성공 시 경매 관리 페이지로 이동
+                    },
+                    error: function () {
+                        alert("등록을 실패하였습니다.");  // 실패 시 경고창
+                    }
                 });
             });
         </script>

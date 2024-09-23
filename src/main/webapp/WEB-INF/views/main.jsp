@@ -402,7 +402,7 @@
                     str += "<li data-path='" + obj.uploadPath + "' data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
                     str += "<div>";
                     str += "<span style='display:none;'>" + obj.fileName + "</span>";
-                    str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "'>";
+                    str += "<img src='/auctionListDisplay?fileName=" + fileCallPath + "' alt='" + obj.fileName + "' style='width: 220px; height: 250px;'>";
                     str += "</div></li>";
                 });
 

@@ -38,8 +38,16 @@
 
 .accordion_area {
 	width: 100%;
-	border-top: 1px solid #111;
-	border-bottom: 1px solid;
+	/* border-top: 1px solid #111;
+	border-bottom: 0.1px solid; */
+}
+
+.top {
+	border-top: 0.1px solid;
+}
+
+.bottom {
+	border-bottom: 0.1px solid;
 }
 
 .accordion_area .btn_toggle {

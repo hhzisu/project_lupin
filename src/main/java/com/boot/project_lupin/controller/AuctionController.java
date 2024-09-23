@@ -2,7 +2,6 @@ package com.boot.project_lupin.controller;
 
 import com.boot.project_lupin.dto.AuctionAttachDTO;
 import com.boot.project_lupin.dto.AuctionDTO;
-import com.boot.project_lupin.dto.QuestionAttachDTO;
 import com.boot.project_lupin.service.AuctionService;
 import com.boot.project_lupin.service.ManagerService;
 import jakarta.servlet.ServletContext;
@@ -15,16 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -57,6 +56,13 @@ public class AuctionController {
 		model.addAttribute("list", list);
 
 		return "auctionProgress";
+	}
+
+	@GetMapping("/auctionNowPrice")
+	@ResponseBody
+	public ResponseEntity<Integer> getAuctionNowPrice(@RequestParam("auction_id") int auction_id) {
+		Integer nowPrice = service.auctionNowPrice(auction_id);
+		return ResponseEntity.ok(nowPrice != null ? nowPrice : 0);  // 현재가가 없을 경우 0 반환
 	}
 
 	@RequestMapping("/auctionScheduled")
@@ -120,5 +126,54 @@ public class AuctionController {
 
 		// 질문 ID로 파일 목록을 조회하여 리턴
 		return new ResponseEntity<>(managerService.auctionGetFileList2(Integer.parseInt(param.get("auction_id"))), HttpStatus.OK);
+	}
+
+	// 실시간 검색 처리 진행 경매
+	@GetMapping("/api/auctionProgressSearch")
+	@ResponseBody
+	public List<AuctionDTO> auctionProgressSearch(@RequestParam("query") String query) {
+		log.info("@# auctionProgressSearch with query: " + query);
+
+		// 검색된  목록 가져오기
+		List<AuctionDTO> filteredList = service.auctionProgressSearch(query);
+		log.info("@# filteredList: " + filteredList);
+
+		log.info("@# searchName with query: " + query);
+		log.info("@# filteredList: " + filteredList);
+
+		return filteredList;
+
+	}
+
+	// 실시간 검색 처리 예정 경매
+	@GetMapping("/api/auctionScheduledSearch")
+	@ResponseBody
+	public List<AuctionDTO> auctionScheduledSearch(@RequestParam("query") String query) {
+		log.info("@# auctionScheduledSearch with query: " + query);
+
+		// 검색된  목록 가져오기
+		List<AuctionDTO> filteredList = service.auctionScheduledSearch(query);
+		log.info("@# filteredList: " + filteredList);
+
+		log.info("@# searchName with query: " + query);
+		log.info("@# filteredList: " + filteredList);
+
+		return filteredList;
+	}
+
+	// 실시간 검색 처리 경매 결과
+	@GetMapping("/api/auctionResultSearch")
+	@ResponseBody
+	public List<AuctionDTO> auctionResultSearch(@RequestParam("query") String query) {
+		log.info("@# auctionResultSearch with query: " + query);
+
+		// 검색된  목록 가져오기
+		List<AuctionDTO> filteredList = service.auctionResultSearch(query);
+		log.info("@# filteredList: " + filteredList);
+
+		log.info("@# searchName with query: " + query);
+		log.info("@# filteredList: " + filteredList);
+
+		return filteredList;
 	}
 }

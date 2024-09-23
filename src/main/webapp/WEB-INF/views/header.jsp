@@ -138,7 +138,7 @@
                     </div>
                     <div class="headerCon con3">
                         <div class="headerTab cp">
-                            <a href="">
+                            <a href="performances">
                                 <p>전시 정보</p>
                             </a>
                         </div>

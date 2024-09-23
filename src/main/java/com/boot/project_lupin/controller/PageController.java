@@ -48,6 +48,7 @@ public class PageController {
 			// auction_id에 해당하는 첨부파일 리스트를 가져와서 설정
 			List<AuctionAttachDTO> attachList = managerService.auctionGetFileList1(auction.getAuction_id());
 			auction.setAuctionAttachList1(attachList);
+
 		}
 
 		for (AuctionDTO auction : list2) {

@@ -37,7 +37,7 @@
                 <div class="tab etc">기타</div>
             </div>
             <div class="userDataWrap active">
-                <div class="accordion_area">
+                <div class="accordion_area top">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -75,7 +75,7 @@
                         </pre>
                     </div>
                 </div>
-                <div class="accordion_area">
+                <div class="accordion_area bottom">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -94,7 +94,7 @@
                 </div>
             </div> <!-- userDataWrap 종료 -->
             <div class="auctionWrap">
-                <div class="accordion_area">
+                <div class="accordion_area top">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -134,7 +134,7 @@
                         </pre>
                     </div>
                 </div>
-                <div class="accordion_area">
+                <div class="accordion_area bottom">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -152,7 +152,7 @@
                 </div>
             </div> <!-- auctionWrap 종료 -->
             <div class="commissionWrap">
-                <div class="accordion_area">
+                <div class="accordion_area bottom top">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -179,7 +179,7 @@
                 </div>
             </div> <!-- commissionWrap 종료 -->
             <div class="payWrap">
-                <div class="accordion_area">
+                <div class="accordion_area top">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -246,7 +246,7 @@
                         </pre>
                     </div>
                 </div>
-                <div class="accordion_area">
+                <div class="accordion_area bottom">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -264,7 +264,7 @@
                 </div>
             </div> <!-- payWrap 종료 -->
             <div class="etcWrap">
-                <div class="accordion_area">
+                <div class="accordion_area top">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">
@@ -280,7 +280,7 @@
                         </pre>
                     </div>
                 </div>
-                <div class="accordion_area">
+                <div class="accordion_area bottom">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
                         <div class="accordionTitle">

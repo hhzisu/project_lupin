@@ -132,6 +132,7 @@ main {
 	display: flex;
 	margin-top: 12px;
 	align-items: center;
+	color: var(--color-black);
 }
 
 .mainContent .con2 .mainAuction .mainAuctionCon h4 {

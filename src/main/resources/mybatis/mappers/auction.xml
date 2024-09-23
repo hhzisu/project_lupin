@@ -109,4 +109,16 @@
         auctionSchedule_id = #{auctionSchedule_id}
     </select>
 
+    <select id="auctionNowPrice" resultType="int" parameterType="int">
+        SELECT
+            bid_money
+        FROM
+            bid_tb
+        WHERE
+            auction_id = #{auction_id}
+        ORDER BY
+            bid_id DESC
+        LIMIT 1;
+    </select>
+
 </mapper>
