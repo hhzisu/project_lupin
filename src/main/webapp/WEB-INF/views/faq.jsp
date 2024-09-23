@@ -37,7 +37,7 @@
                 <div class="tab pay">결제/배송</div>
                 <div class="tab etc">기타</div>
             </div>
-            <div class="userInfoWrap active">
+            <div class="userDataWrap active">
                 <div class="accordion_area">
                     <button class="btn btn_toggle">
                         <i class="fa-solid fa-q fa-xl" style="color: #000000;"></i>
@@ -93,7 +93,7 @@
                         </pre>
                     </div>
                 </div>
-            </div> <!-- userInfoWrap 종료 -->
+            </div> <!-- userDataWrap 종료 -->
             <div class="auctionWrap">
                 <div class="accordion_area">
                     <button class="btn btn_toggle">
@@ -343,11 +343,11 @@
             $(this).addClass('active');
 
             // 모든 섹션을 숨기고 클릭된 탭에 해당하는 섹션만 보이기
-            $('.userInfoWrap, .auctionWrap, .commissionWrap, .payWrap, .etcWrap').removeClass('active');
+            $('.userDataWrap, .auctionWrap, .commissionWrap, .payWrap, .etcWrap').removeClass('active');
 
             // 클래스 이름을 이용해 해당 섹션을 보이게 처리
             if ($(this).hasClass('userInfo')) {
-                $('.userInfoWrap').addClass('active');
+                $('.userDataWrap').addClass('active');
             } else if ($(this).hasClass('auction')) {
                 $('.auctionWrap').addClass('active');
             } else if ($(this).hasClass('commission')) {
