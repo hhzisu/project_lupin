@@ -91,14 +91,14 @@
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">시작가</div>
-                                            <input class="commissionContentText" type="text" name="auction_startPrice"
-                                                maxlength="26" required>
+                                            <input class="commissionContentText" type="number" name="auction_startPrice"
+                                                maxlength="26" max="2147483647" required>
                                             <span class="currencyUnit">KRW</span>
                                         </div>
                                         <div class="commissionContent">
                                             <div class="commissionContentTitle">추정가</div>
-                                            <input class="commissionContentText" type="text" name="auction_guessPrice"
-                                                maxlength="26" required>
+                                            <input class="commissionContentText" type="number" name="auction_guessPrice"
+                                                maxlength="26" max="2147483647" required>
                                             <span class="currencyUnit">KRW</span>
                                         </div>
 
