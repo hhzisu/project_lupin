@@ -89,6 +89,16 @@ section
 	align-items: center;
 	justify-content: center;
 }
+.uploadStyle li
+{
+	width: 100%;
+	height: 100%
+}
+.uploadStyle li div
+{
+	width: 100%;
+	height: 100%
+}
 
 .detailAuction .left .auctionImg .leftImg .preview .uploadAuction img
 {
