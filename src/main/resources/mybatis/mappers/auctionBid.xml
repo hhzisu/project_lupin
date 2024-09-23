@@ -71,7 +71,7 @@
 		FROM auto_bid_tb
 		WHERE auction_id = #{auctionId}
 		AND bid_status = 'ACTIVE'
-		ORDER BY created_at ASC
+		ORDER BY auto_bid_id ASC
 	</select>
 
 	<!-- 자동응찰 한도 업데이트 -->

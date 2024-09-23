@@ -26,7 +26,7 @@
     <section>
         <div class="control">
             <a href="javascript:void(0);" id="prevLink"><h5>< 이전</h5></a>
-            <h5>마감 3일 5시간 전</h5>
+            <h5 id="auctionDDay">마감 3일 5시간 전</h5>
             <a href="javascript:void(0);" id="nextLink"><h5>다음 ></h5></a>
         </div>
         <div class="detailAuction">
