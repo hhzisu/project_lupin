@@ -3,6 +3,7 @@ package com.boot.project_lupin.controller;
 import com.boot.project_lupin.dto.CustomOAuth2User;
 import com.boot.project_lupin.dto.PaymentDTO;
 import com.boot.project_lupin.dto.UserInfoDTO;
+import com.boot.project_lupin.service.IamportService;
 import com.boot.project_lupin.service.PaymentService;
 import com.boot.project_lupin.service.UserInfoService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +26,9 @@ import java.util.Map;
 public class PaymentController {
 
 	@Autowired
-	private PaymentService service;
+	private PaymentService paymentService;
+	@Autowired
+	private IamportService iamportService;
 
 	@Autowired
 	private UserInfoService userService;
@@ -42,7 +45,7 @@ public class PaymentController {
 
 		model.addAttribute("loginUser", loginUser);
 
-		ArrayList<PaymentDTO> buyList = service.payListbyId(Integer.parseInt(String.valueOf(loginUser.getId())));
+		ArrayList<PaymentDTO> buyList = paymentService.payListbyId(Integer.parseInt(String.valueOf(loginUser.getId())));
 		model.addAttribute("buyList", buyList);
 
 		return "userBuyList";
@@ -51,26 +54,21 @@ public class PaymentController {
 	@PostMapping("/api/payment/complete")
 	public ResponseEntity<String> completePayment(@RequestBody Map<String, Object> paymentData) {
 		try {
-			log.info("Received paymentData: {}", paymentData);
+			String impUid = (String) paymentData.get("imp_uid");
+			String buyIdStr = paymentData.get("buy_id").toString();
+			String payState = (String) paymentData.get("pay_state");
 
-			// paymentData에서 값을 추출
-			String buyIdStr = paymentData.get("buy_id").toString();  // toString()으로 변경
-			String auctionIdStr = paymentData.get("auction_id").toString();  // toString()으로 변경
-			String bidIdStr = paymentData.get("bid_id").toString();  // toString()으로 변경
-			String payState = (String) paymentData.get("pay_state");  // pay_state는 여전히 String일 수 있음
+			// 결제 검증
+			boolean isPaymentSuccessful = iamportService.verifyPayment(impUid);
+			if (!isPaymentSuccessful) {
+				return new ResponseEntity<>("결제 검증 실패", HttpStatus.BAD_REQUEST);
+			}
 
-			log.info("Buy ID: {}", buyIdStr);
-			log.info("Auction ID: {}", auctionIdStr);
-			log.info("Bid ID: {}", bidIdStr);
-			log.info("Pay State: {}", payState);
-
+			// 결제 성공 후 DB 업데이트
 			PaymentDTO paymentDTO = new PaymentDTO();
 			paymentDTO.setBuy_id(Integer.parseInt(buyIdStr));
-			paymentDTO.setAuction_id(Integer.parseInt(auctionIdStr));
-			paymentDTO.setBid_id(Integer.parseInt(bidIdStr));
 			paymentDTO.setBuy_state(payState);
-
-			service.updateBuyState(paymentDTO);
+			paymentService.updateBuyState(paymentDTO);
 
 			return new ResponseEntity<>("Payment completed successfully", HttpStatus.OK);
 		} catch (Exception e) {
