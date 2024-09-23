@@ -89,7 +89,7 @@
                 color: #999;
             }
 
-            .boxImg a img {
+            .boxImg img {
                 width: 240px;
                 height: 320px;
             }
@@ -108,9 +108,7 @@
                             <c:forEach var="performance" items="${performances}">
                                 <div class="box">
                                     <div class="boxImg">
-                                        <a href="${performance.thumbnail}">
                                             <img src="${performance.thumbnail}" alt="">
-                                        </a>
                                     </div>
                                     <div class="boxText">
                                         <div class="boxTitle">
