@@ -28,7 +28,15 @@ public class AuctionService {
 		log.info("AuctionService auctionProgressList");
 		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
 		ArrayList<AuctionDTO> list = dao.auctionProgressList();
+
 		return list;
+	}
+
+	public Integer auctionNowPrice(int auction_id){
+		log.info("AuctionService getAuctionNowPrice");
+		AuctionDAO dao = sqlSession.getMapper(AuctionDAO.class);
+		Integer price = dao.auctionNowPrice(auction_id);
+		return price;
 	}
 
 	//예정 경매 목록
@@ -72,5 +80,6 @@ public class AuctionService {
 		List<AuctionDTO> list = dao.auctionResultSearch(searchTerm);
 		return list;
 	}
+
 }
 

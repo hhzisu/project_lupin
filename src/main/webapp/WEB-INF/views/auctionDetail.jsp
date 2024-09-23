@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,23 +84,23 @@
                             <h5>추정가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
-                                <h5>${auction.auction_startPrice}</h5>
+                                <h5><fmt:formatNumber value="${auction.auction_startPrice}" type="number" groupingUsed="true" /></h5>
                                 <h4>~</h4>
-                                <h5>${auction.auction_guessPrice}</h5>
+                                <h5><fmt:formatNumber value="${auction.auction_guessPrice}" type="number" groupingUsed="true" /></h5>
                             </div>
                         </div>
                         <div class="auctionCost start">
                             <h5>시작가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
-                                <h5>${auction.auction_startPrice}</h5>
+                                <h5 class="startPrice" data-price="${auction.auction_startPrice}"><fmt:formatNumber value="${auction.auction_startPrice}" type="number" groupingUsed="true" /></h5>
                             </div>
                         </div>
                         <div class="auctionCost">
                             <h5 style="color: #111;">현재가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
-                                <h5>12,500,000</h5>
+                                <h5 class="nowPrice">12,500,000</h5>
                             </div>
                         </div>
                     </div>
@@ -375,6 +376,28 @@
 //                           위시 버튼 끝
 // -----------------------------------------------------------------
 
+        // 현재가를 표시할 요소와 시작가 요소를 가져옵니다.
+        var auctionCostElement = $(".nowPrice");  // 현재가가 표시될 요소
+        var startPriceElement = $(".startPrice"); // 시작가가 표시될 요소
+        var startPrice = startPriceElement.data('price'); // 시작가 값
+
+        // 현재가 가져오기
+        $.ajax({
+            url: '/auctionNowPrice',
+            type: 'GET',
+            data: { auction_id: auctionId },
+            success: function (data) {
+                if (data !== null && data !== 0) {
+                    auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                } else {
+                    auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없을 때는 시작가로 표시
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
+                auctionCostElement.text(Number(startPrice).toLocaleString());  // 오류 발생 시에도 시작가로 표시
+            }
+        });
 
 // -----------------------------------------------------------------
 //                           이미지 불러오기
