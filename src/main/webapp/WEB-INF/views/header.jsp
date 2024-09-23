@@ -224,7 +224,8 @@
                                 <div class="auctionImg">
                                     <div class="uploadResult">
                                         <ul>
-                                            <img src="images/auction1.jpg">
+                                            <!-- <img src="images/auction1.jpg"> -->
+                                            <img src="">
                                         </ul>
                                     </div>
                                 </div> <!--auctionImg 끝-->
@@ -600,6 +601,8 @@
                                  ? auction.bidHistory[0].bidMoney
                                  : auction.auction_startPrice;
 
+                console.log('@# auction.bidHistory.length=>'+auction.bidHistory.length);
+
 
                 // 드롭박스에 호가 단위로 금액 추가
                 const selectBox = $('.buttonBid select');
@@ -611,7 +614,7 @@
                 let bidIncrement = getBidIncrement(currentPrice);  // 호가 단위 결정
 
                 // 응찰자 유무로 현재가/시작가 기준 바뀜
-                if (currentPrice == auction.auction_startPrice) {
+                if (!auction.bidHistory && auction.bidHistory.length == 0) {
                     console.log('시작가로 첫응찰 시작');
 
                     // 현재가에서 5단계 높은 가격까지 옵션 추가
@@ -654,11 +657,19 @@
                 }
 
 
+                // 이미지 경로 설정
+                let imagePath = `\${auction.attachUploadpath1}/\${auction.attachFilename1}`;
+                console.log("이미지 경로: " + imagePath);
+
+                // 경매 모달 이미지 업데이트
+                $('#modalBid .auctionImg img').attr('src', '/auctionListDisplay?fileName=' + encodeURIComponent(imagePath));
+
+
                 // 가져온 경매 데이터를 모달에 반영
                 $('#modalBid .left h5').text("LOT " + auction.auction_lot);
                 $('#modalBid .left h2').text(auction.auction_author);
                 $('#modalBid .left h3').text(auction.auction_title);
-                $('#modalBid .left h4.size').text(auction.auction_size + " cm | " + auction.auction_madeDate);
+                $('#modalBid .left h4.size').text(auction.auction_size + " | " + auction.auction_madeDate);
                 $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
                 $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice.toLocaleString());
                 $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");

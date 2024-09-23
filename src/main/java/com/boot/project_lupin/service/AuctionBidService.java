@@ -24,6 +24,8 @@ public class AuctionBidService {
     @Autowired
     private AuctionBidDAO bidDAO;
 
+    private String bidStatus = "1회 응찰";
+
     // 응찰 데이터를 DB에 저장
     public void insertBid(AuctionBidDTO auctionBidDTO) {
         log.info("@# AuctionBidService updateBid");
@@ -43,7 +45,12 @@ public class AuctionBidService {
         }
 
         bidDAO = sqlSession.getMapper(AuctionBidDAO.class);
+
+        auctionBidDTO.setBidStatus(bidStatus);
+
         bidDAO.insertBid(auctionBidDTO);
+
+        bidStatus = "1회 응찰";
     }
 
 
@@ -91,11 +98,14 @@ public class AuctionBidService {
 //        int firstBidAmount = currentPrice + bidIncrement;
 
         if (firstBidAmount <= autoBid.getMaxBidLimit()) {
+            bidStatus = "자동응찰";
+
             // 4. 자동응찰자가 최초 응찰을 진행
             AuctionBidDTO firstAutoBid = new AuctionBidDTO();
             firstAutoBid.setAuctionId(autoBid.getAuctionId());
             firstAutoBid.setUserId(autoBid.getUserId());
             firstAutoBid.setBidMoney(firstBidAmount);
+            firstAutoBid.setBidStatus(bidStatus);
 
             log.info("@# firstAutoBid=>"+firstAutoBid);
 
@@ -125,33 +135,48 @@ public class AuctionBidService {
         // 경매 ID에 대한 모든 활성화된 자동응찰 정보를 가져옴
         List<AutoBidDTO> autoBids = bidDAO.getAutoBidsByAuctionId(currentBid.getAuctionId());
 
-        // 현재 입찰가와 각 자동응찰자의 한도를 비교
-        for (AutoBidDTO autoBid : autoBids) {
-            // 최고가 입찰자가 본인일 경우 자동응찰을 하지 않음
-            if (autoBid.getUserId() == currentBid.getUserId()) {
-                continue; // 본인이 최고가 입찰자라면 자동응찰을 건너뜀
-            }
+        boolean newBidPlaced;
 
-            if (autoBid.getMaxBidLimit() > currentBid.getBidMoney()) {
-                // 한도 내에서 자동응찰 가능, 자동으로 응찰 등록
-                int newBidAmount = currentBid.getBidMoney() + getBidIncrement(currentBid.getBidMoney());
+        // 반복적으로 응찰을 진행할 수 있도록 루프를 설정
+        do {
+            newBidPlaced = false;  // 새로운 응찰이 발생하면 true로 변경
 
-                if (newBidAmount <= autoBid.getMaxBidLimit()) {
-                    AuctionBidDTO newAutoBid = new AuctionBidDTO();
-                    newAutoBid.setAuctionId(currentBid.getAuctionId());
-                    newAutoBid.setUserId(autoBid.getUserId());
-                    newAutoBid.setBidMoney(newBidAmount);
+            // 현재 입찰가와 각 자동응찰자의 한도를 비교
+            for (AutoBidDTO autoBid : autoBids) {
+                // 최고가 입찰자가 본인일 경우 자동응찰을 하지 않음
+                if (autoBid.getUserId() == currentBid.getUserId()) {
+                    continue; // 본인이 최고가 입찰자라면 자동응찰을 건너뜀
+                }
 
-                    // DB에 자동응찰 저장
-                    insertBid(newAutoBid);
+                if (autoBid.getMaxBidLimit() > currentBid.getBidMoney()) {
+                    // 한도 내에서 자동응찰 가능, 자동으로 응찰 등록
+                    int newBidAmount = currentBid.getBidMoney() + getBidIncrement(currentBid.getBidMoney());
 
-                    // 자동응찰자의 상태를 FINISHED로 변경할지 결정
-                    if (newBidAmount == autoBid.getMaxBidLimit()) {
-                        updateAutoBidStatus(autoBid.getAutoBidId(), "FINISHED");
+                    if (newBidAmount <= autoBid.getMaxBidLimit()) {
+                        bidStatus = "자동응찰";
+
+                        AuctionBidDTO newAutoBid = new AuctionBidDTO();
+                        newAutoBid.setAuctionId(currentBid.getAuctionId());
+                        newAutoBid.setUserId(autoBid.getUserId());
+                        newAutoBid.setBidMoney(newBidAmount);
+                        newAutoBid.setBidStatus(bidStatus);
+
+                        // DB에 자동응찰 저장
+                        insertBid(newAutoBid);
+
+                        // 최신 입찰 정보로 업데이트
+                        currentBid = newAutoBid;
+                        newBidPlaced = true;  // 새로운 입찰이 발생했음을 표시
+
+                        // 자동응찰자의 상태를 FINISHED로 변경할지 결정
+                        if (newBidAmount == autoBid.getMaxBidLimit()) {
+                            updateAutoBidStatus(autoBid.getAutoBidId(), "FINISHED");
+                        }
                     }
                 }
             }
-        }
+            // 새로운 입찰이 발생했을 경우 반복적으로 체크
+        } while (newBidPlaced);
     }
 
     // 호가 단위 계산 함수 (기존 로직 재활용)

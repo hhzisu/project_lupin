@@ -19,4 +19,6 @@ public class AuctionBidDTO {
 //    private String bidTime; // 응찰 시간
     private Timestamp bidTime;  // 응찰 시간
 
+    private String bidStatus; // 응찰 방법
+
 }

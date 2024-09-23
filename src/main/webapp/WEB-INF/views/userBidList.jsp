@@ -47,78 +47,44 @@
                         <h5 class="auctionDate">24.09.01 온라인 경매</h5>
                         <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
                     </div>
-
-                    <div class="bidList">
-                        <div class="bidListImg">
-                            <div class="uploadResult">
-                                <ul>
-                                    <img src="images/auction1.jpg">
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bidListExplain">
-                            <div class="WishListLotNum">LOT2</div>
-                            <div class="authorName">나성엽</div>
-                            <div class="workName">여덟을 꺼내는 시간</div>
-                        </div>
-                        <div class="bidListEnd">
-                            <div class="bidListPrices">
-                                <div class="bidPrice">
-                                    <div>응찰가</div>
-                                    <div>KRW &nbsp; 800,000</div>
-                                </div>
-                                <div class="bidDate">
-                                    <div class="bidDateTitle">응찰일</div>
-                                    <div>2024.08.28 21:25:31</div>
-                                </div>
-                                <div class="currentPrice">
-                                    <div>현재가</div>
-                                    <div>KRW &nbsp; 8,000,000</div>
+                    <c:forEach items="${Bidlist}" var="Bidlist">
+                        <div class="bidList">
+                            <div class="bidListImg">
+                                <div class="uploadResult">
+                                    <ul>
+                                        <img src="images/auction1.jpg">
+                                    </ul>
                                 </div>
                             </div>
-                            <div>
-                                <button class="bidDetailBtn">상세보기</button>
+                            <div class="bidListExplain">
+                                <div class="WishListLotNum">${Bidlist.auction_lot}</div>
+                                <div class="authorName">${Bidlist.auction_author}</div>
+                                <div class="workName">${Bidlist.auction_title}</div>
                             </div>
-                        </div>
-                        <!-- bidListEnd 끝 -->
-                    </div>
-                    <!-- bidList 끝 -->
-
-                    <div class="bidList">
-                        <div class="bidListImg">
-                            <div class="uploadResult">
-                                <ul>
-                                    <img src="images/auction1.jpg">
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bidListExplain">
-                            <div class="WishListLotNum">LOT2</div>
-                            <div class="authorName">나성엽</div>
-                            <div class="workName">여덟을 꺼내는 시간</div>
-                        </div>
-                        <div class="bidListEnd">
-                            <div class="bidListPrices">
-                                <div class="bidPrice">
-                                    <div class="span1">응찰가</div>
-                                    <div>KRW &nbsp; 800,000</div>
+                            <div class="bidListEnd">
+                                <div class="bidListPrices">
+                                    <div class="bidPrice">
+                                        <div>응찰가</div>
+                                        <div>KRW &nbsp; ${Bidlist.bidHistory[0].bidMoney}</div>
+                                    </div>
+                                    <div class="bidDate">
+                                        <div class="bidDateTitle">응찰일</div>
+                                        <div>${Bidlist.bidHistory[0].bidTime}</div>
+                                    </div>
+                                    <div class="currentPrice">
+                                        <div>현재가</div>
+                                        <div>KRW &nbsp; 8,000,000</div>
+                                    </div>
                                 </div>
-                                <div class="bidDate">
-                                    <div class="bidDateTitle">응찰일</div>
-                                    <div>2024.08.28 21:25:31</div>
-                                </div>
-                                <div class="endPrice">
-                                    <div>낙찰가</div>
-                                    <div>KRW &nbsp; 8,000,000</div>
+                                <div>
+                                    <button class="bidDetailBtn" data-bid-history='${Bidlist.bidHistory}'>상세보기</button>
                                 </div>
                             </div>
-                            <div>
-                                <button class="bidDetailBtn">상세보기</button>
-                            </div>
+                            <!-- bidListEnd 끝 -->
                         </div>
-                        <!-- bidListEnd 끝 -->
-                    </div>
-                    <!-- bidList 끝 -->
+                        <!-- bidList 끝 -->
+                    </c:forEach>
+                    <!-- 응찰 리스트 반복문 끝 -->
 
                 </div>
                 <!-- userBidList끝 -->
@@ -181,27 +147,72 @@
 <script>
     // 모달 가져오기
     var modal = document.getElementById("bidDetailModal");
-    // 모달을 여는 버튼들 가져오기
-    var btns = document.getElementsByClassName("bidDetailBtn");
+    var modalBackground = document.getElementById("modalBackground");
+
     // <span> 요소(닫기 버튼)를 가져오기
     var span = document.getElementsByClassName("closeBtn")[0];
-    // 사용자가 버튼을 클릭했을 때 모달 열기
-    for (let i = 0; i < btns.length; i++) {
-        btns[i].onclick = function() {
-            modal.style.display = "block";
-            modalBackground.style.display = "block";
-        };
-    }
+
     // 사용자가 <span> (x) 을 클릭했을 때 모달 닫기
     span.onclick = function() {
         modal.style.display = "none";
         modalBackground.style.display = "none";
     }
+
     // 사용자가 모달 외부를 클릭했을 때 모달 닫기
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
             modalBackground.style.display = "none";
         }
+    }
+
+    // 상세보기 버튼 클릭 시 bidHistory 데이터를 모달에 표시
+    $(document).ready(function() {
+        $('.bidDetailBtn').click(function() {
+            // 버튼의 data-bid-history 속성에서 JSON 문자열을 가져옴
+            var bidHistoryData = $(this).data('bid-history');
+            console.log("@# 팝업 쪽 bidHistoryData=>"+bidHistoryData);
+            
+            // JSON 문자열을 객체 배열로 변환
+            // var bidHistoryArray = typeof bidHistoryData === 'string' ? JSON.parse(bidHistoryData) : bidHistoryData;
+            // console.log("@# bidHistoryArray=>"+bidHistoryArray);
+
+            // bidHistoryArray가 있으면 모달에 표시
+            if (bidHistoryData && bidHistoryData.length > 0) {
+                
+                var modalContent = '';
+
+                bidHistoryData.forEach(function(bid) {
+                    modalContent += '<div class="bidDetailContent">';
+                    modalContent += '<div class="bidingPrice">KRW ' + bid.bidMoney.toLocaleString() + '</div>';
+                    modalContent += '<div class="bidingDate">' + formatBidTime(bid.bidTime) + '</div>';
+                    modalContent += '<div class="bidingMethod">' + (bid.isAutoBid ? '자동 응찰' : '1회 응찰') + '</div>';
+                    modalContent += '<div class="bidingNote">' + (bid.isWinningBid ? '낙찰' : '') + '</div>';
+                    modalContent += '</div>';
+                });
+
+                // 모달 내부에 데이터를 삽입
+                $('#bidDetailModal .modalContent').html(modalContent);
+
+                // 모달 열기
+                modal.style.display = "block";
+                modalBackground.style.display = "block";
+            } else {
+                alert("응찰 내역이 없습니다.");
+            }
+        });
+    });
+
+    // 응찰 시간을 포맷하는 함수
+    function formatBidTime(bidTime) {
+        var date = new Date(bidTime);
+        var year = String(date.getFullYear()).substring(2);  // 마지막 두 자리 연도
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); // 월 두 자리
+        var day = ('0' + date.getDate()).slice(-2);          // 일 두 자리
+        var hours = ('0' + date.getHours()).slice(-2);       // 시 두 자리
+        var minutes = ('0' + date.getMinutes()).slice(-2);   // 분 두 자리
+        var seconds = ('0' + date.getSeconds()).slice(-2);   // 초 두 자리
+
+        return year + '.' + month + '.' + day + ' ' + hours + ':' + minutes + ':' + seconds;
     }
 </script>

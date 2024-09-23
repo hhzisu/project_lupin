@@ -39,8 +39,10 @@ public class headController {
 
         if (user != null) {
             log.info("@# loginUserName => " + user.getUsername());
+
             UserInfoDTO loginUser = service.selectUserInfo(user.getUsername());
             log.info("@# loginUser => " + loginUser);
+
             return loginUser;
         } else {
             log.info("사용자 정보가 없습니다.");

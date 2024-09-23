@@ -32,4 +32,10 @@ public class AuctionDTO {
 
     // 경매 입찰 내역
     private List<AuctionBidDTO> bidHistory;
+
+    private int userId; // 응찰자 ID
+
+    private String attachUuid1; // uuid
+    private String attachUploadpath1;  // 경로
+    private String attachFilename1; // 파일이름
 }
