@@ -26,7 +26,6 @@
         <body>
 
             <%@ include file="header.jsp" %>
-                <%@ include file="sidebar.jsp" %>
 
                     <div class="main">
                         <div class="left">

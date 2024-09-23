@@ -21,12 +21,11 @@
 <body>
     
     <%@ include file="header.jsp" %>
-    <%@ include file="sidebar.jsp" %>
 
     <div class="pageFixSize">
         <div class="userInfo">
             <div class="userNav">
-                <h3 class="navUserName">나성엽 님</h3>
+                <h3 class="navUserName">${sessionScope.user.name} 님</h3>
                 <ul>
                     <li><a href="userInfo">회원정보관리</a></li>
                     <li><a href="userBidList">응찰 내역</a></li>
