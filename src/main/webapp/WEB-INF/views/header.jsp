@@ -278,15 +278,14 @@
                                 <h5 class="red">* 응찰하기 버튼을 누르시면 취소가 불가능합니다.</h5>
                                 <h5 class="gray">* 동시 응찰자 경우, 서버시각(KST) 기준 우선순위가 부여됩니다.</h5>
 
-                                <div class="buttonBid">
+                                <div class="buttonBid bidingPossible">
                                     <select name="" id="">
-                                        <!-- <option value="13,000,000">13,000,000</option>
-                                        <option value="14,000,000">14,000,000</option>
-                                        <option value="15,000,000">15,000,000</option> -->
                                     </select>
                                     <button class="bidBtn onceBiding">응찰하기</button>
                                     <button class="bidBtn AutoBiding">자동응찰</button>
-                                    <!-- <button class="bidBtn maximum">최고가 응찰 중</button> -->
+                                </div>
+                                <div class="buttonBid bidingImpossible">
+                                    최고가 응찰 중입니다
                                 </div>
                             </div> <!--right 끝-->
 
@@ -491,9 +490,11 @@
     const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
 
     $(document).ready(function() {
-
+        
         $('.bidBtn.AutoBiding').hide();
-
+        $('.bidingImpossible').hide();
+        
+        // loadAuctionData(auctionId);
 
         $.ajax({
             url: "/api/auction/userInfo",
@@ -639,13 +640,16 @@
                     let isHighestBidder = (auction.bidHistory[0].userId == userInfo.id);
                     console.log('@# isHighestBidder=>', isHighestBidder);
 
-                    const buttonBid = $('.buttonBid');
-                    const highestBidMessage = '<div class="buttonBid">최고가 응찰 중입니다</div>';
+                    const bidingPossible = $('.bidingPossible');
+                    const bidingImpossible = $('.bidingImpossible');
 
                     // 본인이 최고가 응찰자일 경우 버튼과 드롭박스를 숨기고 메시지 표시
                     if (isHighestBidder) {
-                        buttonBid.hide();  // 버튼 숨기기
-                        buttonBid.after(highestBidMessage);  // 메시지 추가
+                        bidingPossible.hide();  // 버튼 숨기기
+                        bidingImpossible.show();  // 메시지 보이기
+                    } else {
+                        bidingImpossible.hide();  // 메시지 숨기기
+                        bidingPossible.show();  // 버튼 보이기
                     }
                 }
 
@@ -665,6 +669,7 @@
 
                 // 즉시 남은 시간을 한 번 계산하여 표시
                 $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auctionEndTime));
+                // $('#auctionDDay').text("남은시간 " + calculateRemainingTime(auctionEndTime));
 
                 // 1초마다 업데이트
                 setInterval(function() {
