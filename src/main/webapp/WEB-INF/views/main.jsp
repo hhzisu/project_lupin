@@ -34,13 +34,12 @@
                 <main>
                     <div class="banner1">
                         <div class="inner">
-                            <img src="images/main_1.jpg" alt="" class="slide" style="display: block;">
+                            <img src="images/m5.jpg" alt="" class="slide" style="display: block;">
+                            <!-- <img src="images/main_1.jpg" alt="" class="slide" style="display: block;"> -->
                         </div>
                         <div class="inner">
-                            <img src="images/main_2.jpg" alt="" class="slide" style="display: none;">
-                        </div>
-                        <div class="inner">
-                            <img src="images/main_3.jpg" alt="" class="slide" style="display: none;">
+                            <img src="images/m4.jpg" alt="" class="slide" style="display: none;">
+                            <!-- <img src="images/main_3.jpg" alt="" class="slide" style="display: none;"> -->
                             <div class="slide_content" style="display: none;">
                                 <div class="box_title">
                                     <p>주요 출품작</p>
@@ -48,6 +47,22 @@
                                 <div class="box_content">
                                     <p>최고의 작품들이 준비되어 있습니다.</p>
                                     <p>주요 출품작을 확인하고 경매에 참가하세요!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inner">
+                            <img src="images/main_3.jpg" alt="" class="slide" style="display: none;">
+                            <div class="slide_content" style="display: none;">
+                                <div class="box_title">
+                                    <p>응찰 안내</p>
+                                </div>
+                                <div class="box_content">
+                                    <p>루팡의 온라인 경매는 폭넓은 작가군과 합리적인 가격의 작품을 선보입니다.</p>
+                                </div>
+                                <div class="box_btn">
+                                    <a href="guideAuction">
+                                        <p>바로가기</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>
