@@ -29,8 +29,6 @@
 
         <body>
 
-            <%@ include file="sidebar.jsp" %>
-
                 <main>
                     <div class="banner1">
                         <div class="inner">
