@@ -25,6 +25,8 @@ public class AuctionDTO {
     private String auctionSchedule_start;
     private String auctionSchedule_end;
 
+    private String auction_end_time;
+
     private List<AuctionAttachDTO> AuctionAttachList1;  // 파일업로드 attachDTO를 가져와서 attachList에 담음
     private List<AuctionAttachDTO> AuctionAttachList2;  // 파일업로드 attachDTO를 가져와서 attachList에 담음
 

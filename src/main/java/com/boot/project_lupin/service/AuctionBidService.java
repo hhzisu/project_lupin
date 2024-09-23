@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.data.projection.EntityProjection.ProjectionType.DTO;
@@ -28,6 +29,19 @@ public class AuctionBidService {
         log.info("@# AuctionBidService updateBid");
         log.info("@# auctionBidDTO=>"+auctionBidDTO);
 
+        // 작품 ID로 경매 종료 시간 조회
+        Date auctionEndTime = bidDAO.getAuctionEndTime(auctionBidDTO.getAuctionId());
+
+        Date now = new Date();  // 현재 시간
+
+        // 남은 시간이 30초 이하일 경우 경매 종료 시간을 30초 연장
+        long timeRemaining = auctionEndTime.getTime() - now.getTime();
+        if (timeRemaining <= 30 * 1000) {
+            Date newEndTime = new Date(auctionEndTime.getTime() + 30 * 1000);  // 30초 연장
+            bidDAO.updateAuctionEndTime(auctionBidDTO.getAuctionId(), newEndTime);
+            System.out.println("경매 마감 시간 30초 연장됨.");
+        }
+
         bidDAO = sqlSession.getMapper(AuctionBidDAO.class);
         bidDAO.insertBid(auctionBidDTO);
     }
@@ -42,9 +56,8 @@ public class AuctionBidService {
         return bidDAO.getAuctionById(auctionId);
     }
 
-
+    // 경매의 최신 응찰 정보를 가져오는 로직
     public List<AuctionBidDTO> getLatestBidInfo(int auctionId) {
-        // 경매의 최신 응찰 정보를 가져오는 로직
         log.info("@# AuctionBidService getLatestBidInfo");
         log.info("@# auctionId=>"+auctionId);
 
@@ -57,6 +70,9 @@ public class AuctionBidService {
 
     // 자동응찰 저장
     public void insertAutoBid(AutoBidDTO autoBid) {
+        log.info("@# AuctionBidService insertAutoBid");
+        log.info("@# autoBid=>"+autoBid);
+
         // 1. 자동응찰 정보 저장
         bidDAO.insertAutoBid(autoBid);
 
@@ -65,11 +81,14 @@ public class AuctionBidService {
 
         // List의 첫 번째 요소를 가져올 때는 get() 메서드를 사용
         AuctionBidDTO currentBid = (Bids != null && !Bids.isEmpty()) ? Bids.get(0) : null;
+        log.info("@# currentBid=>"+currentBid);
 
         // 3. 현재가에 따라 자동응찰 한도가 남아 있다면 최초 응찰을 진행
-        int currentPrice = (currentBid != null) ? currentBid.getBidMoney() : getStartingPrice(autoBid.getAuctionId());
-        int bidIncrement = getBidIncrement(currentPrice);
-        int firstBidAmount = currentPrice + bidIncrement;
+        int firstBidAmount = (currentBid != null) ? currentBid.getBidMoney() + getBidIncrement(currentBid.getBidMoney())
+                                                : getStartingPrice(autoBid.getAuctionId());
+        log.info("@# firstBidAmount=>"+firstBidAmount);
+//        int bidIncrement = getBidIncrement(currentPrice);
+//        int firstBidAmount = currentPrice + bidIncrement;
 
         if (firstBidAmount <= autoBid.getMaxBidLimit()) {
             // 4. 자동응찰자가 최초 응찰을 진행
@@ -77,6 +96,8 @@ public class AuctionBidService {
             firstAutoBid.setAuctionId(autoBid.getAuctionId());
             firstAutoBid.setUserId(autoBid.getUserId());
             firstAutoBid.setBidMoney(firstBidAmount);
+
+            log.info("@# firstAutoBid=>"+firstAutoBid);
 
             // 5. DB에 첫 자동응찰 기록 저장
             bidDAO.insertBid(firstAutoBid);
@@ -106,6 +127,11 @@ public class AuctionBidService {
 
         // 현재 입찰가와 각 자동응찰자의 한도를 비교
         for (AutoBidDTO autoBid : autoBids) {
+            // 최고가 입찰자가 본인일 경우 자동응찰을 하지 않음
+            if (autoBid.getUserId() == currentBid.getUserId()) {
+                continue; // 본인이 최고가 입찰자라면 자동응찰을 건너뜀
+            }
+
             if (autoBid.getMaxBidLimit() > currentBid.getBidMoney()) {
                 // 한도 내에서 자동응찰 가능, 자동으로 응찰 등록
                 int newBidAmount = currentBid.getBidMoney() + getBidIncrement(currentBid.getBidMoney());
@@ -117,7 +143,7 @@ public class AuctionBidService {
                     newAutoBid.setBidMoney(newBidAmount);
 
                     // DB에 자동응찰 저장
-                    bidDAO.insertBid(newAutoBid);
+                    insertBid(newAutoBid);
 
                     // 자동응찰자의 상태를 FINISHED로 변경할지 결정
                     if (newBidAmount == autoBid.getMaxBidLimit()) {
@@ -144,4 +170,5 @@ public class AuctionBidService {
             return 1000000;
         }
     }
+
 }

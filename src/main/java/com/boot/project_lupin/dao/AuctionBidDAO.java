@@ -4,8 +4,10 @@ import com.boot.project_lupin.dto.AuctionBidDTO;
 import com.boot.project_lupin.dto.AuctionDTO;
 import com.boot.project_lupin.dto.AutoBidDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,4 +23,10 @@ public interface AuctionBidDAO {
     public void handleAutoBids(AuctionBidDTO currentBid); // 수동응찰 처리 후 자동응찰 로직 처리
 
     public int getAuctionStartPrice(int auctionId);
+
+    // 작품 ID로 경매 종료 시간 조회
+    public Date getAuctionEndTime(int auctionId);
+
+    // 작품의 경매 종료 시간 업데이트
+    public void updateAuctionEndTime(@Param("auctionId") int auctionId, @Param("newEndTime") Date newEndTime);
 }

@@ -270,10 +270,10 @@
                                         </ul>
                                     </div>
                                 </div> <!--auctionImg 끝-->
-                                <h2>나성엽</h2>
-                                <h3>여덟을 꺼내는 시간</h3>
-                                <h4>캔버스에 유채</h4>
-                                <h4 class="size">33 x 33 cm | 2020</h4>
+                                <h2></h2>
+                                <h3></h3>
+                                <h4></h4>
+                                <h4 class="size"></h4>
                             </div> <!--left 끝-->
 
                             <div class="right">
@@ -634,12 +634,12 @@
             url: "/api/auction/" + auctionId,  // 서버의 경매 데이터를 가져오는 엔드포인트
             method: "GET",
             success: function(auction) {
-                let bidStartPrice = parseInt(auction.auction_startPrice.replace(/,/g, ''), 10);
+                // let bidStartPrice = parseInt(auction.auction_startPrice.replace(/,/g, ''), 10);
 
                 // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
                 let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
                                  ? auction.bidHistory[0].bidMoney
-                                 : bidStartPrice;
+                                 : auction.auction_startPrice;
 
 
                 // 드롭박스에 호가 단위로 금액 추가
@@ -652,7 +652,7 @@
                 let bidIncrement = getBidIncrement(currentPrice);  // 호가 단위 결정
 
                 // 응찰자 유무로 현재가/시작가 기준 바뀜
-                if (currentPrice == bidStartPrice) {
+                if (currentPrice == auction.auction_startPrice) {
                     console.log('시작가로 첫응찰 시작');
 
                     // 현재가에서 5단계 높은 가격까지 옵션 추가
@@ -696,14 +696,14 @@
                 $('#modalBid .left h5').text("LOT " + auction.auction_lot);
                 $('#modalBid .left h2').text(auction.auction_author);
                 $('#modalBid .left h3').text(auction.auction_title);
-                $('#modalBid .left h4.size').text(auction.auction_size + " | " + auction.auction_madeDate);
+                $('#modalBid .left h4.size').text(auction.auction_size + " cm | " + auction.auction_madeDate);
                 $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
                 $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice.toLocaleString());
                 $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");
 
 
                 // 남은 시간을 매초 업데이트
-                let auctionEndTime = new Date(auction.auctionSchedule_end).getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
+                let auctionEndTime = new Date(auction.auction_end_time).getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
 
                 // 즉시 남은 시간을 한 번 계산하여 표시
                 $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auctionEndTime));
@@ -719,9 +719,10 @@
                 let bidHistory = '';
                 auction.bidHistory.forEach(function(bid) {
                     const maskedUserName = maskUserName(bid.userName);  // 중간 글자를 *로 마스킹
+                    const bidMoney = bid.bidMoney.toLocaleString();
                     bidHistory += `<div class="boxList">
                         <h3>\${maskedUserName}</h3>
-                        <h4 style="color: var(--color-burgundy);">\${bid.bidMoney}</h4>
+                        <h4 style="color: var(--color-burgundy);">\${bidMoney}</h4>
                         <h5>\${formatBidTime(bid.bidTime)}</h5>
                     </div>`;
                 });
