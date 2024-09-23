@@ -186,7 +186,7 @@
             pg: 'html5_inicis', // 결제 창 종류
             pay_method: 'card', // 결제 방식
             merchant_uid: 'merchant_' + new Date().getTime(), // 고유 주문번호
-            name: 'Auction Payment', // 결제 상품명
+            name: 'auctionId: '+auctionId, // 결제 상품명
             amount: amount, // 테스트 결제 금액 (PortOne에서 실제로 처리할 결제 금액)
             buyer_email: userInfo.email, // 구매자 이메일
             buyer_name: userInfo.name, // 구매자 이름
