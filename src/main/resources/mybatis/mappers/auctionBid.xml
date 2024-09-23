@@ -38,7 +38,7 @@
 			a.auction_guessPrice,
 			s.auctionSchedule_id,
 			s.auctionSchedule_start,
-			s.auctionSchedule_end,
+			a.auction_end_time,
 			at1.uuid AS attachUuid1,
 			at1.uploadpath AS attachUploadpath1,
 			at1.filename AS attachFilename1,
@@ -62,13 +62,16 @@
 
 	<!-- 특정 경매의 자동응찰 정보 가져오기 -->
 	<select id="getAutoBidsByAuctionId" resultType="com.boot.project_lupin.dto.AutoBidDTO">
-		SELECT auto_bid_id AS autoBidId,
-		user_id AS userId,
-		auction_id AS auctionId,
-		max_bid_limit AS maxBidLimit,
-		bid_status AS bidStatus
+		SELECT
+			auto_bid_id AS autoBidId,
+			user_id AS userId,
+			auction_id AS auctionId,
+			max_bid_limit AS maxBidLimit,
+			bid_status AS bidStatus
 		FROM auto_bid_tb
-		WHERE auction_id = #{auctionId} AND bid_status = 'ACTIVE'
+		WHERE auction_id = #{auctionId}
+		AND bid_status = 'ACTIVE'
+		ORDER BY created_at ASC
 	</select>
 
 	<!-- 자동응찰 한도 업데이트 -->
@@ -84,4 +87,19 @@
 		FROM auction_tb
 		WHERE auction_id = #{auctionId}
 	</select>
+
+
+	<!-- 경매 ID로 경매 종료 시간 조회 -->
+	<select id="getAuctionEndTime" resultType="Date">
+		SELECT auction_end_time
+		FROM auction_tb
+		WHERE auction_id = #{auctionId}
+	</select>
+
+	<!-- 경매 종료 시간 업데이트 -->
+	<update id="updateAuctionEndTime">
+		UPDATE auction_tb
+		SET auction_end_time = #{newEndTime}
+		WHERE auction_id = #{auctionId}
+	</update>
 </mapper>

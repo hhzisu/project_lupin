@@ -228,10 +228,10 @@
                                         </ul>
                                     </div>
                                 </div> <!--auctionImg 끝-->
-                                <h2>나성엽</h2>
-                                <h3>여덟을 꺼내는 시간</h3>
-                                <h4>캔버스에 유채</h4>
-                                <h4 class="size">33 x 33 cm | 2020</h4>
+                                <h2></h2>
+                                <h3></h3>
+                                <h4></h4>
+                                <h4 class="size"></h4>
                             </div> <!--left 끝-->
 
                             <div class="right">
@@ -480,304 +480,305 @@
 
 
 
-        <script>
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-            //                             나성엽
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
+<script>
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+//                             나성엽
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+    
+    let userInfo; // 로그인 유저정보 전역변수
+    const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
 
-            let userInfo; // 로그인 유저정보 전역변수
-            const auctionId = "${auction.auction_id}";  // 경매 ID 가져오기
+    $(document).ready(function() {
 
-            $(document).ready(function () {
-
-                $('.bidBtn.AutoBiding').hide();
+        $('.bidBtn.AutoBiding').hide();
 
 
-                $.ajax({
-                    url: "/api/auction/userInfo",
-                    method: "GET",
-                    success: function (data) {
-                        if (data) {
-                            userInfo = data;  // 데이터를 전역 변수에 저장
-                            // alert("환영합니다, " + userInfo.name);
-                            console.log("@# userInfo.id=>" + userInfo.id);
-                        } else {
-                            console.log("사용자 정보가 없습니다.");
-                        }
-                    },
-                    error: function (err) {
-                        console.log("Error:", err);
+        $.ajax({
+            url: "/api/auction/userInfo",
+            method: "GET",
+            success: function(data) {
+                if (data) {
+                    userInfo = data;  // 데이터를 전역 변수에 저장
+                    // alert("환영합니다, " + userInfo.name);
+                    console.log("@# userInfo.id=>"+userInfo.id);
+                } else {
+                    console.log("사용자 정보가 없습니다.");
+                }
+            },
+            error: function(err) {
+                console.log("Error:", err);
+            }
+        });
+    });
+
+
+ 
+    // 1회 응찰 / 자동응찰 선택
+
+    $(document).ready(function() {
+        // 1회 응찰과 자동응찰 버튼을 클릭할 때 클래스 변경 및 UI 업데이트
+        $('.bidType .type').click(function() {
+            // 기존 choice 클래스 제거
+            $('.bidType .type').removeClass('choice');
+            
+            // 클릭한 버튼에 choice 클래스 추가
+            $(this).addClass('choice');
+            
+            // 선택된 응찰 방식에 따른 UI 업데이트
+            if ($(this).text().trim() === '1회 응찰') {
+                // 1회 응찰이 선택된 경우
+                $('.onceBiding').show();
+                $('.AutoBiding').hide();
+            } else {
+                // 자동응찰이 선택된 경우
+                $('.AutoBiding').show();
+                $('.onceBiding').hide();
+            }
+        });
+    });
+
+
+
+
+    // STOMP 클라이언트 설정
+    var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
+    var stompClient = Stomp.over(socket);
+
+    // STOMP 연결
+    stompClient.connect({}, function (frame) {
+        console.log('STOMP 연결됨: ' + frame);
+
+        // 서버로부터 경매 업데이트 메시지를 받으면 처리
+        stompClient.subscribe('/sub/auctionUpdates', function (message) {
+            var auctionUpdate = JSON.parse(message.body);
+            console.log('경매 업데이트: ', auctionUpdate);
+
+            loadAuctionData(auctionId);
+        });
+    });
+
+
+    // STOMP 연결 후 '응찰하기' 버튼 클릭 시 서버로 메시지 전송
+    document.querySelector('.onceBiding').addEventListener('click', function() {
+        var selectedBid = document.querySelector('select').value;
+
+        // 입찰 정보를 STOMP로 서버에 전송
+        stompClient.send("/pub/bid", {}, JSON.stringify({
+            userId: userInfo.id,  // 현재 사용자의 ID
+            auctionId: auctionId,  // 경매 ID
+            bidMoney: selectedBid // 입찰가
+        }));
+    });
+
+
+    // STOMP 연결 후 '자동응찰' 버튼 클릭 시 서버로 메시지 전송
+    document.querySelector('.AutoBiding').addEventListener('click', function() {
+        var selectedBid = document.querySelector('select').value;
+
+        // 입찰 정보를 STOMP로 서버에 전송
+        stompClient.send("/pub/autoBid", {}, JSON.stringify({
+            userId: userInfo.id,  // 현재 사용자의 ID
+            auctionId: auctionId,  // 경매 ID
+            maxBidLimit: selectedBid // 자동응찰 한도금액
+        }));
+    });
+
+
+
+    function loadAuctionData(auctionId) {
+        $.ajax({
+            url: "/api/auction/" + auctionId,  // 서버의 경매 데이터를 가져오는 엔드포인트
+            method: "GET",
+            success: function(auction) {
+                // let bidStartPrice = parseInt(auction.auction_startPrice.replace(/,/g, ''), 10);
+
+                // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
+                let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
+                                 ? auction.bidHistory[0].bidMoney
+                                 : auction.auction_startPrice;
+
+
+                // 드롭박스에 호가 단위로 금액 추가
+                const selectBox = $('.buttonBid select');
+                selectBox.empty();  // 기존의 옵션 제거
+
+                // let currentPriceDrop = parseInt(currentPrice.replace(/,/g, ''), 10);  // 문자열을 숫자로 변환
+
+                // 호가 단위 계산 및 표시
+                let bidIncrement = getBidIncrement(currentPrice);  // 호가 단위 결정
+
+                // 응찰자 유무로 현재가/시작가 기준 바뀜
+                if (currentPrice == auction.auction_startPrice) {
+                    console.log('시작가로 첫응찰 시작');
+
+                    // 현재가에서 5단계 높은 가격까지 옵션 추가
+                    for (let i = 0; i <= 4; i++) {
+                        let newBidAmount = currentPrice + (i * bidIncrement);
+                        let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
+                        selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
                     }
-                });
-            });
+                } else {
+                    console.log('현재가로 응찰');
 
-
-
-            // 1회 응찰 / 자동응찰 선택
-
-            $(document).ready(function () {
-                // 1회 응찰과 자동응찰 버튼을 클릭할 때 클래스 변경 및 UI 업데이트
-                $('.bidType .type').click(function () {
-                    // 기존 choice 클래스 제거
-                    $('.bidType .type').removeClass('choice');
-
-                    // 클릭한 버튼에 choice 클래스 추가
-                    $(this).addClass('choice');
-
-                    // 선택된 응찰 방식에 따른 UI 업데이트
-                    if ($(this).text().trim() === '1회 응찰') {
-                        // 1회 응찰이 선택된 경우
-                        $('.onceBiding').show();
-                        $('.AutoBiding').hide();
-                    } else {
-                        // 자동응찰이 선택된 경우
-                        $('.AutoBiding').show();
-                        $('.onceBiding').hide();
+                    // 현재가에서 5단계 높은 가격까지 옵션 추가
+                    for (let i = 1; i <= 5; i++) {
+                        let newBidAmount = currentPrice + (i * bidIncrement);
+                        let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
+                        selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
                     }
-                });
-            });
+                }
 
 
+                if (auction.bidHistory.length > 0) {
+                    // 드롭박스와 버튼을 숨길지 결정
+                    console.log('@# auction.bidHistory=>', auction.bidHistory);
+                    console.log('@# auction.bidHistory[0].userId=>', auction.bidHistory[0].userId);
+
+                    let isHighestBidder = (auction.bidHistory[0].userId == userInfo.id);
+                    console.log('@# isHighestBidder=>', isHighestBidder);
+
+                    const buttonBid = $('.buttonBid');
+                    const highestBidMessage = '<div class="buttonBid">최고가 응찰 중입니다</div>';
+
+                    // 본인이 최고가 응찰자일 경우 버튼과 드롭박스를 숨기고 메시지 표시
+                    if (isHighestBidder) {
+                        buttonBid.hide();  // 버튼 숨기기
+                        buttonBid.after(highestBidMessage);  // 메시지 추가
+                    }
+                }
 
 
-            // STOMP 클라이언트 설정
-            var socket = new SockJS('/auction-websocket');  // 서버에 설정한 엔드포인트
-            var stompClient = Stomp.over(socket);
-
-            // STOMP 연결
-            stompClient.connect({}, function (frame) {
-                console.log('STOMP 연결됨: ' + frame);
-
-                // 서버로부터 경매 업데이트 메시지를 받으면 처리
-                stompClient.subscribe('/sub/auctionUpdates', function (message) {
-                    var auctionUpdate = JSON.parse(message.body);
-                    console.log('경매 업데이트: ', auctionUpdate);
-
-                    loadAuctionData(auctionId);
-                });
-            });
+                // 가져온 경매 데이터를 모달에 반영
+                $('#modalBid .left h5').text("LOT " + auction.auction_lot);
+                $('#modalBid .left h2').text(auction.auction_author);
+                $('#modalBid .left h3').text(auction.auction_title);
+                $('#modalBid .left h4.size').text(auction.auction_size + " cm | " + auction.auction_madeDate);
+                $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
+                $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice.toLocaleString());
+                $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");
 
 
-            // STOMP 연결 후 '응찰하기' 버튼 클릭 시 서버로 메시지 전송
-            document.querySelector('.onceBiding').addEventListener('click', function () {
-                var selectedBid = document.querySelector('select').value;
+                // 남은 시간을 매초 업데이트
+                let auctionEndTime = new Date(auction.auction_end_time).getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
 
-                // 입찰 정보를 STOMP로 서버에 전송
-                stompClient.send("/pub/bid", {}, JSON.stringify({
-                    userId: userInfo.id,  // 현재 사용자의 ID
-                    auctionId: auctionId,  // 경매 ID
-                    bidMoney: selectedBid // 입찰가
-                }));
-            });
+                // 즉시 남은 시간을 한 번 계산하여 표시
+                $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auctionEndTime));
 
+                // 1초마다 업데이트
+                setInterval(function() {
+                    let remainingTime = calculateRemainingTime(auctionEndTime);
+                    $('#modalBid .time h5').text("남은시간 " + remainingTime);
+                }, 1000);  
 
-            // STOMP 연결 후 '자동응찰' 버튼 클릭 시 서버로 메시지 전송
-            document.querySelector('.AutoBiding').addEventListener('click', function () {
-                var selectedBid = document.querySelector('select').value;
-
-                // 입찰 정보를 STOMP로 서버에 전송
-                stompClient.send("/pub/autoBid", {}, JSON.stringify({
-                    userId: userInfo.id,  // 현재 사용자의 ID
-                    auctionId: auctionId,  // 경매 ID
-                    maxBidLimit: selectedBid // 자동응찰 한도금액
-                }));
-            });
-
-
-
-            function loadAuctionData(auctionId) {
-                $.ajax({
-                    url: "/api/auction/" + auctionId,  // 서버의 경매 데이터를 가져오는 엔드포인트
-                    method: "GET",
-                    success: function (auction) {
-                        let bidStartPrice = parseInt(auction.auction_startPrice.replace(/,/g, ''), 10);
-
-                        // 현재가 (bidHistory가 존재하지 않으면 startPrice 사용)
-                        let currentPrice = (auction.bidHistory && auction.bidHistory.length > 0)
-                            ? auction.bidHistory[0].bidMoney
-                            : bidStartPrice;
-
-
-                        // 드롭박스에 호가 단위로 금액 추가
-                        const selectBox = $('.buttonBid select');
-                        selectBox.empty();  // 기존의 옵션 제거
-
-                        // let currentPriceDrop = parseInt(currentPrice.replace(/,/g, ''), 10);  // 문자열을 숫자로 변환
-
-                        // 호가 단위 계산 및 표시
-                        let bidIncrement = getBidIncrement(currentPrice);  // 호가 단위 결정
-
-                        // 응찰자 유무로 현재가/시작가 기준 바뀜
-                        if (currentPrice == bidStartPrice) {
-                            console.log('시작가로 첫응찰 시작');
-
-                            // 현재가에서 5단계 높은 가격까지 옵션 추가
-                            for (let i = 0; i <= 4; i++) {
-                                let newBidAmount = currentPrice + (i * bidIncrement);
-                                let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
-                                selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
-                            }
-                        } else {
-                            console.log('현재가로 응찰');
-
-                            // 현재가에서 5단계 높은 가격까지 옵션 추가
-                            for (let i = 1; i <= 5; i++) {
-                                let newBidAmount = currentPrice + (i * bidIncrement);
-                                let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
-                                selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
-                            }
-                        }
-
-
-                        if (auction.bidHistory.length > 0) {
-                            // 드롭박스와 버튼을 숨길지 결정
-                            console.log('@# auction.bidHistory=>', auction.bidHistory);
-                            console.log('@# auction.bidHistory[0].userId=>', auction.bidHistory[0].userId);
-
-                            let isHighestBidder = (auction.bidHistory[0].userId == userInfo.id);
-                            console.log('@# isHighestBidder=>', isHighestBidder);
-
-                            const buttonBid = $('.buttonBid');
-                            const highestBidMessage = '<div class="buttonBid">최고가 응찰 중입니다</div>';
-
-                            // 본인이 최고가 응찰자일 경우 버튼과 드롭박스를 숨기고 메시지 표시
-                            if (isHighestBidder) {
-                                buttonBid.hide();  // 버튼 숨기기
-                                buttonBid.after(highestBidMessage);  // 메시지 추가
-                            }
-                        }
-
-
-                        // 가져온 경매 데이터를 모달에 반영
-                        $('#modalBid .left h5').text("LOT " + auction.auction_lot);
-                        $('#modalBid .left h2').text(auction.auction_author);
-                        $('#modalBid .left h3').text(auction.auction_title);
-                        $('#modalBid .left h4.size').text(auction.auction_size + " | " + auction.auction_madeDate);
-                        $('#modalBid .time h4').text("호가단위 : KRW " + bidIncrement.toLocaleString());
-                        $('#modalBid .headCount .boxCurrentPrice').text("KRW " + currentPrice.toLocaleString());
-                        $('#modalBid .headCount .boxHeadCount').text("(응찰 " + auction.bidHistory.length + ")");
-
-
-                        // 남은 시간을 매초 업데이트
-                        let auctionEndTime = new Date(auction.auctionSchedule_end).getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
-
-                        // 즉시 남은 시간을 한 번 계산하여 표시
-                        $('#modalBid .time h5').text("남은시간 " + calculateRemainingTime(auctionEndTime));
-
-                        // 1초마다 업데이트
-                        setInterval(function () {
-                            let remainingTime = calculateRemainingTime(auctionEndTime);
-                            $('#modalBid .time h5').text("남은시간 " + remainingTime);
-                        }, 1000);
-
-
-                        // 기존 응찰 내역을 업데이트
-                        let bidHistory = '';
-                        auction.bidHistory.forEach(function (bid) {
-                            const maskedUserName = maskUserName(bid.userName);  // 중간 글자를 *로 마스킹
-                            bidHistory += `<div class="boxList">
+                
+                // 기존 응찰 내역을 업데이트
+                let bidHistory = '';
+                auction.bidHistory.forEach(function(bid) {
+                    const maskedUserName = maskUserName(bid.userName);  // 중간 글자를 *로 마스킹
+                    const bidMoney = bid.bidMoney.toLocaleString();
+                    bidHistory += `<div class="boxList">
                         <h3>\${maskedUserName}</h3>
-                        <h4 style="color: var(--color-burgundy);">\${bid.bidMoney}</h4>
+                        <h4 style="color: var(--color-burgundy);">\${bidMoney}</h4>
                         <h5>\${formatBidTime(bid.bidTime)}</h5>
                     </div>`;
-                        });
-                        $('#modalBid .boxCon').html(bidHistory);
-
-                        // 경매 모달을 열기
-                        // $('#modalBid').show();
-                    },
-                    error: function (err) {
-                        console.log("Error:", err);
-                    }
                 });
+                $('#modalBid .boxCon').html(bidHistory);
+
+                // 경매 모달을 열기
+                // $('#modalBid').show();
+            },
+            error: function(err) {
+                console.log("Error:", err);
             }
+        });
+    }
 
 
 
-            // 경매 남은 시간 계산 함수
-            function calculateRemainingTime(endTime) {
-                let now = new Date().getTime();  // 현재 시간
-                let distance = endTime - now;  // 남은 시간 계산 (밀리초 단위)
+    // 경매 남은 시간 계산 함수
+    function calculateRemainingTime(endTime) {
+        let now = new Date().getTime();  // 현재 시간
+        let distance = endTime - now;  // 남은 시간 계산 (밀리초 단위)
 
-                // console.log('@# now=>'+now);
-                // console.log('@# distance=>'+distance);
+        // console.log('@# now=>'+now);
+        // console.log('@# distance=>'+distance);
 
-                if (distance < 0) {
-                    return "경매 종료";  // 경매가 종료되었을 경우
-                }
+        if (distance < 0) {
+            return "경매 종료";  // 경매가 종료되었을 경우
+        }
 
-                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                // 한 자리 숫자일 때 앞에 0을 붙임
-                hours = String(hours).padStart(2, '0');
-                minutes = String(minutes).padStart(2, '0');
-                seconds = String(seconds).padStart(2, '0');
+        // 한 자리 숫자일 때 앞에 0을 붙임
+        hours = String(hours).padStart(2, '0');
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
 
-                return `\${days}일 \${hours}:\${minutes}:\${seconds}`;
-            }
+        return `\${days}일 \${hours}:\${minutes}:\${seconds}`;
+    }
 
+    
+    // 응찰 시간 포맷팅 함수
+    function formatBidTime(bidTime) {
+        const date = new Date(bidTime);
+        const year = String(date.getFullYear()).substring(2);  // 연도의 마지막 두 자리만 표시
+        const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월을 두 자리로 표시
+        const day = ('0' + date.getDate()).slice(-2);
+        const hours = ('0' + date.getHours()).slice(-2);
+        const minutes = ('0' + date.getMinutes()).slice(-2);
+        const seconds = ('0' + date.getSeconds()).slice(-2);
 
-            // 응찰 시간 포맷팅 함수
-            function formatBidTime(bidTime) {
-                const date = new Date(bidTime);
-                const year = String(date.getFullYear()).substring(2);  // 연도의 마지막 두 자리만 표시
-                const month = ('0' + (date.getMonth() + 1)).slice(-2); // 월을 두 자리로 표시
-                const day = ('0' + date.getDate()).slice(-2);
-                const hours = ('0' + date.getHours()).slice(-2);
-                const minutes = ('0' + date.getMinutes()).slice(-2);
-                const seconds = ('0' + date.getSeconds()).slice(-2);
-
-                return `\${year}.\${month}.\${day} \${hours}:\${minutes}:\${seconds}`;
-            }
-
-
-            // 호가 단위 결정 함수
-            function getBidIncrement(currentPrice) {
-                if (currentPrice < 300000) {
-                    return 20000;  // 30만원 미만
-                } else if (currentPrice < 1000000) {
-                    return 50000;  // 30만원 이상 ~ 100만원 미만
-                } else if (currentPrice < 3000000) {
-                    return 100000; // 100만원 이상 ~ 300만원 미만
-                } else if (currentPrice < 5000000) {
-                    return 200000; // 300만원 이상 ~ 500만원 미만
-                } else if (currentPrice < 10000000) {
-                    return 500000; // 500만원 이상 ~ 1000만원 미만
-                } else if (currentPrice < 30000000) {
-                    return 1000000; // 1000만원 이상 ~ 3000만원 미만
-                } else if (currentPrice < 50000000) {
-                    return 2000000; // 3000만원 이상 ~ 5000만원 미만
-                } else if (currentPrice < 200000000) {
-                    return 5000000; // 5000만원 이상 ~ 2억 미만
-                } else if (currentPrice < 500000000) {
-                    return 10000000; // 2억 이상 ~ 5억 미만
-                } else {
-                    return 20000000; // 5억 이상
-                }
-            }
+        return `\${year}.\${month}.\${day} \${hours}:\${minutes}:\${seconds}`;
+    }
 
 
-            // 이름 *로 나오게하는 함수
-            function maskUserName(userName) {
-                if (userName.length <= 2) {
-                    // 이름이 2자 이하면 마지막 글자를 *로 대체
-                    return userName.charAt(0) + '*';
-                } else {
-                    // 이름이 3자 이상일 경우 중간 글자를 *로 대체
-                    const firstChar = userName.charAt(0);
-                    const lastChar = userName.charAt(userName.length - 1);
-                    return firstChar + '*'.repeat(userName.length - 2) + lastChar;
-                }
-            }
+    // 호가 단위 결정 함수
+    function getBidIncrement(currentPrice) {
+        if (currentPrice < 300000) {
+            return 20000;  // 30만원 미만
+        } else if (currentPrice < 1000000) {
+            return 50000;  // 30만원 이상 ~ 100만원 미만
+        } else if (currentPrice < 3000000) {
+            return 100000; // 100만원 이상 ~ 300만원 미만
+        } else if (currentPrice < 5000000) {
+            return 200000; // 300만원 이상 ~ 500만원 미만
+        } else if (currentPrice < 10000000) {
+            return 500000; // 500만원 이상 ~ 1000만원 미만
+        } else if (currentPrice < 30000000) {
+            return 1000000; // 1000만원 이상 ~ 3000만원 미만
+        } else if (currentPrice < 50000000) {
+            return 2000000; // 3000만원 이상 ~ 5000만원 미만
+        } else if (currentPrice < 200000000) {
+            return 5000000; // 5000만원 이상 ~ 2억 미만
+        } else if (currentPrice < 500000000) {
+            return 10000000; // 2억 이상 ~ 5억 미만
+        } else {
+            return 20000000; // 5억 이상
+        }
+    }
 
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-            //                           나성엽 끝
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-        </script>
+
+    // 이름 *로 나오게하는 함수
+    function maskUserName(userName) {
+        if (userName.length <= 2) {
+            // 이름이 2자 이하면 마지막 글자를 *로 대체
+            return userName.charAt(0) + '*';
+        } else {
+            // 이름이 3자 이상일 경우 중간 글자를 *로 대체
+            const firstChar = userName.charAt(0);
+            const lastChar = userName.charAt(userName.length - 1);
+            return firstChar + '*'.repeat(userName.length - 2) + lastChar;
+        }
+    }
+
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+//                           나성엽 끝
+// -----------------------------------------------------------------
+// -----------------------------------------------------------------
+</script>
