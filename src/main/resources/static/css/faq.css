@@ -81,11 +81,11 @@
 	display: block
 }
 
-.userInfoWrap.active {
+.userDataWrap.active {
 	display: block;
 }
 
-.userInfoWrap,
+.userDataWrap,
 .auctionWrap,
 .commissionWrap,
 .payWrap,
