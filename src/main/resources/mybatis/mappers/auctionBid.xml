@@ -5,8 +5,8 @@
 <mapper namespace="com.boot.project_lupin.dao.AuctionBidDAO">
 
 	<insert id="insertBid" parameterType="com.boot.project_lupin.dto.AuctionBidDTO">
-		INSERT INTO bid_tb (user_id, auction_id, bid_money, bid_time)
-		VALUES (#{userId}, #{auctionId}, #{bidMoney}, NOW())
+		INSERT INTO bid_tb (user_id, auction_id, bid_money, bid_time, bid_status)
+		VALUES (#{userId}, #{auctionId}, #{bidMoney}, NOW(), #{bidStatus})
 	</insert>
 
 
@@ -16,6 +16,7 @@
 			b.auction_id AS auctionId,
 			b.bid_money AS bidMoney,
 			b.bid_time AS bidTime,
+			b.bid_status AS bidStatus,
 			u.name AS userName
 		FROM bid_tb b
 		JOIN userentity u ON b.user_id = u.id
