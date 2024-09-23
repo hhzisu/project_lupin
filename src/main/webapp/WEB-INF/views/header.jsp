@@ -23,56 +23,6 @@
             <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
         </head>
-        <style>
-            .headerMid .rightMenu {
-                display: flex;
-                margin-left: auto;
-                flex-direction: column;
-                align-items: flex-end;
-                margin-top: -30px;
-            }
-
-            .rightMenu .log {
-                display: flex;
-                margin-bottom: 10px;
-            }
-
-            .headerMid .rightMenu li .icon {
-                font-size: var(--font-size20);
-                color: var(--color-black);
-                cursor: pointer;
-            }
-
-            .headerMid .rightMenu .log {
-                font-size: var(--font-size12);
-                margin-top: 5px;
-                cursor: pointer;
-            }
-
-            /* Default style */
-            .headerMid .menu {
-                display: flex;
-                justify-content: space-around;
-                cursor: context-menu;
-                margin-right: 24px;
-            }
-
-            /* Apply when logged-in class is present */
-            .headerMid .menu.logged-in {
-                margin-right: -28px;
-            }
-
-            .userInfoWrap a.userInfo {
-                display: flex;
-                gap: 10px;
-                align-items: center;
-                color: var(--color-black);
-            }
-
-            .con4.headerCon {
-                margin-right: 35px;
-            }
-        </style>
 
         <body>
 
@@ -117,8 +67,8 @@
                             <li>
                                 <c:choose>
                                     <c:when test="${sessionScope.user.role == 1}">
-                                        <div class="userInfoWrap">
-                                            <a class="userInfo" href="userInfo">
+                                        <div class="userinformationWrap">
+                                            <a class="userInfomation" href="userInfo">
                                                 <span class="icon">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
@@ -127,8 +77,8 @@
                                         </div>
                                     </c:when>
                                     <c:when test="${sessionScope.user.role == 2}">
-                                        <div class="userInfoWrap">
-                                            <a class="userInfo" href="managerAuction">
+                                        <div class="userinformationWrap">
+                                            <a class="userInfomation" href="managerAuction">
                                                 <span class="icon">
                                                     <i class="fa-solid fa-user"></i>
                                                 </span>
@@ -138,11 +88,15 @@
                                     </c:when>
                                     <c:otherwise>
                                         <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
-                                        <a href="loginPage">
-                                            <span class="icon">
-                                                <i class="fa-solid fa-user"></i>
-                                            </span>
-                                        </a>
+                                        <div class="userinformationWrap">
+                                            <a class="userInfomation" href="loginPage">
+                                            <p style="color: var(--color-white);">고객고객</p>
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-user"></i>
+                                                </span>
+                                                <!-- <p>관리자님</p> -->
+                                            </a>
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
                             </li>
@@ -176,7 +130,7 @@
                         </div>
                         <div class="headerTab cp">
                             <a href="guideCommission">
-                                <p>위탁안내</p>
+                                <p>위탁 안내</p>
                             </a>
                         </div>
                         <div class="headerTab"></div>
@@ -206,9 +160,11 @@
                                 </c:when>
                                 <c:otherwise>
                                     <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
-                                    <a href="loginPage">
-                                        <p>위탁 신청</p>
-                                    </a>
+                                    <div class="userInfoWrap">
+                                        <a href="loginPage">
+                                            <p>위탁 신청</p>
+                                        </a>
+                                    </div>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -243,9 +199,11 @@
                                 </c:when>
                                 <c:otherwise>
                                     <!-- role이 1 또는 2가 아닌 경우에 대한 처리 -->
-                                    <a href="loginPage">
-                                        <p>1:1 문의</p>
-                                    </a>
+                                    <div class="userInfoWrap">
+                                        <a href="loginPage">
+                                            <p>1:1 문의</p>
+                                        </a>
+                                    </div>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -464,7 +422,7 @@
                     // 응찰하기 모달 열기
                     openModalBtn.addEventListener("click", function () {
                         console.log("응찰하기 버튼 클릭됨");
-                        console.log("@# 모달 열린 후 auctionId=>"+auctionId);
+                        console.log("@# 모달 열린 후 auctionId=>" + auctionId);
                         loadAuctionData(auctionId);
                         document.getElementById("modalBid").style.display = "block";
                     });
