@@ -6,23 +6,30 @@
 
     <select id="selectAuction" resultType="com.boot.project_lupin.dto.AuctionDTO" parameterType="int">
         SELECT
-            auction_id,
-            auction_lot,
-            auction_author,
-            auction_title,
-            auction_size,
-            auction_madeDate,
-            auction_materials,
-            auction_authorExp,
-            auction_startPrice,
-            auction_guessPrice,
-            auctionSchedule_id
+        a.auction_id,
+        a.auction_lot,
+        a.auction_author,
+        a.auction_title,
+        a.auction_size,
+        a.auction_madeDate,
+        a.auction_materials,
+        a.auction_authorExp,
+        a.auction_startPrice,
+        a.auction_guessPrice,
+        a.auctionSchedule_id,
+        a.auction_end_time,
+        s.auctionSchedule_start
         FROM
-            auction_tb
+        auction_tb a
+        JOIN
+        auctionSchedule_tb s
+        ON
+        a.auctionSchedule_id = s.auctionSchedule_id
         WHERE
-            auction_lot = #{auction_lot}
-            AND auctionSchedule_id = #{auctionSchedule_id}
+        a.auction_lot = #{auction_lot}
+        AND a.auctionSchedule_id = #{auctionSchedule_id}
     </select>
+
 
     <select id="auctionProgressList" resultType="com.boot.project_lupin.dto.AuctionDTO">
         <![CDATA[
@@ -37,7 +44,9 @@
             a.auction_authorExp,
             a.auction_startPrice,
             a.auction_guessPrice,
-            a.auctionSchedule_id
+            a.auctionSchedule_id,
+            s.auctionSchedule_start,
+            s.auctionSchedule_end
         FROM
             auction_tb a
         JOIN
@@ -61,7 +70,9 @@
         a.auction_authorExp,
         a.auction_startPrice,
         a.auction_guessPrice,
-        a.auctionSchedule_id
+        a.auctionSchedule_id,
+        s.auctionSchedule_start,
+        s.auctionSchedule_end
     FROM
         auction_tb a
     JOIN

@@ -27,7 +27,7 @@
     <section>
         <div class="control">
             <a href="javascript:void(0);" id="prevLink"><h5>< 이전</h5></a>
-            <h5 id="auctionDDay">마감 3일 5시간 전</h5>
+            <h5 id="auctionDDay" class="finishTime">마감 3일 5시간 전</h5>
             <a href="javascript:void(0);" id="nextLink"><h5>다음 ></h5></a>
         </div>
         <div class="detailAuction">
@@ -289,6 +289,17 @@
         var auctionId = "<c:out value='${auction.auction_id}'/>";
 
 
+        // 남은 시간을 매초 업데이트
+        let auctionEndTimer = new Date("${auction.auction_end_time}").getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
+
+        // 즉시 남은 시간을 한 번 계산하여 표시
+        $('.finishTime').text("남은시간 " + calculateRemainingTime(auctionEndTimer));
+
+        // 1초마다 업데이트
+        setInterval(function() {
+            let remainingTime = calculateRemainingTime(auctionEndTimer);
+            $('.finishTime').text("남은시간 " + remainingTime);
+        }, 1000);
 // -----------------------------------------------------------------
 //                           위시 버튼
 // -----------------------------------------------------------------

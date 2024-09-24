@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class PaymentDTO {
     private String buy_state;
 
     private String bid_money;  // 결제 금액
-    private String bid_time;  // 결제 금액
+    private Date bid_time;  // 결제 시간
 
     private String auction_title;  // 경매품 제목
     private String auction_author;  // 경매품 작가
