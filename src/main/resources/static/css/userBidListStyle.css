@@ -154,9 +154,9 @@
 
 /* 위시 리스트 중간 */
 .bidList .bidListExplain {
-	/* margin-left: -280px; */
-	margin-left: -170px;
+	margin-left: -70px;
 	height: 162px;
+	width: 200px;
 }
 .bidList .bidListExplain .authorName {
 	font-size: var(--font-size16);
@@ -176,13 +176,15 @@
 	flex-direction: column;
 	align-items: end;
 	width: 300px;
-	gap: 40px;
+	/* gap: 40px; */
+	gap: 30px;
 	border-left: solid 0.5px var(--border-color-gray);
 }
 .bidList .bidListEnd .bidListPrices {
 	/* text-align: right; */
 	/* color: var(--color-black); */
 	font-size: var(--font-size16);
+	width: 232px;
 }
 .bidList .bidListEnd .bidListPrices div {
 	display: flex;
