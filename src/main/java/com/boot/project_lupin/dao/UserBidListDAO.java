@@ -16,4 +16,5 @@ public interface UserBidListDAO {
 
     public List<AuctionDTO> getUserBidList(int userId); // 응찰 작품 정보
     public List<AuctionBidDTO> getUserBidInfo(@Param("userId") int userId, @Param("auctionId") int auctionId); // 응찰 상세 정보
+    public List<AuctionBidDTO> getUserBidInfo2(@Param("userId") int userId, @Param("auctionId") int auctionId); // 응찰 상세 정보
 }

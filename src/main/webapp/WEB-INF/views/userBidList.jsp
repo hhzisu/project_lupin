@@ -49,7 +49,9 @@
                         <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
                     </div>
                     <c:forEach items="${Bidlist}" var="Bidlist">
-                        <div class="bidList">
+                        <div class="bidList" data-attach-uploadpath1="${Bidlist.attachUploadpath1}"
+                                             data-attach-filename1="${Bidlist.attachFilename1}"
+                                             >
                             <div class="bidListImg">
                                 <div class="uploadResult">
                                     <ul>
@@ -75,7 +77,7 @@
                                     </div>
                                     <div class="currentPrice">
                                         <div>현재가</div>
-                                        <div>KRW &nbsp; 8,000,000</div>
+                                        <div class="currentPriceNum">KRW &nbsp; 8,000,000</div>
                                     </div>
                                 </div>
                                 <div>
@@ -152,28 +154,28 @@
     var modalBackground = document.getElementById("modalBackground");
 
     $('.bidDetailBtn').click(function() {
-    var auctionId = $(this).data('bid-auctionid'); // data 속성에서 auction_id 가져오기
-    var userId = userInfo.id; // 헤더에서 가져온 userInfo의 id
+        var auctionId = $(this).data('bid-auctionid'); // data 속성에서 auction_id 가져오기
+        var userId = userInfo.id; // 헤더에서 가져온 userInfo의 id
 
-    // Ajax 요청으로 서버에서 응찰 내역을 가져오기
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getBidDetail",
-        type: "GET",
-        data: {
-            auctionId: auctionId,
-            userId: userId
-        },
-        success: function(response) {
-            // 응답 받은 데이터를 모달에 표시
-            displayBidDetails(response);
-            modal.style.display = "block";
-            modalBackground.style.display = "block";
-        },
-        error: function(error) {
-            console.log("Error fetching bid details: ", error);
-        }
+        // Ajax 요청으로 서버에서 응찰 내역을 가져오기
+        $.ajax({
+            url: "getBidDetail",
+            type: "GET",
+            data: {
+                auctionId: auctionId,
+                userId: userId
+            },
+            success: function(response) {
+                // 응답 받은 데이터를 모달에 표시
+                displayBidDetails(response);
+                modal.style.display = "block";
+                modalBackground.style.display = "block";
+            },
+            error: function(error) {
+                console.log("Error fetching bid details: ", error);
+            }
+        });
     });
-});
 
     // <span> 요소(닫기 버튼)를 가져오기
     var span = document.getElementsByClassName("closeBtn")[0];
@@ -192,6 +194,40 @@
         }
     }
 
+
+    // 페이지 로드 시 foreach로 이미지 경로 업데이트
+    $('.bidList').each(function(index, element) {
+        // 이미지 불러옴
+        var auctionId = $(element).find('.bidDetailBtn').data('bid-auctionid'); // 각 리스트에서 auctionId 가져오기
+        var attachUploadPath = $(element).data('attach-uploadpath1'); // 업로드 경로
+        var attachFilename = $(element).data('attach-filename1');     // 파일 이름
+
+        // 이미지 경로 생성
+        let imagePath = `\${attachUploadPath}/\${attachFilename}`;
+        console.log("이미지 경로: " + imagePath);
+
+        // 이미지 요소에 경로 설정
+        $(element).find('.uploadResult img').attr('src', '/auctionListDisplay?fileName=' + encodeURIComponent(imagePath));
+
+
+        // 현재가 데이터 불러옴
+        var auctionCostElement = $(element).find('.currentPriceNum');  // 현재가가 표시될 요소 선택
+
+        $.ajax({
+            url: '/auctionNowPrice',
+            type: 'GET',
+            data: { auction_id: auctionId },
+            success: function (data) {
+                if (data !== null && data !== 0) {
+                    auctionCostElement.text("KRW " + Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
+            }
+        });
+    });
+    
 
     function displayBidDetails(bidDetails) {
         var modalContent = document.querySelector('.modalContent'); // 모달의 내용 부분 가져오기
@@ -226,4 +262,5 @@
 
         return year + '.' + month + '.' + day + ' ' + hours + ':' + minutes + ':' + seconds;
     }
+    
 </script>

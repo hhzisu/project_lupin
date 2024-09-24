@@ -19,6 +19,20 @@
 		ORDER BY b.bid_money DESC
 	</select>
 
+	<select id="getUserBidInfo2" resultType="com.boot.project_lupin.dto.AuctionBidDTO">
+		SELECT
+			b.user_id AS userId,
+			b.auction_id AS auctionId,
+			b.bid_money AS bidMoney,
+			b.bid_time AS bidTime,
+			b.bid_status AS bidStatus,
+			u.name AS userName
+		FROM bid_tb b
+		JOIN userentity u ON b.user_id = u.id
+		WHERE b.user_id = #{userId}
+		AND b.auction_id = #{auctionId}
+	</select>
+
 
 	<select id="getUserBidList" resultType="com.boot.project_lupin.dto.AuctionDTO">
 		SELECT DISTINCT

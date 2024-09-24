@@ -35,7 +35,7 @@ public class UserBidListService {
 
         // 해당 경매의 입찰 내역 가져오기
         for (int i = 0; i < auctions.size(); i++) {
-            List<AuctionBidDTO> bidInfo = userBidListDAO.getUserBidInfo(userId, auctions.get(i).getAuction_id());
+            List<AuctionBidDTO> bidInfo = userBidListDAO.getUserBidInfo2(userId, auctions.get(i).getAuction_id());
             log.info("@# bidInfo => " + bidInfo);
 
             auctions.get(i).setBidHistory(bidInfo);

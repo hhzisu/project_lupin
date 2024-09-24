@@ -421,10 +421,15 @@
 
                     // 응찰하기 모달 열기
                     openModalBtn.addEventListener("click", function () {
-                        console.log("응찰하기 버튼 클릭됨");
-                        console.log("@# 모달 열린 후 auctionId=>" + auctionId);
-                        loadAuctionData(auctionId);
-                        document.getElementById("modalBid").style.display = "block";
+                        if(!userInfo) {
+                            alert("로그인이 필요한 기능입니다.");
+                            location='loginPage';
+                        } else {
+                            console.log("응찰하기 버튼 클릭됨");
+                            console.log("@# 모달 열린 후 auctionId=>" + auctionId);
+                            loadAuctionData(auctionId);
+                            document.getElementById("modalBid").style.display = "block";
+                        }
                     });
 
                     // 모달 닫기 버튼
@@ -602,6 +607,7 @@
                                  : auction.auction_startPrice;
 
                 console.log('@# auction.bidHistory.length=>'+auction.bidHistory.length);
+                console.log('@# auction.bidHistory=>'+auction.bidHistory);
 
 
                 // 드롭박스에 호가 단위로 금액 추가
@@ -614,7 +620,7 @@
                 let bidIncrement = getBidIncrement(currentPrice);  // 호가 단위 결정
 
                 // 응찰자 유무로 현재가/시작가 기준 바뀜
-                if (!auction.bidHistory && auction.bidHistory.length == 0) {
+                if (!auction.bidHistory || auction.bidHistory.length == 0) {
                     console.log('시작가로 첫응찰 시작');
 
                     // 현재가에서 5단계 높은 가격까지 옵션 추가
