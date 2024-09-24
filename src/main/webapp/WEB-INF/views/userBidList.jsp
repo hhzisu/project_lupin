@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="bidDetailBtn" data-bid-history='${Bidlist.bidHistory}'>상세보기</button>
+                                    <button class="bidDetailBtn" data-bid-auctionId='${Bidlist.auction_id}'>상세보기</button>
                                 </div>
                             </div>
                             <!-- bidListEnd 끝 -->
@@ -149,6 +149,30 @@
     var modal = document.getElementById("bidDetailModal");
     var modalBackground = document.getElementById("modalBackground");
 
+    $('.bidDetailBtn').click(function() {
+    var auctionId = $(this).data('bid-auctionid'); // data 속성에서 auction_id 가져오기
+    var userId = userInfo.id; // 헤더에서 가져온 userInfo의 id
+
+    // Ajax 요청으로 서버에서 응찰 내역을 가져오기
+    $.ajax({
+        url: "${pageContext.request.contextPath}/getBidDetail",
+        type: "GET",
+        data: {
+            auctionId: auctionId,
+            userId: userId
+        },
+        success: function(response) {
+            // 응답 받은 데이터를 모달에 표시
+            displayBidDetails(response);
+            modal.style.display = "block";
+            modalBackground.style.display = "block";
+        },
+        error: function(error) {
+            console.log("Error fetching bid details: ", error);
+        }
+    });
+});
+
     // <span> 요소(닫기 버튼)를 가져오기
     var span = document.getElementsByClassName("closeBtn")[0];
 
@@ -166,42 +190,27 @@
         }
     }
 
-    // 상세보기 버튼 클릭 시 bidHistory 데이터를 모달에 표시
-    $(document).ready(function() {
-        $('.bidDetailBtn').click(function() {
-            // 버튼의 data-bid-history 속성에서 JSON 문자열을 가져옴
-            var bidHistoryData = $(this).data('bid-history');
-            console.log("@# 팝업 쪽 bidHistoryData=>"+bidHistoryData);
-            
-            // JSON 문자열을 객체 배열로 변환
-            // var bidHistoryArray = typeof bidHistoryData === 'string' ? JSON.parse(bidHistoryData) : bidHistoryData;
-            // console.log("@# bidHistoryArray=>"+bidHistoryArray);
 
-            // bidHistoryArray가 있으면 모달에 표시
-            if (bidHistoryData && bidHistoryData.length > 0) {
-                
-                var modalContent = '';
+    function displayBidDetails(bidDetails) {
+        var modalContent = document.querySelector('.modalContent'); // 모달의 내용 부분 가져오기
 
-                bidHistoryData.forEach(function(bid) {
-                    modalContent += '<div class="bidDetailContent">';
-                    modalContent += '<div class="bidingPrice">KRW ' + bid.bidMoney.toLocaleString() + '</div>';
-                    modalContent += '<div class="bidingDate">' + formatBidTime(bid.bidTime) + '</div>';
-                    modalContent += '<div class="bidingMethod">' + (bid.isAutoBid ? '자동 응찰' : '1회 응찰') + '</div>';
-                    modalContent += '<div class="bidingNote">' + (bid.isWinningBid ? '낙찰' : '') + '</div>';
-                    modalContent += '</div>';
-                });
+        // 이전에 표시된 상세 정보를 지우기
+        $('.bidDetailContent').remove();
 
-                // 모달 내부에 데이터를 삽입
-                $('#bidDetailModal .modalContent').html(modalContent);
-
-                // 모달 열기
-                modal.style.display = "block";
-                modalBackground.style.display = "block";
-            } else {
-                alert("응찰 내역이 없습니다.");
-            }
+        // 응답 받은 데이터로 모달 내용 채우기
+        bidDetails.forEach(function(detail) {
+            var bidDetailContent = `
+                <div class="bidDetailContent">
+                    <div class="bidingPrice">KRW \${detail.bidMoney.toLocaleString()}</div>
+                    <div class="bidingDate">\${formatBidTime(detail.bidTime)}</div>
+                    <div class="bidingMethod">\${detail.bidStatus}</div>
+                    <div class="bidingNote"></div>
+                </div>
+            `;
+            modalContent.innerHTML += bidDetailContent;
         });
-    });
+    }
+
 
     // 응찰 시간을 포맷하는 함수
     function formatBidTime(bidTime) {
