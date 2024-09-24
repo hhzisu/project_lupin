@@ -162,8 +162,8 @@
 
 /* 위시 리스트 중간 */
 .buyList .buyListExplain {
-	/* margin-left: -280px; */
-	margin-left: -170px;
+	width: 200px;
+	margin-left: -70px;
 	height: 162px;
 }
 .buyList .buyListExplain .authorName {
@@ -197,6 +197,13 @@
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 4px;
+}
+
+.buyList .buyListEnd .buyListPrices .priceArray
+{
+	display: flex;
+	justify-content: space-between;
+	width: 120px;
 }
 
 
