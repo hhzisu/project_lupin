@@ -26,7 +26,7 @@
     <div class="body">
     <div class="section">
         <div class="auctionProgress">
-            <h5>경매 마감 3일 5시간 20분 3초 전</h5>
+            <h5 class="finishTime">경매 마감 3일 5시간 20분 3초 전</h5>
             <div class="tab">
                 <a href="auctionProgress"><h4 class="active">진행 경매</h4></a>
                 <a href="auctionScheduled"><h4>예정 경매</h4></a>
@@ -137,6 +137,18 @@
             }
 
         });
+
+        // 남은 시간을 매초 업데이트
+        let auctionEndTimer = new Date("${list[0].auctionSchedule_end}").getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
+
+        // 즉시 남은 시간을 한 번 계산하여 표시
+        $('.finishTime').text("경매 마감 -" + calculateRemainingTime(auctionEndTimer));
+
+        // 1초마다 업데이트
+        setInterval(function() {
+            let remainingTime = calculateRemainingTime(auctionEndTimer);
+            $('.finishTime').text("경매 마감 -" + remainingTime);
+        }, 1000);
     });
 
     function showUploadResult(uploadResultArr, uploadResultContainer) {

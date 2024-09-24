@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,11 +77,11 @@
 <%--                                    </div>--%>
                                     <div class="bidDate">
                                         <div class="bidDateTitle">응찰일</div>
-                                        <div>${buyList.bid_time}</div>
+                                        <div><fmt:formatDate value="${buyList.bid_time}" pattern="yyyy.MM.dd" /></div>
                                     </div>
                                     <div class="endPrice">
                                         <div>낙찰가</div>
-                                        <div>KRW &nbsp; ${buyList.bid_money}</div>
+                                        <div>KRW &nbsp; <fmt:formatNumber value="${buyList.bid_money}" type="number" groupingUsed="true" /></div>
                                     </div>
                                     <div class="bidFee">
                                         <div>낙찰 수수료</div>
