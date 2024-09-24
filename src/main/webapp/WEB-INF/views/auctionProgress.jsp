@@ -135,7 +135,6 @@
                     }
                 });
             }
-
         });
 
         // 남은 시간을 매초 업데이트
@@ -150,6 +149,16 @@
             $('.finishTime').text("경매 마감 -" + remainingTime);
         }, 1000);
     });
+ 
+ 
+    // 서버로부터 경매 업데이트 메시지를 받으면 처리
+    stompClient.subscribe('/sub/auctionUpdates', function (message) {
+        var auctionUpdate = JSON.parse(message.body);
+        console.log('경매 업데이트: ', auctionUpdate);
+
+        getNowPrice(auctionId);
+    });
+    
 
     function showUploadResult(uploadResultArr, uploadResultContainer) {
         if (!uploadResultArr || uploadResultArr.length == 0) {

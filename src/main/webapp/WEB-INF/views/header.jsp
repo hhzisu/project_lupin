@@ -558,7 +558,6 @@
             console.log('경매 업데이트: ', auctionUpdate);
 
             loadAuctionData(auctionId);
-            // getNowPrice(auctionId);
         });
     });
 
@@ -800,27 +799,27 @@
 // -----------------------------------------------------------------
 
     // 경매 아이디로 현재가 불러오는 함수
-    function getNowPrice(auctionId) {
-        var auctionElement = $(".auction[data-auction-id='" + auctionId + "']");
-        var auctionCostElement = auctionElement.find('.nowPrice');  // 현재가가 표시될 요소 선택
-        var startPriceElement = auctionElement.find('.startPrice'); // 시작가 요소 선택
-        var startPrice = startPriceElement.data('price'); // 시작가 값
+    // function getNowPrice(auctionId) {
+    //     var auctionElement = $(".auction[data-auction-id='" + auctionId + "']");
+    //     var auctionCostElement = auctionElement.find('.nowPrice');  // 현재가가 표시될 요소 선택
+    //     var startPriceElement = auctionElement.find('.startPrice'); // 시작가 요소 선택
+    //     var startPrice = startPriceElement.data('price'); // 시작가 값
 
-        $.ajax({
-            url: '/auctionNowPrice',
-            type: 'GET',
-            data: { auction_id: auctionId },
-            success: function (data) {
-                if (data !== null && data !== 0) {
-                    auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
-                } else {
-                    auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없을 때는 시작가로 표시
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
-                auctionCostElement.text(Number(startPrice).toLocaleString());  // 오류 발생 시에도 시작가로 표시
-            }
-        });
-    }
+    //     $.ajax({
+    //         url: '/auctionNowPrice',
+    //         type: 'GET',
+    //         data: { auction_id: auctionId },
+    //         success: function (data) {
+    //             if (data !== null && data !== 0) {
+    //                 auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+    //             } else {
+    //                 auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없을 때는 시작가로 표시
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
+    //             auctionCostElement.text(Number(startPrice).toLocaleString());  // 오류 발생 시에도 시작가로 표시
+    //         }
+    //     });
+    // }
 </script>
