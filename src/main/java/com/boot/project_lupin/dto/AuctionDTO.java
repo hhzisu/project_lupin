@@ -39,7 +39,7 @@ public class AuctionDTO {
     private String attachUuid1; // uuid
     private String attachUploadpath1;  // 경로
     private String attachFilename1; // 파일이름
-}
+
 
     private int bid_id;
     private int bid_money;
