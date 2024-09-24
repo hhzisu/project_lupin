@@ -45,4 +45,9 @@ public class UserBidListService {
         return auctions;
     }
 
+
+    public List<AuctionBidDTO> getBidDetail(int auctionId, int userId) {
+        return userBidListDAO.getUserBidInfo(userId, auctionId);
+    }
+
 }

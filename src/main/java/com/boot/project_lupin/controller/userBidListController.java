@@ -1,6 +1,7 @@
 package com.boot.project_lupin.controller;
 
 
+import com.boot.project_lupin.dto.AuctionBidDTO;
 import com.boot.project_lupin.dto.AuctionDTO;
 import com.boot.project_lupin.dto.CustomOAuth2User;
 import com.boot.project_lupin.dto.UserInfoDTO;
@@ -11,10 +12,13 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -51,6 +55,15 @@ public class userBidListController {
 		}
 
 		return "userBidList";
+	}
+
+
+	@GetMapping("/getBidDetail")
+	@ResponseBody
+	public List<AuctionBidDTO> getBidDetail(@RequestParam("auctionId") int auctionId, @RequestParam("userId") int userId) {
+		// auctionId와 userId로 응찰 내역 조회
+		List<AuctionBidDTO> bidDetails = userBidListService.getBidDetail(auctionId, userId);
+		return bidDetails;
 	}
 	
 }
