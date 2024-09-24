@@ -336,6 +336,8 @@ section
 	cursor: pointer;
 	width: inherit;
 	height: inherit;
+	justify-content: center;
+	align-items: center;
 }
 
 /* 입찰하기 버튼 (응찰 한 번 하면 입찰하기 버튼으로 변경) */

@@ -81,15 +81,24 @@
                                     </div>
                                     <div class="endPrice">
                                         <div>낙찰가</div>
-                                        <div>KRW &nbsp; <fmt:formatNumber value="${buyList.bid_money}" type="number" groupingUsed="true" /></div>
+                                        <div class="priceArray">
+                                            <div>KRW</div>
+                                            <div><fmt:formatNumber value="${buyList.bid_money}" type="number" groupingUsed="true" /></div>
+                                        </div>
                                     </div>
                                     <div class="bidFee">
                                         <div>낙찰 수수료</div>
-                                        <div>KRW &nbsp; <span class="bid_fee" data-money="${buyList.bid_money}"></span></div>
+                                        <div class="priceArray">
+                                            <div>KRW</div>
+                                            <div><span class="bid_fee" data-money="${buyList.bid_money}"></span></div>
+                                        </div>
                                     </div>
                                     <div class="bidFee" style="color: black">
                                         <div>총 결제 액</div>
-                                        <div>KRW &nbsp; <span class="bid_total"></span></div>
+                                        <div class="priceArray">
+                                            <div>KRW</div>
+                                            <div><span class="bid_total"></span></div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div>

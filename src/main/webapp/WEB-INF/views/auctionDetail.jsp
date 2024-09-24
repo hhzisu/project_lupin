@@ -25,11 +25,19 @@
 
 <div class="mainSection">
     <section>
-        <div class="control">
-            <a href="javascript:void(0);" id="prevLink"><h5>< 이전</h5></a>
-            <h5 id="auctionDDay" class="finishTime">마감 3일 5시간 전</h5>
-            <a href="javascript:void(0);" id="nextLink"><h5>다음 ></h5></a>
-        </div>
+            <div class="control finish" style="justify-content: center">
+                <h5>종료된 경매</h5>
+            </div>
+            <div class="control progress">
+                <a href="javascript:void(0);" class="prevLink"><h5>< 이전</h5></a>
+                <h5 class="finishTime">마감 3일 5시간 전</h5>
+                <a href="javascript:void(0);" class="nextLink"><h5>다음 ></h5></a>
+            </div>
+            <div class="control schedule">
+                <a href="javascript:void(0);" class="prevLink"><h5>< 이전</h5></a>
+                <h5 class="startTime">경매 시작 3일 5시간 전</h5>
+                <a href="javascript:void(0);" class="nextLink"><h5>다음 ></h5></a>
+            </div>
         <div class="detailAuction">
             <div class="left">
                 <div class="auctionImg">
@@ -96,8 +104,15 @@
                                 <h5 class="startPrice" data-price="${auction.auction_startPrice}"><fmt:formatNumber value="${auction.auction_startPrice}" type="number" groupingUsed="true" /></h5>
                             </div>
                         </div>
-                        <div class="auctionCost">
+                        <div class="auctionCost progress">
                             <h5 style="color: #111;">현재가</h5>
+                            <div class="money">
+                                <h4>KRW</h4>
+                                <h5 class="nowPrice">12,500,000</h5>
+                            </div>
+                        </div>
+                        <div class="auctionCost finish">
+                            <h5 style="color: #111;">낙찰가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
                                 <h5 class="nowPrice">12,500,000</h5>
@@ -116,10 +131,10 @@
                             </div>
                         </div>
                         <div class="auctionButton">
-                            <button id="openModalBidBtn">응찰하기</button>
-                            <button class="bid" style="display: none;">입찰하기</button>
-                            <button class="disable" style="display: none;">경매 종료</button>
-                            <button class="disable" style="display: none;">경매 예정</button>
+                            <button class="progress" id="openModalBidBtn">응찰하기</button>
+<%--                            <button class="bid" style="display: none;">입찰하기</button>--%>
+                            <button class="disable finish" style="display: none;">경매 종료</button>
+                            <button class="disable schedule" style="display: none;">경매 예정</button>
                         </div>
                     </div>
                 </div> <!--positionBox 끝-->
@@ -236,27 +251,54 @@
         console.log("currentLot:", currentLot);
         console.log("totalLots:", totalLots);
 
+        // // 이전 및 다음 링크 설정
+        // var prevLink = document.getElementById("prevLink");
+        // var nextLink = document.getElementById("nextLink");
+        //
+        // // 이전 링크 클릭 이벤트
+        // prevLink.onclick = function() {
+        //     if (currentLot > 1) { // 이전 항목이 존재한다고 가정
+        //         window.location.href = "auctionDetail?auction_lot=" + (currentLot - 1) + "&auctionSchedule_id=" + auctionScheduleId;
+        //     } else {
+        //         alert("이전 경매 항목이 없습니다.");
+        //     }
+        // };
+        //
+        // // 다음 링크 클릭 이벤트
+        // nextLink.onclick = function() {
+        //     if (currentLot < totalLots) { // 다음 항목이 존재한다고 가정
+        //         window.location.href = "auctionDetail?auction_lot=" + (currentLot + 1) + "&auctionSchedule_id=" + auctionScheduleId;
+        //     } else {
+        //         alert("다음 경매 항목이 없습니다.");
+        //     }
+        // };
+
         // 이전 및 다음 링크 설정
-        var prevLink = document.getElementById("prevLink");
-        var nextLink = document.getElementById("nextLink");
+        var prevLinks = document.querySelectorAll(".prevLink");
+        var nextLinks = document.querySelectorAll(".nextLink");
 
         // 이전 링크 클릭 이벤트
-        prevLink.onclick = function() {
-            if (currentLot > 1) { // 이전 항목이 존재한다고 가정
-                window.location.href = "auctionDetail?auction_lot=" + (currentLot - 1) + "&auctionSchedule_id=" + auctionScheduleId;
-            } else {
-                alert("이전 경매 항목이 없습니다.");
-            }
-        };
+        prevLinks.forEach(function(prevLink) {
+            prevLink.onclick = function() {
+                if (currentLot > 1) { // 이전 항목이 존재한다고 가정
+                    window.location.href = "auctionDetail?auction_lot=" + (currentLot - 1) + "&auctionSchedule_id=" + auctionScheduleId;
+                } else {
+                    alert("이전 경매 항목이 없습니다.");
+                }
+            };
+        });
 
         // 다음 링크 클릭 이벤트
-        nextLink.onclick = function() {
-            if (currentLot < totalLots) { // 다음 항목이 존재한다고 가정
-                window.location.href = "auctionDetail?auction_lot=" + (currentLot + 1) + "&auctionSchedule_id=" + auctionScheduleId;
-            } else {
-                alert("다음 경매 항목이 없습니다.");
-            }
-        };
+        nextLinks.forEach(function(nextLink) {
+            nextLink.onclick = function() {
+                if (currentLot < totalLots) { // 다음 항목이 존재한다고 가정
+                    window.location.href = "auctionDetail?auction_lot=" + (currentLot + 1) + "&auctionSchedule_id=" + auctionScheduleId;
+                } else {
+                    alert("다음 경매 항목이 없습니다.");
+                }
+            };
+        });
+
 
         // "낙찰 수수료" 버튼 클릭 시 모달1 표시
         document.querySelector(".guidebtn:first-child").onclick = function() {
@@ -285,6 +327,28 @@
     });
 
     $(document).ready(function () {
+
+        var auctionEndTime = new Date("${auction.auction_end_time}").getTime(); // auction_end_time 가져오기
+        var auctionStartTime = new Date("${auction.auctionSchedule_start}").getTime(); // auctionSchedule_start 가져오기
+        var currentTime = new Date().getTime(); // 현재 시간
+
+        if (currentTime >= auctionEndTime) {
+            // 경매가 종료되었을 경우
+            $('.progress').css('display', 'none'); // 진행중인 내용 숨기기
+            $('.finish').css('display', 'flex'); // 종료된 내용 보이기
+            $('.schedule').css('display', 'none'); // 예정 내용 숨기기
+        }else if(currentTime <= auctionStartTime){
+            // 경매 시작 전일 경우
+            $('.progress').css('display', 'none'); // 진행중인 내용 숨기기
+            $('.finish').css('display', 'none'); // 종료된 내용 보이기
+            $('.schedule').css('display', 'flex'); // 예정 내용 숨기기
+        }else {
+            // 경매가 아직 진행 중일 경우
+            $('.progress').css('display', 'flex'); // 진행중인 내용보이기
+            $('.finish').css('display', 'none'); // 종료된 내용 숨기기
+            $('.schedule').css('display', 'none'); // 예정 내용 숨기기
+        }
+
         // auction_id 값을 가져옴
         var auctionId = "<c:out value='${auction.auction_id}'/>";
 
@@ -300,7 +364,18 @@
             let remainingTime = calculateRemainingTime(auctionEndTimer);
             $('.finishTime').text("남은시간 " + remainingTime);
         }, 1000);
-// -----------------------------------------------------------------
+
+        // 남은 시간을 매초 업데이트
+        let auctionStartTimer = new Date("${auction.auctionSchedule_start}").getTime();  // 종료 시간 (ISO 형식으로 변환 가능)
+
+        // 즉시 남은 시간을 한 번 계산하여 표시
+        $('.startTime').text("경매 시작 -" + calculateRemainingTime(auctionStartTimer));
+
+        // 1초마다 업데이트
+        setInterval(function() {
+            let remainingTime = calculateRemainingTime(auctionStartTimer);
+            $('.startTime').text("경매 시작 -" + remainingTime);
+        }, 1000);// -----------------------------------------------------------------
 //                           위시 버튼
 // -----------------------------------------------------------------
 
