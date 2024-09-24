@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +58,7 @@
                                 </div>
                             </div>
                             <div class="bidListExplain">
-                                <div class="WishListLotNum">${Bidlist.auction_lot}</div>
+                                <div class="WishListLotNum">LOT ${Bidlist.auction_lot}</div>
                                 <div class="authorName">${Bidlist.auction_author}</div>
                                 <div class="workName">${Bidlist.auction_title}</div>
                             </div>
@@ -65,11 +66,12 @@
                                 <div class="bidListPrices">
                                     <div class="bidPrice">
                                         <div>응찰가</div>
-                                        <div>KRW &nbsp; ${Bidlist.bidHistory[0].bidMoney}</div>
+                                        <!-- <div>KRW &nbsp; ${Bidlist.bidHistory[0].bidMoney}</div> -->
+                                        <div>KRW &nbsp; <fmt:formatNumber value="${Bidlist.bidHistory[0].bidMoney}" type="number" groupingUsed="true" /></div>
                                     </div>
                                     <div class="bidDate">
                                         <div class="bidDateTitle">응찰일</div>
-                                        <div>${Bidlist.bidHistory[0].bidTime}</div>
+                                        <div><fmt:formatDate value="${Bidlist.bidHistory[0].bidTime}" pattern="yyyy.MM.dd" /></div>
                                     </div>
                                     <div class="currentPrice">
                                         <div>현재가</div>
