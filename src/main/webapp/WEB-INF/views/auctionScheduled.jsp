@@ -60,7 +60,7 @@
                             <h5>시작가</h5>
                             <div class="money">
                                 <h4>KRW</h4>
-                                <h5>${list.auction_startPrice}</h5>
+                                <h5 class="startPrice" data-price="${list.auction_startPrice}">${list.auction_startPrice}</h5>
                             </div>
                         </div>
                         <div class="bidButton">
@@ -79,6 +79,8 @@
 </html>
 <script>
     $(document).ready(function () {
+
+        formatAuctionPrices();
 
         // auction클래스 반복하면서 데이터 가져옴
         $('.auction').each(function () {
@@ -124,6 +126,21 @@
         uploadResultContainer.empty().append(str);
     }
 
+    // 숫자에 천 단위로 콤마를 추가하는 함수
+    function formatAuctionPrices() {
+        $('.auction').each(function () {
+            // 시작가에 대한 처리
+            var startPriceElement = $(this).find('.startPrice');
+            var startPrice = startPriceElement.data('price');
+
+            if (startPrice) {
+                startPriceElement.text(Number(startPrice).toLocaleString()); // 시작가에 콤마 적용
+            }
+
+        });
+    }
+
+
     // 검색어가 입력될 때마다 실행되는 함수
     function searchAuction() {
         var query = $("#searchQuery").val(); // 검색창에서 검색어를 가져옴
@@ -155,6 +172,7 @@
                     $("#auctionList .auction").each(function () {
                         var auctionId = $(this).data("auction-id");
                         loadAuctionImage(auctionId); // 각 경매 항목에 대해 이미지 로드 함수 호출
+                        formatAuctionPrices();
                     });
                 },
                 error: function (xhr, status, error) {
@@ -193,7 +211,7 @@
                         <h5>시작가</h5>
                         <div class="money">
                             <h4>KRW</h4>
-                            <h5>\${list.auction_startPrice}</h5>
+                            <h5 class="startPrice" data-price="\${list.auction_startPrice}">\${list.auction_startPrice}</h5>
                         </div>
                     </div>
                     <div class="bidButton">
@@ -204,6 +222,8 @@
             auctionListDiv.append(auctionHtml); // 새로운 경매 항목 추가
             // 각 경매 항목에 대해 이미지 로드 함수 호출
             loadAuctionImage(list.auction_id);
+            // 검색 후에도 가격 포맷 적용
+            formatAuctionPrices();
         });
     }
 
