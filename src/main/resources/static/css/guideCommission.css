@@ -90,13 +90,13 @@ hr.headLine {
 
 .box {
 	display: flex;
-	margin-top: 20px;
-	width: 1440px;
-	height: 300px;
-	border: 1px solid #b1b1b1;
-	justify-content: center;
-	align-items: center;
-	gap: 130px;
+    margin-top: 20px;
+    width: 1440px;
+    height: 300px;
+    border: 1px solid #b1b1b1;
+    gap: 130px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .box .minibox {
@@ -107,12 +107,13 @@ hr.headLine {
 }
 
 .minibox .num {
-	font-size: var(--font-size24);
-	margin: 15px 0 20px;
+	font-size: var(--font-size20);
+	margin: 15px 0 5px;
+	font-weight: 600;
 }
 
 .minibox .box_content {
-	font-size: var(--font-size20);
+	font-size: var(--font-size16);
 }
 
 .radius {
@@ -121,6 +122,7 @@ hr.headLine {
 	border-radius: 70%;
 	background-color: #C5D7F2;
 	position: relative;
+	margin-top: 55px;
 }
 
 .radiusIcon {
