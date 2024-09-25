@@ -5,13 +5,14 @@
 <mapper namespace="com.boot.project_lupin.dao.ManagerDAO">
 
 	<insert id="insertSchedule" parameterType="com.boot.project_lupin.dto.AuctionScheduleDTO">
-	    INSERT INTO auctionschedule_tb
-	    (
-			auctionSchedule_start, auctionSchedule_end
-	    )
-	    VALUES
-	    (
-			#{auctionSchedule_start}, #{auctionSchedule_end}
+		INSERT INTO auctionschedule_tb
+		(
+		auctionSchedule_start, auctionSchedule_end
+		)
+		VALUES
+		(
+		CONCAT(#{auctionSchedule_start}, ' 12:00:00'),
+		CONCAT(#{auctionSchedule_end}, ' 14:00:00')
 		)
 	</insert>
 
@@ -31,8 +32,8 @@
 
 	<update id="scheduleModify">
 		UPDATE auctionschedule_tb
-		SET auctionSchedule_start = #{auctionSchedule_start},
-			auctionSchedule_end = #{auctionSchedule_end}
+		SET auctionSchedule_start = CONCAT(#{auctionSchedule_start}, ' 12:00:00'),
+		auctionSchedule_end = CONCAT(#{auctionSchedule_end}, ' 14:00:00')
 		WHERE auctionSchedule_id = #{auctionSchedule_id}
 	</update>
 
@@ -65,7 +66,8 @@
 		auction_authorExp,
 		auction_startPrice,
 		auction_guessPrice,
-		auctionSchedule_id
+		auctionSchedule_id,
+		auction_end_time
 		) VALUES (
 		#{auction_lot},
 		#{auction_author},
@@ -76,9 +78,11 @@
 		#{auction_authorExp},
 		#{auction_startPrice},
 		#{auction_guessPrice},
-		#{auctionSchedule_id}
+		#{auctionSchedule_id},
+		(SELECT auctionSchedule_end FROM auctionSchedule_tb WHERE auctionSchedule_id = #{auctionSchedule_id})
 		)
 	</insert>
+
 
 	<select id="commissionList" resultType="com.boot.project_lupin.dto.CommissionDTO" parameterType="int">
 		SELECT

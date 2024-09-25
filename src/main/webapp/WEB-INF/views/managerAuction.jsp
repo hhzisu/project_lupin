@@ -57,8 +57,8 @@
                                                 <div class="progressiveAuction">
                                                     <div class="leftBox">
                                                         <p>진행 경매</p>
-                                                        <p>${dto.auctionSchedule_start} 12:00 ~
-                                                            ${dto.auctionSchedule_end} 18:00</p>
+                                                        <p>${dto.auctionSchedule_start} ~
+                                                            ${dto.auctionSchedule_end}</p>
                                                     </div>
                                                     <div class="rightBox">
                                                         <a href="auctionProgress">
@@ -70,21 +70,14 @@
                                                 </div>
                                             </c:when>
 
-                                            <c:otherwise>
+                                            <c:when test="${currentDateTime < dto.auctionSchedule_start}">
                                                 <div class="expectAuction">
                                                     <div class="leftBox">
                                                         <p>예정 경매</p>
-                                                        <p>${dto.auctionSchedule_start} 12:00 ~
-                                                            ${dto.auctionSchedule_end} 18:00</p>
+                                                        <p>${dto.auctionSchedule_start} ~ ${dto.auctionSchedule_end}</p>
                                                     </div>
                                                     <div class="rightBox">
-                                                        <div class="management btn">
-                                                            <a href="auctionScheduled">
-                                                                <p>관리</p>
-                                                            </a>
-                                                        </div>
-                                                        <div class="modify btn"
-                                                            onclick="location.href='managerAuctionModify?auctionSchedule_id=${dto.auctionSchedule_id}'">
+                                                        <div class="modify btn" onclick="location.href='managerAuctionModify?auctionSchedule_id=${dto.auctionSchedule_id}'">
                                                             <p>수정</p>
                                                         </div>
                                                         <div class="delete btn" data-id="${dto.auctionSchedule_id}">
@@ -92,7 +85,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </c:otherwise>
+                                            </c:when>
                                         </c:choose>
                                     </c:forEach>
                                 </div>
