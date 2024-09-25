@@ -1,6 +1,7 @@
 package com.boot.project_lupin.service;
 
 import com.boot.project_lupin.dao.AuctionBidDAO;
+import com.boot.project_lupin.dao.PaymentDAO;
 import com.boot.project_lupin.dao.UserBidListDAO;
 import com.boot.project_lupin.dto.AuctionBidDTO;
 import com.boot.project_lupin.dto.AuctionDTO;
@@ -47,7 +48,23 @@ public class UserBidListService {
 
 
     public List<AuctionBidDTO> getBidDetail(int auctionId, int userId) {
+        log.info("@# UserBidListService getBidDetail");
+
         return userBidListDAO.getUserBidInfo(userId, auctionId);
+    }
+
+    public int selectHighestBid(int auctionId) {
+        log.info("@# UserBidListService selectHighestBid");
+
+        PaymentDAO paymentDAO = sqlSession.getMapper(PaymentDAO.class);
+
+        Integer highestBid = paymentDAO.endHighestBid(auctionId);
+        // null 값일 경우 0으로 처리
+        if (highestBid == null) {
+            return 0;
+        }
+
+        return highestBid;
     }
 
 }

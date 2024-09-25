@@ -47,5 +47,7 @@ public class AuctionDTO {
     private String bid_time;
 
     private int nowPrice; //현재가
+
+    private int endHighestPrice; // 낙찰가
 }
 

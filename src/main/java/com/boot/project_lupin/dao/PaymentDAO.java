@@ -14,6 +14,10 @@ public interface PaymentDAO {
 	public void  updateBuyState(PaymentDTO paymentDTO); //결제 완료 후 buy_state와 buy_date 업데이트
 
 	public AuctionBidDTO selectHighestBid(int auctionId); // 낙찰자 정보
+	public Integer endHighestBid(int auctionId); // 낙찰자 정보
 	public void insertBuyInfo(PaymentDTO buy); // 낙찰자 데이터 입력
-	public int[] selectEndedAuctions(LocalDateTime now); // 경매 종료된 모든 물품 조회
+//	public int[] selectEndedAuctions(LocalDateTime now); // 경매 종료된 모든 물품 조회
+	public List<Integer> selectEndedAuctions(); // 경매 종료된 모든 물품 조회
+
+	public Integer checkPaymentExist(int auctionId); // 특정 물품 구매 테이블에 데이터 존재 유무
 }

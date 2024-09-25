@@ -22,4 +22,6 @@ public class AuctionBidDTO {
 
     private String bidStatus; // 응찰 방법
 
+    private int endHighestPrice; // 낙찰가
+
 }

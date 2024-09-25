@@ -49,6 +49,13 @@ public class userBidListController {
 			List<AuctionDTO> Bidlist = userBidListService.getBidList(loginUser.getId());
 			log.info("@# Bidlist => " + Bidlist);
 
+            for (AuctionDTO auctionDTO : Bidlist) {
+                int endHighestPrice = userBidListService.selectHighestBid(auctionDTO.getAuction_id());
+				log.info("@# " + auctionDTO.getAuction_id() + "번 endHighestPrice => " + endHighestPrice);
+
+				auctionDTO.setEndHighestPrice(endHighestPrice);
+            }
+
 			model.addAttribute("Bidlist", Bidlist);
 		} else {
 			log.info("사용자 정보가 없습니다.");
@@ -63,6 +70,14 @@ public class userBidListController {
 	public List<AuctionBidDTO> getBidDetail(@RequestParam("auctionId") int auctionId, @RequestParam("userId") int userId) {
 		// auctionId와 userId로 응찰 내역 조회
 		List<AuctionBidDTO> bidDetails = userBidListService.getBidDetail(auctionId, userId);
+
+		for (AuctionBidDTO auctionBidDTO : bidDetails) {
+			int endHighestPrice = userBidListService.selectHighestBid(auctionBidDTO.getAuctionId());
+			log.info("@# " + auctionBidDTO.getAuctionId() + "번 endHighestPrice => " + endHighestPrice);
+
+			auctionBidDTO.setEndHighestPrice(endHighestPrice);
+		}
+
 		return bidDetails;
 	}
 	
