@@ -201,8 +201,8 @@ position: relative;
 .modalBid-content {
     background-color: white;
     margin: 10% auto;
-    width: 630px;
-    height: 400px;
+    width: 660px;
+    height: 433px;
     position: relative;
 }
 
@@ -214,7 +214,7 @@ position: relative;
 
 .close-btn {
     position: absolute;
-    top: 12px;
+    top: 10px;
     right: 10px;
     font-size: 24px;
     cursor: pointer;
@@ -222,11 +222,15 @@ position: relative;
 
 .modalBid .bidCon {
     display: flex;
-    margin: 20px;
+    margin: 28px 20px 20px;
     justify-content: space-between;
 
 }
 
+.modalBid .bidCon .left
+{
+    margin-left: 18px;
+}
 
 .modalBid .bidCon .left .auctionImg .uploadResult {
     width: 180px;
@@ -257,21 +261,21 @@ position: relative;
 .modalBid .bidCon .left h3 {
     font-weight: 300;
     font-size: var(--font-size14);
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
 .modalBid .bidCon .left h4 {
     font-weight: 300;
     font-size: var(--font-size14);
     color: var(--color-gray);
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
 .modalBid .bidCon .right {
-    width: 360px;
+    width: 370px;
     display: flex;
     flex-direction: column;
-    margin: 0 28px;
+    margin: 0px 18px 0px 28px;
 }
 
 .modalBid .bidCon .right .time {
@@ -281,35 +285,36 @@ position: relative;
 }
 
 .modalBid .bidCon .right .time h5 {
-    font-size: var(--font-size12);
+    font-size: var(--font-size14);
     font-weight: 300;
     color: var(--color-gray);
 }
 
 .modalBid .bidCon .right .time h4 {
-    font-size: var(--font-size12);
+    font-size: var(--font-size14);
     font-weight: 300;
 }
 
 .modalBid .bidCon .right .box {
-    width: 360px;
+    width: 370px;
     height: 200px;
     margin-top: 8px;
     border: 0.5px solid var(--border-color-gray);
 }
 
 .modalBid .bidCon .right .boxHead {
-    height: 20px;
+    height: 30px;
     background-color: var(--color-black);
     display: flex;
     color: var(--color-white);
     align-items: center;
     justify-content: space-between;
-    padding: 0 4px;
+    padding: 0 10px;
+    margin-bottom: 4px;
 }
 
 .modalBid .bidCon .right .boxHead h4 {
-    font-size: var(--font-size12);
+    font-size: var(--font-size14);
     font-weight: 300;
 }
 
@@ -320,46 +325,49 @@ position: relative;
 .modalBid .bidCon .right .boxCon {
     display: flex;
     flex-direction: column;
-    height: 180px;
+    height: 167px;
     overflow: auto;
     overflow-x: hidden;
 }
 
 .modalBid .bidCon .right .boxCon .boxList {
     display: flex;
-    justify-content: space-around;
-    margin: 4px 2px;
+    margin: 6px 2px;
+    align-items: center;
 }
 
 .modalBid .bidCon .right .boxCon .boxList h3 {
     width: 40px;
     font-size: var(--font-size14);
     font-weight: 300;
+    margin-left: 12px;
 }
 
 .modalBid .bidCon .right .boxCon .boxList h4 {
-    width: 90px;
+    width: 120px;
     font-size: var(--font-size14);
     font-weight: 300;
     text-align: right;
 }
 
 .modalBid .bidCon .right .boxCon .boxList h5 {
-    width: 60px;
+    width: auto;
     font-size: var(--font-size14);
     font-weight: 300;
+    margin-left: auto;
+    margin-right: 12px;
 }
 
 .modalBid .bidCon .right .bidType {
     display: flex;
     justify-content: center;
-    margin-top: 12px;
+    margin-top: 16px;
     cursor: pointer;
 }
 
 .modalBid .bidCon .right .bidType .type {
     width: 100%;
-    height: 24px;
+    height: 30px;
     border: 0.5px solid var(--input-gray);
     font-size: var(--font-size14);
     display: flex;
@@ -373,8 +381,13 @@ position: relative;
     border: 0.5px solid var(--color-black);
 }
 
-.modalBid .bidCon .right h5 {
-    font-size: var(--font-size12);
+.modalBid .bidCon .right .noticeCon
+{
+    margin-top: 8px;
+}
+
+.modalBid .bidCon .right .noticeCon h5 {
+    font-size: var(--font-size14);
     font-weight: 300;
     margin-top: 4px;
 }
@@ -390,24 +403,25 @@ position: relative;
 .modalBid .bidCon .right .buttonBid {
     display: flex;
     justify-content: center;
-    margin-top: 12px;
+    margin-top: 16px;
     align-items: center;
 }
 
 .modalBid .bidCon .right .buttonBid select {
     width: 100%;
-    height: 24px;
+    height: 30px;
     outline: none;
     /* display: none; */
 }
 
 .modalBid .bidCon .right .buttonBid .bidBtn {
     width: 100%;
-    height: 24px;
+    height: 30px;
     background-color: var(--color-black);
     color: var(--color-white);
     /* display: none; */
     cursor: pointer;
+    border: none;
 }
 
 .modalBid .bidCon .right .bidBtn.maximum {
@@ -415,4 +429,11 @@ position: relative;
     background-color: var(--color-white);
     color: var(--color-gray);
     border: 0.5px solid var(--border-color-gray);
+}
+
+.modalBid .bidCon .right .buttonBid.bidingImpossible
+{
+    border: 0.5px solid var(--input-gray);
+    height: 30px;
+    font-size: var(--font-size14);
 }
