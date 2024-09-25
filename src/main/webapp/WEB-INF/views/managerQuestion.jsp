@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="questionAnswer answerText" style="color: gray;">
-                                    <form method="post" action="questionAnswer">
+                                    <form method="post" action="questionAnswer" style="display: flex; flex-direction: column;">
                                         <input type="hidden" name="question_id" value="${question.question_id}" />
 
                                         <c:choose>

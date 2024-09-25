@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service("QuestionService")
@@ -36,12 +37,22 @@ public class QuestionService{
 		//첨부파일 있는지 체크
 		log.info("@# questionDTO.getQuestionAttachList()=>"+questionDTO.getQuestionAttachList());
 		if (questionDTO.getQuestionAttachList() == null || questionDTO.getQuestionAttachList().size() == 0) {
+			log.info("첨부파일 리스트 사이즈: " + questionDTO.getQuestionAttachList().size());
 			log.info("@# null");
 			return;
 		}
 
+		List<QuestionAttachDTO> uniqueAttachList = questionDTO.getQuestionAttachList().stream()
+				.distinct()
+				.collect(Collectors.toList());
+
+		questionDTO.setQuestionAttachList(uniqueAttachList);
+
+
 		//첨부파일이 있는 경우 처리
 		questionDTO.getQuestionAttachList().forEach(attach -> {
+			log.info("첨부파일 데이터: " + attach);
+			log.info("@#첨부파일 등록!!");
 			attach.setQuestion_id(questionDTO.getQuestion_id());
 			dao.questionInsertFile(attach);
 		});
