@@ -80,8 +80,7 @@
                                     </div>
                                     <div class="commissionContent">
                                         <div class="commissionContentTitle">제작재료</div>
-                                        <input class="commissionContentText" type="text" name="auction_materials"
-                                            maxlength="4" required>
+                                        <input class="commissionContentText" type="text" name="auction_materials" required>
                                     </div>
                                     <div class="commissionContent">
                                         <div class="commissionContentTitle">작가 설명</div>
