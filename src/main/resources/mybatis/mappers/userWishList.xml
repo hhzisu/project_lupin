@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.project_lupin.dao.UserWishListDAO">
+
+	<select id="getUserWishList" resultType="com.boot.project_lupin.dto.AuctionDTO">
+		SELECT DISTINCT
+		a.auction_id,
+		a.auction_lot,
+		a.auction_author,
+		a.auction_title,
+		a.auction_size,
+		a.auction_madeDate,
+		a.auction_materials,
+		a.auction_authorExp,
+		a.auction_startPrice,
+		a.auction_guessPrice,
+		s.auctionSchedule_id,
+		s.auctionSchedule_start,
+		a.auction_end_time,
+		at1.uuid AS attachUuid1,
+		at1.uploadpath AS attachUploadpath1,
+		at1.filename AS attachFilename1,
+		at2.uuid AS attachUuid2,
+		at2.uploadpath AS attachUploadpath2,
+		at2.filename AS attachFilename2
+		FROM auction_tb a
+		LEFT JOIN auctionschedule_tb s ON a.auctionSchedule_id = s.auctionSchedule_id
+		LEFT JOIN auction_attach1 at1 ON a.auction_id = at1.auction_id
+		LEFT JOIN auction_attach2 at2 ON a.auction_id = at2.auction_id
+		JOIN auctionwish_tb b ON a.auction_id = b.auction_id
+		WHERE b.user_id = #{userId}
+		GROUP BY a.auction_id
+	</select>
+
+</mapper>

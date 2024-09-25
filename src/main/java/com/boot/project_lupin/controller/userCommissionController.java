@@ -1,12 +1,12 @@
 package com.boot.project_lupin.controller;
 
-import com.boot.project_lupin.dto.CommissionAttachDTO;
-import com.boot.project_lupin.dto.CommissionDTO;
-import com.boot.project_lupin.dto.QuestionAttachDTO;
+import com.boot.project_lupin.dto.*;
 import com.boot.project_lupin.service.CommissionService;
 import com.boot.project_lupin.service.QuestionService;
+import com.boot.project_lupin.service.UserInfoService;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -35,12 +35,14 @@ import java.util.*;
 public class userCommissionController {
 	@Autowired
 	private CommissionService service;
+
     @Autowired
     private ServletContext servletContext;
 
-	@RequestMapping("/userCommission")  
+	@RequestMapping("/userCommission")
 	public String question(HttpServletRequest httpServletRequest, Model model) {
 		log.info("@# userCommission");
+
 		return "userCommission";
 	}
 
