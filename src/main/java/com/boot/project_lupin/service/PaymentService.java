@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service("PaymentService")
@@ -45,23 +46,33 @@ public class PaymentService {
 	}
 
 
-	@Scheduled(fixedRate = 1000)  // 1초마다 실행
+	@Scheduled(fixedRate = 60000)  // 1분마다 실행
 	public void checkAuctionEndTime() {
 //		log.info("@# 낙찰 물품 조회중");
 
-		LocalDateTime now = LocalDateTime.now();
-		int[] endedAuctions = dao.selectEndedAuctions(now);
+//		LocalDateTime now = LocalDateTime.now();
+//		int[] endedAuctions = dao.selectEndedAuctions(now);
+		List<Integer> endedAuctions = dao.selectEndedAuctions();
 
-		for (int auction : endedAuctions) {
+		for (Integer auction : endedAuctions) {
+//			log.info("@# auction 아이디 =>"+auction);
+
 			// 최고 입찰자 조회
 			AuctionBidDTO highestBid = dao.selectHighestBid(auction);
+//			log.info("@# highestBid=>"+highestBid);
 
-			if (highestBid != null) {
+			Integer paymentExist = dao.checkPaymentExist(auction);
+//			log.info("@# paymentExist=>"+paymentExist);
+
+			if (highestBid != null && paymentExist == 0) {
+				log.info("@# 낙찰자 정보 저장");
 				// 낙찰자 정보 저장
 				PaymentDTO buy = new PaymentDTO();
 				buy.setUser_id(highestBid.getUserId());
 				buy.setAuction_id(highestBid.getAuctionId());
 				buy.setBid_id(highestBid.getBidId());
+
+				log.info("@# buy=>"+buy);
 				dao.insertBuyInfo(buy);
 			}
 		}

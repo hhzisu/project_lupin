@@ -52,6 +52,7 @@
                     <c:forEach items="${Bidlist}" var="Bidlist">
                         <div class="bidList" data-attach-uploadpath1="${Bidlist.attachUploadpath1}"
                                              data-attach-filename1="${Bidlist.attachFilename1}"
+                                             data-bid-endHighestPrice="${Bidlist.endHighestPrice}"
                                              >
                             <div class="bidListImg">
                                 <div class="uploadResult">
@@ -77,7 +78,7 @@
                                         <div><fmt:formatDate value="${Bidlist.bidHistory[0].bidTime}" pattern="yyyy.MM.dd" /></div>
                                     </div>
                                     <div class="currentPrice">
-                                        <div>현재가</div>
+                                        <div class="currentPriceColunm">현재가</div>
                                         <div class="currentPriceNum"></div>
                                     </div>
                                 </div>
@@ -184,6 +185,7 @@
         var auctionId = $(element).find('.bidDetailBtn').data('bid-auctionid'); // 각 리스트에서 auctionId 가져오기
         var attachUploadPath = $(element).data('attach-uploadpath1'); // 업로드 경로
         var attachFilename = $(element).data('attach-filename1');     // 파일 이름
+        var endHighestPrice = $(element).data('bid-endHighestPrice');     // 낙찰가 유무
 
         // 이미지 경로 생성
         let imagePath = `\${attachUploadPath}/\${attachFilename}`;
@@ -194,6 +196,7 @@
 
 
         // 현재가 데이터 불러옴
+        var auctionCostColunm = $(element).find('.currentPriceColunm');  // 현재가/낙찰가 선택
         var auctionCostElement = $(element).find('.currentPriceNum');  // 현재가가 표시될 요소 선택
 
         $.ajax({
@@ -201,6 +204,12 @@
             type: 'GET',
             data: { auction_id: auctionId },
             success: function (data) {
+                if (data == endHighestPrice) {
+                    auctionCostColunm.text("낙찰가");
+                    auctionCostColunm.css({
+                    'color': 'var(--color-burgundy)' // 텍스트 색상
+                    });
+                }
                 if (data !== null && data !== 0) {
                     auctionCostElement.text("KRW " + Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
                 }
@@ -220,15 +229,26 @@
 
         // 응답 받은 데이터로 모달 내용 채우기
         bidDetails.forEach(function(detail) {
+            var bidMoney = detail.bidMoney.toLocaleString();
+            let bidMoneyStyle = (detail.bidMoney == detail.endHighestPrice) ? 'color: var(--color-burgundy);' : 'color: var(--color-deepblue);';
+
+            var bidingNote = '';
+
+            if (detail.bidMoney == detail.endHighestPrice) {
+                bidingNote = '낙찰';
+            }
+
             var bidDetailContent = `
                 <div class="bidDetailContent">
-                    <div class="bidingPrice">KRW \${detail.bidMoney.toLocaleString()}</div>
+                    <div class="bidingPrice" style="\${bidMoneyStyle}">KRW \${bidMoney}</div>
                     <div class="bidingDate">\${formatBidTime(detail.bidTime)}</div>
                     <div class="bidingMethod">\${detail.bidStatus}</div>
-                    <div class="bidingNote"></div>
+                    <div class="bidingNote">\${bidingNote}</div>
                 </div>
             `;
             modalContent.innerHTML += bidDetailContent;
+
+            bidingNote = '';
         });
     }
 

@@ -44,17 +44,35 @@
         LIMIT 1
     </select>
 
+    <select id="endHighestBid" parameterType="int" resultType="int">
+    <![CDATA[
+        SELECT COALESCE(b.bid_money, 0) AS bid_money
+        FROM bid_tb b
+        JOIN auction_tb a ON b.auction_id = a.auction_id
+        WHERE b.auction_id = #{auctionId}
+        AND a.auction_end_time <= NOW()
+        ORDER BY b.bid_money DESC
+        LIMIT 1
+    ]]>
+    </select>
+
     <insert id="insertBuyInfo" parameterType="com.boot.project_lupin.dto.PaymentDTO">
         INSERT INTO buy_tb (user_id, auction_id, bid_id, buy_state)
-        VALUES (#{userId}, #{auctionId}, #{bidId}, '결제 대기 중')
+        VALUES (#{user_id}, #{auction_id}, #{bid_id}, '결제 대기 중')
     </insert>
 
     <select id="selectEndedAuctions" resultType="int">
     <![CDATA[
         SELECT auction_id
         FROM auction_tb
-        WHERE auction_end_time <= #{now}
+        WHERE auction_end_time <= NOW()
     ]]>
+    </select>
+
+    <select id="checkPaymentExist" resultType="int">
+        SELECT COUNT(auction_id) AS auction_count
+        FROM buy_tb
+        WHERE auction_id = #{auction_id}
     </select>
 
 </mapper>
