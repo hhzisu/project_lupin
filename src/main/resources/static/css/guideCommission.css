@@ -108,7 +108,7 @@ hr.headLine {
 
 .minibox .num {
 	font-size: var(--font-size20);
-	margin: 15px 0 5px;
+	margin-bottom: 5px;
 	font-weight: 600;
 }
 
@@ -175,4 +175,23 @@ hr.headLine {
 .minibox2 .minibox2_con_3
 {
 	font-size: var(--font-size16);
+}
+
+.images {
+	margin-bottom: 10px;
+	margin-top: 60px;
+}
+
+.images img {
+	width: 100px;
+	height: 100px;
+}
+
+.images2 {
+	margin-left: 70px;
+}
+
+.images2 img {
+	width: 140px;
+	height: 140px;
 }
