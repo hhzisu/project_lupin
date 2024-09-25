@@ -67,7 +67,7 @@ public class QuestionController {
 		service.insertQuestion(questionDTO);
 
 		httpServletRequest.setAttribute("msg", "문의를 등록하였습니다.");
-		httpServletRequest.setAttribute("url", "/question");
+		httpServletRequest.setAttribute("url", "/userQuestionList");
 		return "/alert";
 	}
 
