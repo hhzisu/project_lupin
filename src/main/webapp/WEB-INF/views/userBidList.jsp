@@ -45,7 +45,8 @@
                 <div class="userBidList">
 
                     <div class="bidListHeader">
-                        <h5 class="auctionDate">24.09.01 온라인 경매</h5>
+                        <!-- <h5 class="auctionDate">24.09.01 온라인 경매</h5> -->
+                        <h5 class="auctionDate"><fmt:formatDate value="${Bidlist[0].auctionSchedule_start}" pattern="yyyy.MM.dd" /> 온라인 경매</h5>
                         <button class="currentAuctionBtn" onclick="location='auctionProgress'">진행경매보기</button>
                     </div>
                     <c:forEach items="${Bidlist}" var="Bidlist">
@@ -77,7 +78,7 @@
                                     </div>
                                     <div class="currentPrice">
                                         <div>현재가</div>
-                                        <div class="currentPriceNum">KRW &nbsp; 8,000,000</div>
+                                        <div class="currentPriceNum"></div>
                                     </div>
                                 </div>
                                 <div>

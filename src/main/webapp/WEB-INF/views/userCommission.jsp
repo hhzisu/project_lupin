@@ -45,12 +45,12 @@
                     <div class="userCommission">
                         <div class="commissionContent commissionContentTop">
                             <div class="commissionContentTitle">이메일</div>
-                            <div class="commissionContentfix">fgghk132@naver.com</div>
+                            <div class="commissionContentfix">${sessionScope.user.email}</div>
                             <input type="hidden" maxlength="26" value="fgghk132@naver.com" name="commission_email">
                         </div>
                         <div class="commissionContent">
                             <div class="commissionContentTitle">전화번호</div>
-                            <div class="commissionContentfix">010-1111-2222</div>
+                            <div class="commissionContentfix">${sessionScope.user.mobile}</div>
                             <input type="hidden" maxlength="26" value="010-1111-2222" name="commission_phone">
                         </div>
                         <div class="commissionContent">

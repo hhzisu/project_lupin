@@ -47,7 +47,7 @@ public class userBidListController {
 			log.info("@# loginUser => " + loginUser);
 
 			List<AuctionDTO> Bidlist = userBidListService.getBidList(loginUser.getId());
-			log.info("@# loginUser => " + Bidlist);
+			log.info("@# Bidlist => " + Bidlist);
 
 			model.addAttribute("Bidlist", Bidlist);
 		} else {

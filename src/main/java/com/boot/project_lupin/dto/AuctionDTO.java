@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -22,8 +23,8 @@ public class AuctionDTO {
     private int auction_guessPrice;
 
     private int auctionSchedule_id;
-    private String auctionSchedule_start;
-    private String auctionSchedule_end;
+    private Timestamp auctionSchedule_start;
+    private Timestamp auctionSchedule_end;
 
     private String auction_end_time;
 

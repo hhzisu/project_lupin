@@ -153,8 +153,9 @@
 
 /* 위시 리스트 중간 */
 .userWishList .wishList .wishListExplain {
-	margin-left: -280px;
-	height: 162px;
+	margin-left: -160px;
+    height: 162px;
+    width: 200px;
 }
 .userWishList .wishList .wishListExplain .authorName {
 	font-size: var(--font-size16);
@@ -214,6 +215,19 @@
 
 /* 위시 리스트 버튼 */
 .userWishList .wishList .wishListEnd button {
+	width: 70px;
+	height: 30px;
+	background-color: var(--color-black);
+	color: var(--color-white);
+	font-size: var(--font-size16);
+	font-weight: 300;
+	cursor: pointer;
+	border-radius: 4px;
+	border: none;
+}
+
+/* 위시 활성화 후 버튼 */
+.userWishList .wishList .wishListEnd button.active {
 	width: 70px;
 	height: 30px;
 	background-color: var(--color-white);
