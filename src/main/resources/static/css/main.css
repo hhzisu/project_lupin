@@ -63,6 +63,7 @@ main {
 	min-width: 220px;
 	max-height: 220px;
 	min-height: 220px;
+	border: solid var(--input-gray) 0.5px;
 }
 
 .mainContent .uploadResult {
@@ -126,6 +127,7 @@ main {
 	min-width: 250px;
 	max-height: 250px;
 	min-height: 250px;
+	border: solid var(--input-gray) 0.5px;
 }
 
 .mainContent .con2 .mainAuction .mainAuctionCon {
@@ -401,4 +403,21 @@ main {
 	.swiper-slide {
 		width: 100%;
 	}
+}
+
+.uploadResult .uploadStyle
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.uploadStyle li
+{
+	width: 100%;
+	height: 100%
+}
+.uploadStyle li div
+{
+	width: 100%;
+	height: 100%
 }
