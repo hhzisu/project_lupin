@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class AuctionBidDTO {
 
+    private int bidId; // 응찰 ID
     private int auctionId; // 경매 ID
     private int userId; // 응찰자 ID
     private String userName; // 응찰자 이름
