@@ -52,7 +52,7 @@
                     <c:forEach items="${Bidlist}" var="Bidlist">
                         <div class="bidList" data-attach-uploadpath1="${Bidlist.attachUploadpath1}"
                                              data-attach-filename1="${Bidlist.attachFilename1}"
-                                             data-bid-endHighestPrice="${Bidlist.endHighestPrice}"
+                                             data-attach-endprice="${Bidlist.endHighestPrice}"
                                              >
                             <div class="bidListImg">
                                 <div class="uploadResult">
@@ -117,6 +117,8 @@
                 <div class="bidingDate">응찰일자</div>
                 <div class="bidingMethod">응찰방법</div>
                 <div class="bidingNote">비고</div>
+            </div>
+            <div class="modalDetailContent">
             </div>
             <!-- <div class="bidDetailContent">
                 <div class="bidingPrice">KRW 10,000,000</div>
@@ -184,8 +186,11 @@
         // 이미지 불러옴
         var auctionId = $(element).find('.bidDetailBtn').data('bid-auctionid'); // 각 리스트에서 auctionId 가져오기
         var attachUploadPath = $(element).data('attach-uploadpath1'); // 업로드 경로
-        var attachFilename = $(element).data('attach-filename1');     // 파일 이름
-        var endHighestPrice = $(element).data('bid-endHighestPrice');     // 낙찰가 유무
+        var attachFilename = $(element).data('attach-filename1'); // 파일 이름
+        var endPrice = $(element).data('attach-endprice'); // 낙찰가 유무
+
+        // console.log("@# attachFilename=>" + attachFilename);
+        console.log("@# endPrice=>" + endPrice);
 
         // 이미지 경로 생성
         let imagePath = `\${attachUploadPath}/\${attachFilename}`;
@@ -204,14 +209,28 @@
             type: 'GET',
             data: { auction_id: auctionId },
             success: function (data) {
-                if (data == endHighestPrice) {
-                    auctionCostColunm.text("낙찰가");
-                    auctionCostColunm.css({
-                    'color': 'var(--color-burgundy)' // 텍스트 색상
-                    });
-                }
+
+                console.log("@# data=>" + data);
+                console.log("@# auctionId=>" + auctionId);
+
+                
                 if (data !== null && data !== 0) {
-                    auctionCostElement.text("KRW " + Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+
+                    if (data == endPrice) {
+                        
+                        auctionCostColunm.text("종료가");
+                        auctionCostElement.text("KRW " + Number(endPrice).toLocaleString());  // 현재가가 있으면 현재가 표시
+
+                        auctionCostColunm.css({
+                            'color': 'var(--color-burgundy)' // 텍스트 색상
+                        });
+                        auctionCostElement.css({
+                            'color': 'var(--color-burgundy)' // 텍스트 색상
+                        });
+
+                    } else {
+                        auctionCostElement.text("KRW " + Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                    }
                 }
             },
             error: function (xhr, status, error) {
@@ -222,7 +241,7 @@
     
 
     function displayBidDetails(bidDetails) {
-        var modalContent = document.querySelector('.modalContent'); // 모달의 내용 부분 가져오기
+        var modalDetailContent = document.querySelector('.modalDetailContent'); // 모달의 내용 부분 가져오기
 
         // 이전에 표시된 상세 정보를 지우기
         $('.bidDetailContent').remove();
@@ -243,10 +262,10 @@
                     <div class="bidingPrice" style="\${bidMoneyStyle}">KRW \${bidMoney}</div>
                     <div class="bidingDate">\${formatBidTime(detail.bidTime)}</div>
                     <div class="bidingMethod">\${detail.bidStatus}</div>
-                    <div class="bidingNote">\${bidingNote}</div>
+                    <div class="bidingNote" style="\${bidMoneyStyle}">\${bidingNote}</div>
                 </div>
             `;
-            modalContent.innerHTML += bidDetailContent;
+            modalDetailContent.innerHTML += bidDetailContent;
 
             bidingNote = '';
         });

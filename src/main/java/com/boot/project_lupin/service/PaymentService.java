@@ -27,9 +27,6 @@ public class PaymentService {
 	@Autowired
 	private PaymentDAO dao;
 
-	@Autowired
-	private AuctionBidDAO auctionBidDAO;
-
 	//결제 목록
 	public ArrayList<PaymentDTO> payListbyId(int user_id){
 		log.info("PaymentService payListbyId");

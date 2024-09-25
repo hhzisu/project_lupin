@@ -288,16 +288,20 @@
 
 
 /* 모달 표 통일 */
+.modalContent .modalDetailContent {
+	max-height: 450px;
+}
 .modalContent div div {
-	text-align: center;
-	padding: 15px 0;
+    text-align: center;
+    height: 50px;
+    align-content: center;
 }
 .modalContent .bidDetailColunm div {
 	background-color: var(--button-gray);
 	font-size: var(--font-size14);
 }
 .modalContent .bidDetailContent div {
-	font-size: var(--font-size12);
+	font-size: var(--font-size14);
 	color: var(--color-gray);
 	/* border-bottom: solid 0.5px var(--border-color-gray); */
 }
