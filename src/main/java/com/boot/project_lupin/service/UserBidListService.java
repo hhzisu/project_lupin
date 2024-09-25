@@ -53,6 +53,7 @@ public class UserBidListService {
         return userBidListDAO.getUserBidInfo(userId, auctionId);
     }
 
+
     public int selectHighestBid(int auctionId) {
         log.info("@# UserBidListService selectHighestBid");
 
@@ -63,8 +64,9 @@ public class UserBidListService {
         if (highestBid == null) {
             return 0;
         }
+        int endHighestBid = highestBid;
 
-        return highestBid;
+        return endHighestBid;
     }
 
 }
