@@ -117,30 +117,12 @@
                 <div class="bidingMethod">응찰방법</div>
                 <div class="bidingNote">비고</div>
             </div>
-            <div class="bidDetailContent">
+            <!-- <div class="bidDetailContent">
                 <div class="bidingPrice">KRW 10,000,000</div>
                 <div class="bidingDate">2024.08.28 21:25:31</div>
                 <div class="bidingMethod">1회 응찰</div>
                 <div class="bidingNote">낙찰</div>
-            </div>
-            <div class="bidDetailContent">
-                <div class="bidingPrice">KRW 10,000,000</div>
-                <div class="bidingDate">2024.08.28 21:25:31</div>
-                <div class="bidingMethod">1회 응찰</div>
-                <div class="bidingNote"></div>
-            </div>
-            <div class="bidDetailContent">
-                <div class="bidingPrice">KRW 10,000,000</div>
-                <div class="bidingDate">2024.08.28 21:25:31</div>
-                <div class="bidingMethod">1회 응찰</div>
-                <div class="bidingNote"></div>
-            </div>
-            <div class="bidDetailContent">
-                <div class="bidingPrice">KRW 10,000,000</div>
-                <div class="bidingDate">2024.08.28 21:25:31</div>
-                <div class="bidingMethod">자동 응찰</div>
-                <div class="bidingNote"></div>
-            </div>
+            </div> -->
             <hr>
         </div>
     </div>
