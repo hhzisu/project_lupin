@@ -702,7 +702,7 @@
                     const bidMoney = bid.bidMoney.toLocaleString();
                     bidHistory += `<div class="boxList">
                         <h3>\${maskedUserName}</h3>
-                        <h4 style="color: var(--color-burgundy);">\${bidMoney}</h4>
+                        <h4 style="color: var(--color-deepblue);">\${bidMoney}</h4>
                         <h5>\${formatBidTime(bid.bidTime)}</h5>
                     </div>`;
                 });

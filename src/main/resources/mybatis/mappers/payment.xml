@@ -49,4 +49,12 @@
         VALUES (#{userId}, #{auctionId}, #{bidId}, '결제 대기 중')
     </insert>
 
+    <select id="selectEndedAuctions" resultType="int">
+    <![CDATA[
+        SELECT auction_id
+        FROM auction_tb
+        WHERE auction_end_time <= #{now}
+    ]]>
+    </select>
+
 </mapper>

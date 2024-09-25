@@ -3,11 +3,13 @@ package com.boot.project_lupin.service;
 import com.boot.project_lupin.dao.AuctionBidDAO;
 import com.boot.project_lupin.dao.AuctionDAO;
 import com.boot.project_lupin.dao.PaymentDAO;
+import com.boot.project_lupin.dto.AuctionBidDTO;
 import com.boot.project_lupin.dto.AuctionDTO;
 import com.boot.project_lupin.dto.PaymentDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 
 @Slf4j
 @Service("PaymentService")
+@EnableScheduling
 public class PaymentService {
 	@Autowired
 	private SqlSession sqlSession;
@@ -42,25 +45,27 @@ public class PaymentService {
 	}
 
 
-//	@Scheduled(fixedRate = 1000)  // 1초마다 실행
-//	public void checkAuctionEndTime() {
-//		LocalDateTime now = LocalDateTime.now();
-//		List<Auction> endedAuctions = auctionRepository.findEndedAuctions(now);
-//
-//		for (Auction auction : endedAuctions) {
-//			// 최고 입찰자 조회
-//			AuctionBidDTO highestBid = auctionBidDAO.selectHighestBid(auction.getAuctionId());
-//
-//			if (highestBid != null) {
-//				// 낙찰자 정보 저장
-//				BuyDTO buy = new BuyDTO();
-//				buy.setUserId(highestBid.getUserId());
-//				buy.setAuctionId(highestBid.getAuctionId());
-//				buy.setBidId(highestBid.getBidId());
-//				buyDAO.insertBuyInfo(buy);
-//			}
-//		}
-//	}
+	@Scheduled(fixedRate = 1000)  // 1초마다 실행
+	public void checkAuctionEndTime() {
+//		log.info("@# 낙찰 물품 조회중");
+
+		LocalDateTime now = LocalDateTime.now();
+		int[] endedAuctions = dao.selectEndedAuctions(now);
+
+		for (int auction : endedAuctions) {
+			// 최고 입찰자 조회
+			AuctionBidDTO highestBid = dao.selectHighestBid(auction);
+
+			if (highestBid != null) {
+				// 낙찰자 정보 저장
+				PaymentDTO buy = new PaymentDTO();
+				buy.setUser_id(highestBid.getUserId());
+				buy.setAuction_id(highestBid.getAuctionId());
+				buy.setBid_id(highestBid.getBidId());
+				dao.insertBuyInfo(buy);
+			}
+		}
+	}
 
 }
 
