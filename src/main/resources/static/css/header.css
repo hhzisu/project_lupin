@@ -351,11 +351,11 @@ position: relative;
 }
 
 .modalBid .bidCon .right .boxCon .boxList h5 {
-    width: auto;
+    width: 125px;
     font-size: var(--font-size14);
     font-weight: 300;
     margin-left: auto;
-    margin-right: 12px;
+    /* margin-right: 12px; */
 }
 
 .modalBid .bidCon .right .bidType {

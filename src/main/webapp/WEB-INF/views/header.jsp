@@ -626,7 +626,7 @@
                     console.log('시작가로 첫응찰 시작');
 
                     // 현재가에서 5단계 높은 가격까지 옵션 추가
-                    for (let i = 0; i <= 4; i++) {
+                    for (let i = 0; i <= 6; i++) {
                         let newBidAmount = currentPrice + (i * bidIncrement);
                         let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
                         selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
@@ -635,7 +635,7 @@
                     console.log('현재가로 응찰');
 
                     // 현재가에서 5단계 높은 가격까지 옵션 추가
-                    for (let i = 1; i <= 5; i++) {
+                    for (let i = 1; i <= 7; i++) {
                         let newBidAmount = currentPrice + (i * bidIncrement);
                         let formattedBidAmount = newBidAmount.toLocaleString();  // 3자리마다 콤마 추가
                         selectBox.append(`<option value="\${newBidAmount}">KRW \${formattedBidAmount}</option>`);
@@ -699,14 +699,21 @@
                 
                 // 기존 응찰 내역을 업데이트
                 let bidHistory = '';
+                let isFirstBid = true;  // 첫 번째 응찰 여부를 나타내는 변수
                 auction.bidHistory.forEach(function(bid) {
                     const maskedUserName = maskUserName(bid.userName);  // 중간 글자를 *로 마스킹
                     const bidMoney = bid.bidMoney.toLocaleString();
+                    
+                    // 첫 번째 응찰인 경우 색상을 burgundy로 설정하고 이후에는 deepblue로 설정
+                    let bidMoneyStyle = isFirstBid ? 'color: var(--color-burgundy);' : 'color: var(--color-deepblue);';
+                    
                     bidHistory += `<div class="boxList">
                         <h3>\${maskedUserName}</h3>
-                        <h4 style="color: var(--color-deepblue);">\${bidMoney}</h4>
+                        <h4 style="\${bidMoneyStyle}">\${bidMoney}</h4>
                         <h5>\${formatBidTime(bid.bidTime)}</h5>
                     </div>`;
+                    
+                    isFirstBid = false;  // 첫 번째 응찰 이후로는 false로 변경
                 });
                 $('#modalBid .boxCon').html(bidHistory);
 
