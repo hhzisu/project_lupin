@@ -276,8 +276,10 @@
                                     </div>
                                 </div>
 
-                                <h5 class="red">* 응찰하기 버튼을 누르시면 취소가 불가능합니다.</h5>
-                                <h5 class="gray">* 동시 응찰자 경우, 서버시각(KST) 기준 우선순위가 부여됩니다.</h5>
+                                <div class="noticeCon">
+                                    <h5 class="red">* 응찰하기 버튼을 누르시면 취소가 불가능합니다.</h5>
+                                    <h5 class="gray">* 동시 응찰자 경우, 서버시각(KST) 기준 우선순위가 부여됩니다.</h5>
+                                </div>
 
                                 <div class="buttonBid bidingPossible">
                                     <select name="" id="">
