@@ -33,16 +33,20 @@
         WHERE buy_id = #{buy_id}
     </update>
 
-    <!-- 결제 정보를 buy_tb에 삽입 -->
-    <insert id="insertPayment" parameterType="com.boot.project_lupin.dto.PaymentDTO">
-        INSERT INTO buy_tb (buy_id, user_id, auction_id, bid_id, buy_date, buy_state)
-        VALUES (#{buy_id}, #{user_id}, #{auction_id}, #{bid_id}, #{buy_date}, #{buy_state})
+    <select id="selectHighestBid" parameterType="int" resultType="com.boot.project_lupin.dto.AuctionBidDTO">
+        SELECT user_id AS userId,
+               bid_id AS bidId,
+               auction_id AS auctionId,
+               bid_money AS bidMoney
+        FROM bid_tb
+        WHERE auction_id = #{auctionId}
+        ORDER BY bid_money DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insertBuyInfo" parameterType="com.boot.project_lupin.dto.PaymentDTO">
+        INSERT INTO buy_tb (user_id, auction_id, bid_id, buy_state)
+        VALUES (#{userId}, #{auctionId}, #{bidId}, '결제 대기 중')
     </insert>
 
-    <!-- bid_id를 사용하여 결제 금액을 조회 -->
-    <select id="getMoneyByBidId" resultType="com.boot.project_lupin.dto.PaymentDTO">
-        SELECT bid_money
-        FROM bid_tb
-        WHERE bid_id = #{bid_id}
-    </select>
 </mapper>
