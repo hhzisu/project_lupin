@@ -26,7 +26,7 @@
     <div class="faqContainer">
         <div class="faqContent">
             <div class="headbox">
-                <h1 class="head">FAQ</h1>
+                <h1 class="head" style="font-size: 44px;">FAQ</h1>
                 <!-- <hr class="headLine"> -->
             </div>
             <div class="faqtabWrap">
