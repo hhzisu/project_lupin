@@ -28,7 +28,7 @@
 
             <header>
                 <div class="headerTop">
-                    <h5>나성엽 [여덟을 꺼내는 시간] 8월 20일 경매 시작</h5>
+                    <h5>나성엽 [여덟을 꺼내는 시간] 10월 16일 경매 시작</h5>
                 </div>
                 <div class="headerMain">
                     <div class="headerMid">

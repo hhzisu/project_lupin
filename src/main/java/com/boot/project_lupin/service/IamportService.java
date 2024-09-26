@@ -1,5 +1,6 @@
 package com.boot.project_lupin.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class IamportService {
 
@@ -30,6 +32,8 @@ public class IamportService {
         Map<String, String> request = new HashMap<>();
         request.put("imp_key", impKey);
         request.put("imp_secret", impSecret);
+        log.info("impKey!!!!!!!!!!!!!!!!"+impKey);
+        log.info("secret!!!!!!!!!!!!!!!!"+impSecret);
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
         ResponseEntity<Map> response = restTemplate.exchange(apiUrl, HttpMethod.POST, entity, Map.class);

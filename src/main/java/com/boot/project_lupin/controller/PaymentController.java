@@ -53,10 +53,14 @@ public class PaymentController {
 
 	@PostMapping("/api/payment/complete")
 	public ResponseEntity<String> completePayment(@RequestBody Map<String, Object> paymentData) {
+		log.info("@# 결제 업데이트 정보 controller paymentData=>" + paymentData);
 		try {
 			String impUid = (String) paymentData.get("imp_uid");
 			String buyIdStr = paymentData.get("buy_id").toString();
 			String payState = (String) paymentData.get("pay_state");
+
+			log.info("@# 결제 업데이트 정보 controller buyIdStr=>" + buyIdStr);
+			log.info("@# 결제 업데이트 정보 controller payState=>" + payState);
 
 			// 결제 검증
 			boolean isPaymentSuccessful = iamportService.verifyPayment(impUid);
