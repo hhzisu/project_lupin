@@ -42,16 +42,17 @@
                 </div>
                 <hr>
                 <form id="commissionForm" action="insertCommission" method="post">
+                    <input type="hidden" maxlength="26" value="${loginUser.id}" name="user_id">
                     <div class="userCommission">
                         <div class="commissionContent commissionContentTop">
                             <div class="commissionContentTitle">이메일</div>
                             <div class="commissionContentfix">${sessionScope.user.email}</div>
-                            <input type="hidden" maxlength="26" value="fgghk132@naver.com" name="commission_email">
+                            <input type="hidden" maxlength="26" value="${sessionScope.user.email}" name="commission_email">
                         </div>
                         <div class="commissionContent">
                             <div class="commissionContentTitle">전화번호</div>
                             <div class="commissionContentfix">${sessionScope.user.mobile}</div>
-                            <input type="hidden" maxlength="26" value="010-1111-2222" name="commission_phone">
+                            <input type="hidden" maxlength="26" value="${sessionScope.user.mobile}" name="commission_phone">
                         </div>
                         <div class="commissionContent">
                             <div class="commissionContentTitle requiredInfo">작품명</div>

@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface CommissionDAO {
 	public void insertCommission(CommissionDTO commissionDTO);
-	public ArrayList<CommissionDTO> commissionList();
+	public ArrayList<CommissionDTO> commissionList(int userId);
 
 	//파일 업로드
 	public void commissionInsertFile(CommissionAttachDTO attachDTO);

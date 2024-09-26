@@ -33,6 +33,10 @@ import java.util.*;
 @Controller
 @Slf4j
 public class userCommissionController {
+
+	@Autowired
+	private UserInfoService infoService;
+
 	@Autowired
 	private CommissionService service;
 
@@ -42,6 +46,20 @@ public class userCommissionController {
 	@RequestMapping("/userCommission")
 	public String question(HttpServletRequest httpServletRequest, Model model) {
 		log.info("@# userCommission");
+
+		// HttpSession에서 사용자 정보 가져오기
+		HttpSession session = httpServletRequest.getSession();
+		CustomOAuth2User user = (CustomOAuth2User) session.getAttribute("user");
+		log.info("@# loginUserName=>"+user.getUsername());
+
+		if (user != null) {
+			UserInfoDTO loginUser = infoService.selectUserInfo(user.getUsername());
+			log.info("@# loginUser=>"+loginUser);
+
+			model.addAttribute("loginUser", loginUser);
+		} else {
+			log.info("사용자 정보가 없습니다.");
+		}
 
 		return "userCommission";
 	}

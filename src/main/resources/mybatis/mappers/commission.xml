@@ -22,7 +22,7 @@
 	    )
 	    VALUES
 	    (
-			"2",
+			#{user_id},
 			#{commission_email},
 			#{commission_phone},
 			#{commission_title},
@@ -47,7 +47,7 @@
 		FROM
 		commission_tb
 		WHERE
-		user_id = "2"
+		user_id = #{userId}
 	</select>
 
 
