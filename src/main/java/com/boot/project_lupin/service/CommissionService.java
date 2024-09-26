@@ -4,6 +4,7 @@ import com.boot.project_lupin.dao.CommissionDAO;
 import com.boot.project_lupin.dao.QuestionDAO;
 import com.boot.project_lupin.dto.CommissionAttachDTO;
 import com.boot.project_lupin.dto.CommissionDTO;
+import com.boot.project_lupin.dto.QuestionAttachDTO;
 import com.boot.project_lupin.dto.QuestionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -35,6 +37,12 @@ public class CommissionService {
             return;
         }
 
+        List<CommissionAttachDTO> uniqueAttachList = commissionDTO.getCommissionAttachList().stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        commissionDTO.setCommissionAttachList(uniqueAttachList);
+
         // 첨부파일이 있는 경우 처리
         log.info("@# attach exist");
         commissionDTO.getCommissionAttachList().forEach(attach -> {
@@ -45,11 +53,11 @@ public class CommissionService {
 
 
     // 위탁 문의 리스트 가져오기
-    public ArrayList<CommissionDTO> commissionList(){
+    public ArrayList<CommissionDTO> commissionList(int userId){
         log.info("@# QuestionService questionList");
 
         CommissionDAO dao = sqlSession.getMapper(CommissionDAO.class);
-        ArrayList<CommissionDTO> list = dao.commissionList();
+        ArrayList<CommissionDTO> list = dao.commissionList(userId);
 
         return list;
     }
