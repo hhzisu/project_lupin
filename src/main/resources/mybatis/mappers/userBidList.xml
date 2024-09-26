@@ -62,6 +62,7 @@
 		JOIN bid_tb b ON a.auction_id = b.auction_id
 		WHERE b.user_id = #{userId}
 		GROUP BY a.auction_id
+		ORDER BY b.bid_time DESC
 	</select>
 
 </mapper>

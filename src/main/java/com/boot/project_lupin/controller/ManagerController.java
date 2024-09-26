@@ -111,6 +111,10 @@ public class ManagerController {
 	public String managerAuctionRegist(HttpServletRequest httpServletRequest, Model model) {
 		log.info("managerAuctionRegist");
 
+		// 현재 시간을 구하여 model에 추가
+		LocalDateTime now = LocalDateTime.now();
+		model.addAttribute("now", now);
+
 		ArrayList<AuctionScheduleDTO> scheduleList = managerService.scheduleList();
 		model.addAttribute("scheduleList", scheduleList);
 
