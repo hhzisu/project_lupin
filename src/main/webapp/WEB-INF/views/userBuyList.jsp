@@ -41,7 +41,7 @@
             <!-- userNav 끝 -->
             <div class="userInfoInfo">
                 <div class="userInfoTitle">
-                    <h3>구매 내역</h3>
+                    <h3>결제/구매 내역</h3>
                 </div>
                 <hr>
 
