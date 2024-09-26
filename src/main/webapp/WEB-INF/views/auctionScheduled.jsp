@@ -44,7 +44,7 @@
                             <div class="auctionImg">
                                 <div class="uploadResult">
                                     <ul class="uploadStyle">
-                                        <img src="images/auction1.jpg">
+<%--                                        <img src="images/auction1.jpg">--%>
                                     </ul>
                                 </div>
                             </div> <!--auctionImg 끝-->

@@ -38,6 +38,7 @@ public class PaymentService {
 	//결제 상태, 시간 업데이트
 	public void updateBuyState(PaymentDTO paymentDTO){
 		log.info("PaymentService updateBuyState");
+		log.info("@# 결제 업데이트 정보 service=>" + paymentDTO);
 		dao = sqlSession.getMapper(PaymentDAO.class);
 		dao.updateBuyState(paymentDTO);
 	}

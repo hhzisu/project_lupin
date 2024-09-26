@@ -14,7 +14,7 @@ public class PaymentDTO {
     private int user_id;
     private int auction_id;
     private int bid_id;
-    private String buy_date;
+    private Timestamp buy_date;
     private String buy_state;
 
     private int bid_money;  // 결제 금액

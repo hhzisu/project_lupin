@@ -112,10 +112,10 @@
                             </div>
                         </div>
                         <div class="auctionCost finish">
-                            <h5 style="color: #111;">낙찰가</h5>
+                            <h5 style="color: var(--color-burgundy);">낙찰가</h5>
                             <div class="money">
-                                <h4>KRW</h4>
-                                <h5 class="nowPrice">12,500,000</h5>
+                                <h4 style="color: var(--color-burgundy);">KRW</h4>
+                                <h5 class="nowPrice" style="color: var(--color-burgundy);">12,500,000</h5>
                             </div>
                         </div>
                     </div>
@@ -473,17 +473,33 @@
             type: 'GET',
             data: { auction_id: auctionId },
             success: function (data) {
-                if (data !== null && data !== 0) {
-                    auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                if (currentTime >= auctionEndTime) {
+                    // 경매가 종료된 경우
+                    if (data !== null && data !== 0) {
+                        auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                    } else {
+                        auctionCostElement.text('-');  // 현재가가 없을 때는 - 표시
+                    }
                 } else {
-                    auctionCostElement.text('-');  // 현재가가 없을 때는 - 표시
+                    // 경매가 진행 중인 경우
+                    if (data !== null && data !== 0) {
+                        auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
+                    } else {
+                        auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없으면 시작가 표시
+                    }
                 }
             },
             error: function (xhr, status, error) {
                 console.error('Error fetching auction now price for auction_id ' + auctionId + ':', error);
-                auctionCostElement.text(Number(startPrice).toLocaleString());  // 오류 발생 시에도 시작가로 표시
+                // 오류 발생 시, 경매 상태에 따라 다른 값 표시
+                if (currentTime >= auctionEndTime) {
+                    auctionCostElement.text('-');  // 종료된 경매에서는 - 표시
+                } else {
+                    auctionCostElement.text(Number(startPrice).toLocaleString());  // 진행 중인 경매에서는 시작가 표시
+                }
             }
         });
+
 
 // -----------------------------------------------------------------
 //                           이미지 불러오기
