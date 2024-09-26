@@ -51,10 +51,11 @@
                                         <div class="commissionContentTitle">경매일자</div>
                                         <select class="commissionContentText" name="auctionSchedule_id" id="schedule">
                                             <c:forEach var="dto" items="${scheduleList}">
-                                                <option value="${dto.auctionSchedule_id}">
-                                                    ${dto.auctionSchedule_start} 12:00 ~ ${dto.auctionSchedule_end}
-                                                    18:00
-                                                </option>
+                                                <c:if test="${dto.auctionSchedule_start > now}">
+                                                    <option value="${dto.auctionSchedule_id}">
+                                                            ${dto.auctionSchedule_start} ~ ${dto.auctionSchedule_end}
+                                                    </option>
+                                                </c:if>
                                             </c:forEach>
                                         </select>
                                     </div>
