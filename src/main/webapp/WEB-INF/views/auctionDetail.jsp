@@ -476,7 +476,7 @@
                 if (data !== null && data !== 0) {
                     auctionCostElement.text(Number(data).toLocaleString());  // 현재가가 있으면 현재가 표시
                 } else {
-                    auctionCostElement.text(Number(startPrice).toLocaleString());  // 현재가가 없을 때는 시작가로 표시
+                    auctionCostElement.text('-');  // 현재가가 없을 때는 - 표시
                 }
             },
             error: function (xhr, status, error) {
