@@ -45,21 +45,21 @@
                         <div class="preview">
                             <div class="uploadAuction uploadAuction1">
                                 <ul class="uploadStyle">
-                                    <img src="images/auction1.jpg">
+<%--                                    <img src="images/auction1.jpg">--%>
                                 </ul>
                             </div>
                         </div>
                         <div class="preview">
                             <div class="uploadAuction uploadAuction2">
                                 <ul class="uploadStyle">
-                                    <img src="images/auction1.jpg">
+<%--                                    <img src="images/auction1.jpg">--%>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="rightImg">
                         <div class="detail">
-                            <img src="images/auction1.jpg">
+                            <img>
                         </div>
                     </div>
                 </div> <!--auctionImg 끝-->
